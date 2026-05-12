@@ -1,0 +1,60 @@
+// ─── API Response wrapper ────────────────────────────────────────────────────
+export interface ApiResponse<T = unknown> {
+    success: boolean;
+    message: string;
+    data: T;
+    errors?: Record<string, string[]> | [];
+}
+
+// ─── Profile ─────────────────────────────────────────────────────────────────
+export interface StudentProfile {
+    userId: number;
+    name: string;
+    email: string;
+    phone: string | null;
+    avatar: string | null;
+    status: "ACTIVE" | "IN_ACTIVE" | "SUSPENDED";
+    totalCategorySubscription: number;
+}
+
+// ─── Token ───────────────────────────────────────────────────────────────────
+export interface TokenDetails {
+    token: string;
+    expiresIn: number;
+}
+
+// ─── Login response data ─────────────────────────────────────────────────────
+export interface LoginResponseData {
+    profile: StudentProfile;
+    tokenDetails: TokenDetails;
+}
+
+// ─── Register payload ────────────────────────────────────────────────────────
+export interface RegisterPayload {
+    name: string;
+    email: string;
+    phone?: string;
+    password: string;
+}
+
+// ─── Login payload ───────────────────────────────────────────────────────────
+export interface LoginPayload {
+    email: string;
+    password: string;
+}
+
+// ─── OTP payload ─────────────────────────────────────────────────────────────
+export interface VerifyOtpPayload {
+    email: string;
+    otp: string;
+}
+
+// ─── Reset password payload ──────────────────────────────────────────────────
+export interface ResetPasswordPayload {
+    email: string;
+    otp: string;
+    password: string;
+}
+
+// ─── Validation error shape ──────────────────────────────────────────────────
+export type ValidationErrors = Record<string, string[]>;

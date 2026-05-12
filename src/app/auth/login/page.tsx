@@ -8,10 +8,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Eye, EyeOff, Mail, Lock, Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
+import { getApiErrorMessage } from "@/shared/lib/api-error";
 
 const loginSchema = z.object({
     email: z.string().email("البريد الإلكتروني غير صحيح"),
-    password: z.string().min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل"),
+    password: z.string().min(8, "كلمة المرور يجب أن تكون 8 أحرف على الأقل"),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -35,23 +36,20 @@ export default function LoginPage() {
             setServerError("");
             await login(values.email, values.password);
             router.push("/dashboard/products");
-        } catch {
-            setServerError("البريد الإلكتروني أو كلمة المرور غير صحيحة");
+        } catch (err) {
+            setServerError(getApiErrorMessage(err));
         }
     };
 
     return (
         <div className="w-full max-w-md">
-            {/* Card */}
             <div className="bg-white rounded-2xl shadow-xl border border-[#e2e8f0] p-8">
                 {/* Title */}
                 <div className="text-center mb-8">
                     <h1 className="text-2xl font-extrabold text-[#0f172a] mb-2">
                         مرحباً بعودتك 👋
                     </h1>
-                    <p className="text-sm text-[#64748b]">
-                        سجل دخولك للوصول إلى كورساتك
-                    </p>
+                    <p className="text-sm text-[#64748b]">سجل دخولك للوصول إلى كورساتك</p>
                 </div>
 
                 {/* Server Error */}
@@ -61,7 +59,6 @@ export default function LoginPage() {
                     </div>
                 )}
 
-                {/* Form */}
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                     {/* Email */}
                     <div>
@@ -74,8 +71,7 @@ export default function LoginPage() {
                                 type="email"
                                 placeholder="example@email.com"
                                 dir="ltr"
-                                className={`w-full pr-10 pl-4 py-2.5 rounded-xl border text-sm outline-none transition-all
-                  ${errors.email
+                                className={`w-full pr-10 pl-4 py-2.5 rounded-xl border text-sm outline-none transition-all ${errors.email
                                         ? "border-red-400 focus:ring-2 focus:ring-red-200"
                                         : "border-[#e2e8f0] focus:border-[#6c3aff] focus:ring-2 focus:ring-[#6c3aff]/20"
                                     }`}
@@ -105,8 +101,7 @@ export default function LoginPage() {
                             <input
                                 type={showPassword ? "text" : "password"}
                                 placeholder="••••••••"
-                                className={`w-full pr-10 pl-10 py-2.5 rounded-xl border text-sm outline-none transition-all
-                  ${errors.password
+                                className={`w-full pr-10 pl-10 py-2.5 rounded-xl border text-sm outline-none transition-all ${errors.password
                                         ? "border-red-400 focus:ring-2 focus:ring-red-200"
                                         : "border-[#e2e8f0] focus:border-[#6c3aff] focus:ring-2 focus:ring-[#6c3aff]/20"
                                     }`}
@@ -118,7 +113,11 @@ export default function LoginPage() {
                                 className="absolute left-3 top-1/2 -translate-y-1/2 text-[#94a3b8] hover:text-[#64748b]"
                                 aria-label="toggle password visibility"
                             >
-                                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                {showPassword ? (
+                                    <EyeOff className="w-4 h-4" />
+                                ) : (
+                                    <Eye className="w-4 h-4" />
+                                )}
                             </button>
                         </div>
                         {errors.password && (
@@ -143,20 +142,15 @@ export default function LoginPage() {
                     </button>
                 </form>
 
-                {/* Divider */}
                 <div className="flex items-center gap-3 my-6">
                     <div className="flex-1 h-px bg-[#e2e8f0]" />
                     <span className="text-xs text-[#94a3b8]">أو</span>
                     <div className="flex-1 h-px bg-[#e2e8f0]" />
                 </div>
 
-                {/* Sign up link */}
                 <p className="text-center text-sm text-[#64748b]">
                     مش عندك حساب؟{" "}
-                    <Link
-                        href="/auth/signup"
-                        className="text-[#6c3aff] font-semibold hover:underline"
-                    >
+                    <Link href="/auth/signup" className="text-[#6c3aff] font-semibold hover:underline">
                         سجل الآن مجاناً
                     </Link>
                 </p>

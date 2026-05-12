@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
 import { Loader2 } from "lucide-react";
+import { Sidebar } from "@/widgets/sidebar";
 
 export default function DashboardLayout({
     children,
@@ -34,5 +35,10 @@ export default function DashboardLayout({
         return null;
     }
 
-    return <>{children}</>;
+    return (
+        <div>
+            <Sidebar />
+            {children}
+        </div>
+    );
 }
