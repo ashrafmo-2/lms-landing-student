@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const BASE_URL =
-    "https://saccharofarinaceous-cristina-unservile.ngrok-free.dev/api/v1/student";
+    "https://lms-api.testingelmo.com/api/v1/student";
 
 // ─── Public client (no auth) ────────────────────────────────────────────────
 export const publicApi = axios.create({

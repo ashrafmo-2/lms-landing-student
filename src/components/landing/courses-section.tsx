@@ -1,80 +1,112 @@
-import Link from "next/link";
+"use client";
+
+import { Link } from "@/shared/i18n/routing";
+import { useEffect, useState } from "react";
 import { TrackCard } from "./track-card";
+import { getPublicCategories, type Category } from "@/entities/categories/api";
+import { useTranslations, useLocale } from "next-intl";
+
+// Gradient palette — cycles through cards
+const GRADIENTS = [
+    "from-blue-600 to-blue-900",
+    "from-purple-600 to-indigo-900",
+    "from-teal-500 to-emerald-800",
+    "from-rose-500 to-pink-900",
+    "from-orange-500 to-amber-800",
+    "from-cyan-500 to-sky-800",
+];
 
 export function CoursesSection() {
+    const t = useTranslations("Landing.courses");
+    const locale = useLocale();
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    function formatPrice(amount: number): string {
+        return `${amount.toLocaleString(locale === "ar" ? "ar-EG" : "en-US")} ${locale === "ar" ? "ج.م" : "EGP"}`;
+    }
+
+    function categoryToCardProps(cat: Category, index: number) {
+        const hasDiscount = cat.priceBeforeDiscount > cat.priceAfterDiscount;
+
+        return {
+            icon: "ph-duotone ph-stack",
+            gradient: GRADIENTS[index % GRADIENTS.length],
+            tag: t("trackTag"),
+            title: cat.name,
+            description: cat.description || t("defaultDesc"),
+            includes: cat.subjectNames.slice(0, 3),
+            extraIncludes:
+                cat.subjectNames.length > 3
+                    ? t("moreSubjects", { count: cat.subjectNames.length - 3 })
+                    : undefined,
+            stats: [
+                { label: t("subjects"), value: String(cat.totalSubjects) },
+                { label: t("units"), value: String(cat.totalUnits) },
+                { label: t("lessons"), value: String(cat.totalLessons) },
+            ],
+            price: formatPrice(cat.priceAfterDiscount),
+            oldPrice: hasDiscount ? formatPrice(cat.priceBeforeDiscount) : undefined,
+            href: `/${locale}/tracks/${cat.categoryId}`,
+        };
+    }
+
+    useEffect(() => {
+        getPublicCategories({ perPage: 3, page: 1 })
+            .then(({ categories }) => setCategories(categories))
+            .finally(() => setLoading(false));
+    }, []);
+
     return (
-        <section id="modules" className="py-20 bg-gray-50" dir="rtl">
+        <section id="modules" className="py-20 bg-gray-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12">
                     <div>
-                        <div className="inline-block px-3 py-1 bg-primary-100 text-primary-700 rounded-lg text-sm font-bold mb-3">اشتراك شامل</div>
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">المسارات والباقات التعليمية</h2>
-                        <p className="text-gray-600">اشترك في المسار المناسب لك، وافتح كل المواد والفصول التابعة له بضغطة واحدة.</p>
+                        <div className="inline-block px-3 py-1 bg-primary-100 text-primary-700 rounded-lg text-sm font-bold mb-3">
+                            {t("badge")}
+                        </div>
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                            {t("title")}
+                        </h2>
+                        <p className="text-gray-600">
+                            {t("subtitle")}
+                        </p>
                     </div>
                     <Link
                         href="/tracks"
                         className="bg-white text-gray-900 border border-gray-200 hover:bg-gray-50 px-6 py-3 rounded-xl font-bold transition-all text-sm flex items-center gap-2 shadow-sm shrink-0"
                     >
-                        عرض الكل
-                        <i className="ph-bold ph-arrow-left"></i>
+                        {t("viewAll")}
+                        <i className="ph-bold ph-arrow-left ltr:rotate-180" />
                     </Link>
                 </div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <TrackCard
-                        icon="ph-duotone ph-stack"
-                        gradient="from-blue-600 to-blue-900"
-                        tag="مسار متكامل"
-                        title="باقة الصف الثالث الثانوي (علمي رياضة)"
-                        description="مسار شامل يغطي جميع مقررات شعبة الرياضيات بأحدث طرق الشرح والامتحانات التفاعلية."
-                        includes={["تفاضل وتكامل", "جبر هندسة فراغية", "فيزياء"]}
-                        extraIncludes="+3 مواد أخرى"
-                        stats={[
-                            { label: "مواد", value: "6" },
-                            { label: "فصل", value: "42" },
-                            { label: "فيديو ومرفق", value: "150+" },
-                        ]}
-                        price="850 ج.م"
-                        oldPrice="1200 ج.م"
-                    />
-
-                    <TrackCard
-                        icon="ph-duotone ph-student"
-                        gradient="from-purple-600 to-indigo-900"
-                        tag="مسار تأسيس"
-                        title="مسار التأسيس البرمجي للطلاب الجدد"
-                        description="باقة مخصصة لتعلم أساسيات البرمجة وعلوم الحاسب من الصفر وحتى مستوى متقدم."
-                        includes={["مقدمة الخوارزميات", "بايثون (Python)", "قواعد البيانات"]}
-                        stats={[
-                            { label: "مواد", value: "3" },
-                            { label: "فصل", value: "15" },
-                            { label: "درس عملي", value: "80+" },
-                        ]}
-                        price="600 ج.م"
-                        priceLabel="اشتراك مدى الحياة"
-                        buttonColor="hover:bg-purple-600"
-                    />
-
-                    <TrackCard
-                        icon="ph-duotone ph-globe-hemisphere-west"
-                        gradient="from-teal-500 to-emerald-800"
-                        tag="باقة اللغات"
-                        title="مسار إتقان اللغة الإنجليزية الشامل"
-                        description="دورة مكثفة تغطي جميع مهارات اللغة الإنجليزية من المحادثة، الاستماع، القراءة، والكتابة."
-                        includesTitle="المستويات (المواد):"
-                        includes={["المبتدئين A1/A2", "المتوسط B1/B2", "تحضير الايلتس"]}
-                        stats={[
-                            { label: "مستويات", value: "4" },
-                            { label: "وحدة", value: "24" },
-                            { label: "اختبار", value: "120" },
-                        ]}
-                        price="1450 ج.م"
-                        oldPrice="2000 ج.م"
-                        buttonColor="hover:bg-teal-600"
-                    />
-                </div>
-
+                {loading ? (
+                    // Skeleton placeholders
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {Array.from({ length: 3 }).map((_, i) => (
+                            <div
+                                key={i}
+                                className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 animate-pulse"
+                            >
+                                <div className="h-40 bg-gray-200" />
+                                <div className="p-6 space-y-3">
+                                    <div className="h-4 bg-gray-200 rounded w-3/4" />
+                                    <div className="h-3 bg-gray-100 rounded w-full" />
+                                    <div className="h-3 bg-gray-100 rounded w-5/6" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {categories.map((cat, index) => (
+                            <TrackCard key={cat.categoryId} {...categoryToCardProps(cat, index)} />
+                        ))}
+                    </div>
+                )}
             </div>
         </section>
     );
 }
+

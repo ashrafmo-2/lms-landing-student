@@ -1,4 +1,6 @@
 import React from "react";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 interface TrackStat {
     label: string;
@@ -19,6 +21,7 @@ interface TrackCardProps {
     oldPrice?: string;
     priceLabel?: string;
     buttonColor?: string;
+    href?: string;
 }
 
 export function TrackCard({
@@ -27,7 +30,7 @@ export function TrackCard({
     tag,
     title,
     description,
-    includesTitle = "المواد المشمولة:",
+    includesTitle,
     includes,
     extraIncludes,
     stats,
@@ -35,9 +38,16 @@ export function TrackCard({
     oldPrice,
     priceLabel,
     buttonColor = "hover:bg-primary-600",
+    href,
 }: TrackCardProps) {
+    const t = useTranslations("Tracks");
+    const Wrapper = href ? Link : "div";
+
     return (
-        <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group">
+        <Wrapper
+            {...(href ? { href } : {})}
+            className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group cursor-pointer"
+        >
             <div
                 className={`h-40 bg-linear-to-br ${gradient} relative overflow-hidden flex flex-col justify-center px-6`}
             >
@@ -55,7 +65,7 @@ export function TrackCard({
                 <p className="text-sm text-gray-500 mb-4 line-clamp-2">{description}</p>
 
                 <div className="mb-5">
-                    <p className="text-xs font-bold text-gray-400 mb-2">{includesTitle}</p>
+                    <p className="text-xs font-bold text-gray-400 mb-2">{includesTitle || t("includedSubjects")}</p>
                     <div className="flex flex-wrap gap-2">
                         {includes.map((item) => (
                             <span
@@ -103,10 +113,10 @@ export function TrackCard({
                         type="button"
                         className={`bg-gray-900 text-white ${buttonColor} px-5 py-2.5 rounded-xl font-bold transition-colors text-sm shadow-md`}
                     >
-                        اشترك في المسار
+                        {t("subscribeInTrack")}
                     </button>
                 </div>
             </div>
-        </div>
+        </Wrapper>
     );
 }

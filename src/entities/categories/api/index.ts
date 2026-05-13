@@ -1,2 +1,12 @@
-export { getCategories, getCategoryById, createCategory, updateCategory, deleteCategory, queryKeys as categoryQueryKeys } from "./category-api";
-export type { Category, CategoryPayload } from "../model";
+export { getPublicCategories, getCategoryById, categoriesQueryKeys } from "./categories-api";
+export type { GetCategoriesParams } from "./categories-api";
+export type {
+    Category,
+    CategoriesPagination,
+    CategoriesResponse,
+    Subject,
+    Unit,
+    Lesson,
+    CategoryDetail,
+    CategoryDetailResponse,
+} from "../model";

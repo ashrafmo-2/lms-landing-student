@@ -1,51 +1,50 @@
-import Link from "next/link";
+import { Link } from "@/shared/i18n/routing";
 import { UserPlus, CreditCard, Rocket } from "lucide-react";
-
-const steps = [
-    {
-        number: "1",
-        icon: UserPlus,
-        color: "bg-[#ede9ff] text-[#6c3aff]",
-        borderColor: "border-[#6c3aff]",
-        title: "سجل حسابك",
-        description:
-            "أنشئ حسابك الجديد، واربطه بجهازك المفضل لضمان الخصوصية وسرعة الدخول في المرات القادمة.",
-    },
-    {
-        number: "2",
-        icon: CreditCard,
-        color: "bg-[#fff7ed] text-[#f97316]",
-        borderColor: "border-[#f97316]",
-        title: "اختر واشترك",
-        description:
-            "تصفح الكورسات المتاحة، ادفع إلكترونياً بسهولة وأمان، ليتم تفعيل الكورس في حسابك فوراً.",
-    },
-    {
-        number: "3",
-        icon: Rocket,
-        color: "bg-[#ecfdf5] text-[#22c55e]",
-        borderColor: "border-[#22c55e]",
-        title: "ابدأ التعلم والمنافسة",
-        description:
-            "شاهد المحاضرات، حل الامتحانات، تابع البار الخاص بتقدمك، ونافس على قمة الترتيب!",
-    },
-];
+import { useTranslations } from "next-intl";
 
 export function HowItWorksSection() {
+    const t = useTranslations("Landing.howItWorks");
+
+    const steps = [
+        {
+            number: "1",
+            icon: UserPlus,
+            color: "bg-[#ede9ff] text-[#6c3aff]",
+            borderColor: "border-[#6c3aff]",
+            title: t("step1.title"),
+            description: t("step1.description"),
+        },
+        {
+            number: "2",
+            icon: CreditCard,
+            color: "bg-[#fff7ed] text-[#f97316]",
+            borderColor: "border-[#f97316]",
+            title: t("step2.title"),
+            description: t("step2.description"),
+        },
+        {
+            number: "3",
+            icon: Rocket,
+            color: "bg-[#ecfdf5] text-[#22c55e]",
+            borderColor: "border-[#22c55e]",
+            title: t("step3.title"),
+            description: t("step3.description"),
+        },
+    ];
+
     return (
         <section
             id="how-it-works"
             className="py-24 bg-gradient-to-br from-[#f5f3ff] to-[#ede9ff]"
-            dir="rtl"
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <div className="text-center mb-16">
                     <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0f172a] mb-4">
-                        رحلتك معانا أسهل مما تتخيل
+                        {t("title")}
                     </h2>
                     <p className="text-lg text-[#64748b]">
-                        ٣ خطوات بس تفصلك عن بدء تجربة تعليمية مختلفة.
+                        {t("subtitle")}
                     </p>
                 </div>
 
@@ -92,7 +91,7 @@ export function HowItWorksSection() {
                         href="/auth/signup"
                         className="inline-flex items-center gap-2 bg-[#6c3aff] hover:bg-[#5228e8] text-white font-semibold px-8 py-4 rounded-xl transition-all shadow-lg shadow-[#6c3aff]/30 hover:-translate-y-0.5 text-base"
                     >
-                        ابدأ رحلتك الآن
+                        {t("cta")}
                         <Rocket className="w-5 h-5" />
                     </Link>
                 </div>
@@ -100,3 +99,4 @@ export function HowItWorksSection() {
         </section>
     );
 }
+

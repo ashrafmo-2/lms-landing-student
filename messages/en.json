@@ -1,0 +1,296 @@
+{
+  "Landing": {
+    "navbar": {
+      "features": "Features",
+      "howItWorks": "How it works",
+      "courses": "Courses",
+      "contact": "Contact",
+      "login": "Login",
+      "signup": "Sign Up",
+      "tracks": "Tracks",
+      "welcome": "Welcome, {name}",
+      "logout": "Logout"
+    },
+    "hero": {
+      "title": "Learn without limits with our platform",
+      "subtitle": "Discover premium learning tracks that help you develop your skills and reach your career goals.",
+      "getStarted": "Get Started",
+      "browseCourses": "Browse Courses",
+      "stats": {
+        "students": "Registered Students",
+        "courses": "Available Courses",
+        "rating": "Platform Rating"
+      },
+      "dashboard": {
+        "rank": "Rank #{rank}",
+        "weeklyRank": "Rank #{rank} this week",
+        "courseProgress": "Course Progress",
+        "completed": "Completed",
+        "featured": "Featured",
+        "downloaded": "Downloaded",
+        "offlineAvailable": "Available Offline",
+        "examResult": "Exam Result"
+      }
+    },
+    "features": {
+      "title": "Everything you need to excel in one place",
+      "subtitle": "We designed the platform based on students' needs, to provide you with a fun, distraction-free learning experience that supports you step by step.",
+      "offline": {
+        "title": "Watch Offline",
+        "description": "Download lectures and notes (PDFs) within the app to study anytime, anywhere without consuming your data plan."
+      },
+      "directContact": {
+        "title": "Direct Communication",
+        "description": "Have a question? Ask the doctor or lecturer directly through the internal Chat system available in every course."
+      },
+      "ranking": {
+        "title": "Ranking System",
+        "description": "Solve exams, collect points, and compete with your peers for the top positions on the honor board to encourage you to continue."
+      },
+      "security": {
+        "title": "Safe and Exclusive Environment",
+        "description": "Your account is dedicated to your personal device only, ensuring a stable learning experience and protecting content rights."
+      }
+    },
+    "howItWorks": {
+      "title": "Your journey with us is easier than you imagine",
+      "subtitle": "Just 3 steps separate you from starting a different learning experience.",
+      "step1": {
+        "title": "Register your account",
+        "description": "Create your new account and link it to your favorite device to ensure privacy and speed of entry in the future."
+      },
+      "step2": {
+        "title": "Choose and subscribe",
+        "description": "Browse available courses, pay electronically easily and securely, and the course will be activated in your account immediately."
+      },
+      "step3": {
+        "title": "Start learning and competing",
+        "description": "Watch lectures, solve exams, track your progress bar, and compete for the top of the rankings!"
+      },
+      "cta": "Start your journey now"
+    },
+    "courses": {
+      "badge": "Comprehensive Subscription",
+      "title": "Educational Tracks and Bundles",
+      "subtitle": "Subscribe to the appropriate track for you, and open all materials and chapters belonging to it with one click.",
+      "viewAll": "View All",
+      "trackTag": "Integrated Track",
+      "subjects": "Subjects",
+      "units": "Units",
+      "lessons": "Lessons",
+      "moreSubjects": "+{count} other subjects",
+      "defaultDesc": "A comprehensive track covering all courses with the latest teaching methods and interactive exams."
+    },
+    "cta": {
+      "title": "Ready to lead the honor board?",
+      "subtitle": "Learning is not just videos; interact with content, solve quizzes, and collect points so your name appears in first place for your peers!",
+      "button": "Register your account for free"
+    },
+    "contact": {
+      "badge": "Contact Us",
+      "title": "Have a question? We are here to help!",
+      "subtitle": "Whether you are a student needing help, or a parent wanting to follow up, the technical support team is always available to answer all your questions.",
+      "info": {
+        "call": "Call Us",
+        "email": "Email",
+        "location": "Location",
+        "locationDesc": "Cairo, Maadi, Street 9",
+        "whatsapp": "Available on WhatsApp 24/7",
+        "whatsappDesc": "Fast response in less than 15 minutes"
+      },
+      "form": {
+        "name": "Full Name",
+        "namePlaceholder": "Example: Ahmed Mohamed",
+        "phone": "Mobile Number",
+        "phonePlaceholder": "01xxxxxxxxx",
+        "email": "Email",
+        "emailPlaceholder": "name@example.com",
+        "subject": "Subject",
+        "subjects": {
+          "general": "General Inquiry",
+          "support": "Technical Support",
+          "complaint": "Complaint or Suggestion",
+          "subscription": "Subscription Inquiry"
+        },
+        "message": "Your Message",
+        "messagePlaceholder": "Write your message here in detail...",
+        "submit": "Send Message",
+        "sending": "Sending...",
+        "success": "Your message has been sent successfully!",
+        "successDesc": "Our team will contact you as soon as possible.",
+        "sendAnother": "Send another message"
+      },
+      "errors": {
+        "nameRequired": "Name is required",
+        "nameTooLong": "Name is too long",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email address",
+        "phoneRequired": "Mobile number is required",
+        "phoneInvalid": "Mobile number must be between 10 and 15 digits",
+        "subjectRequired": "Subject is required",
+        "messageRequired": "Message is required",
+        "messageTooShort": "Message must be at least 10 characters",
+        "serverError": "An error occurred during sending, please try again."
+      }
+    },
+    "footer": {
+      "description": "An integrated educational platform designed specifically to meet the student's needs, providing security, always-available content, and a fun competitive experience.",
+      "quickLinks": "Quick Links",
+      "home": "Home",
+      "support": "Support",
+      "faq": "FAQ",
+      "terms": "Terms of Use",
+      "privacy": "Privacy Policy",
+      "copyright": "All rights reserved © 2026 EduStar Educational Platform."
+    }
+  },
+  "Auth": {
+    "login": {
+      "title": "Welcome Back 👋",
+      "subtitle": "Log in to access your courses",
+      "email": "Email",
+      "emailPlaceholder": "example@email.com",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "Forgot password",
+      "loggingIn": "Logging in...",
+      "loginButton": "Log In",
+      "or": "Or",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign up now for free",
+      "errorEmail": "Invalid email address",
+      "errorPassword": "Password must be at least 8 characters"
+    },
+    "signup": {
+      "title": "Create your account now 🚀",
+      "subtitle": "Join thousands of students and start your educational journey",
+      "name": "Full Name",
+      "namePlaceholder": "Ahmed Mohamed",
+      "email": "Email",
+      "phone": "Phone Number",
+      "optional": "(Optional)",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "creatingAccount": "Creating account...",
+      "createAccount": "Create Account",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Log in",
+      "errors": {
+        "nameMin": "Name must be at least 3 characters",
+        "emailInvalid": "Invalid email address",
+        "phoneInvalid": "Invalid phone number (Example: 01012345678)",
+        "passwordMin": "Password must be at least 8 characters",
+        "passwordLetter": "Must contain letters",
+        "passwordNumber": "Must contain numbers",
+        "passwordsMismatch": "Passwords do not match"
+      },
+      "passwordRules": {
+        "minChars": "At least 8 characters",
+        "uppercase": "Uppercase letter",
+        "number": "Number"
+      }
+    },
+    "otp": {
+      "title": "Verify your email 📧",
+      "subtitle": "We sent a verification code to",
+      "error": "Enter the 4-digit code",
+      "verifying": "Verifying...",
+      "confirm": "Confirm Code",
+      "editEmail": "Edit email",
+      "resend": "Resend",
+      "resendError": "Failed to resend, try again"
+    },
+    "forgotPassword": {
+      "title": "Forgot password?",
+      "subtitle": "Enter your email and we will send you a verification code.",
+      "sending": "Sending...",
+      "sendOtp": "Send Verification Code",
+      "backToLogin": "Back to login"
+    },
+    "resetPassword": {
+      "title": "New Password",
+      "subtitle": "Choose a strong password for your account.",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "saving": "Saving...",
+      "savePassword": "Save new password",
+      "successTitle": "Password changed successfully ✅",
+      "successDesc": "Password has been changed successfully. You can now log in with the new password."
+    }
+  },
+  "Dashboard": {
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "myCourses": "My Courses",
+      "tracks": "Tracks",
+      "settings": "Settings",
+      "logout": "Logout"
+    },
+    "main": {
+      "title": "Dashboard"
+    },
+    "settings": {
+      "title": "Settings",
+      "language": "Language",
+      "theme": "Theme",
+      "profile": "Profile",
+      "profileDesc": "Manage your profile information",
+      "active": "Active",
+      "inactive": "Inactive",
+      "fullName": "Full Name",
+      "phoneNumber": "Phone Number",
+      "email": "Email",
+      "subscribedTracks": "Subscribed Tracks",
+      "accountId": "Account ID",
+      "saveChanges": "Save Changes",
+      "saving": "Saving...",
+      "saved": "Saved",
+      "displayMode": "Display Mode",
+      "displayModeDesc": "Choose the appearance that suits you",
+      "accentColor": "Accent Color",
+      "accentColorDesc": "Choose the platform's primary color",
+      "themePreview": "Theme Preview",
+      "primaryButton": "Primary Button",
+      "secondaryButton": "Secondary Button",
+      "languageDesc": "Choose your preferred language to use the platform",
+      "titleDesc": "Manage your account and customize the platform's appearance",
+      "featuredStudent": "Featured Student"
+    }
+  },
+  "Common": {
+    "switchLanguage": "Switch Language",
+    "arabic": "Arabic",
+    "english": "English",
+    "italian": "Italian",
+    "appName": "EduStar",
+    "currency": "EGP",
+    "save": "Save",
+    "subscribeNow": "Subscribe Now",
+    "video": "Video",
+    "pdf": "PDF",
+    "quiz": "Quiz",
+    "unit": "Unit",
+    "lesson": "Lesson",
+    "exam": "Exam",
+    "subjects": "Subjects",
+    "loading": "Loading...",
+    "back": "Back"
+  },
+  "Tracks": {
+    "title": "All Educational Tracks and Bundles",
+    "subtitle": "Choose the track that suits your academic level and discover a unique educational experience covering all your needs.",
+    "integratedTrack": "Integrated Track",
+    "comprehensiveSubscription": "Comprehensive Subscription",
+    "notFound": "Track not found",
+    "subjectsCount": "Subjects ({count})",
+    "whatIncluded": "What's included in the track",
+    "includedSubjects": "Included Subjects:",
+    "subscribeInTrack": "Subscribe in track",
+    "stats": {
+      "subject": "Subject",
+      "unit": "Educational Unit",
+      "lesson": "Lesson and Lecture",
+      "exam": "Interactive Exam"
+    }
+  }
+  }
