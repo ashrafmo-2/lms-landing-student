@@ -6,39 +6,24 @@ import type {
     RegisterPayload,
     ResetPasswordPayload,
     StudentProfile,
+    UpdateProfilePayload,
+    ChangePasswordPayload,
     VerifyOtpPayload,
 } from "../model";
 
 // ─── Register ────────────────────────────────────────────────────────────────
-export const register = async (
-    payload: RegisterPayload
-): Promise<ApiResponse<[]>> => {
-    const { data } = await publicApi.post<ApiResponse<[]>>(
-        "/auth/register",
-        payload
-    );
+export const register = async (payload: RegisterPayload): Promise<ApiResponse<[]>> => {
+    const { data } = await publicApi.post<ApiResponse<[]>>("/auth/register", payload);
     return data;
 };
 
-// ─── Verify Registration OTP ─────────────────────────────────────────────────
-export const verifyRegistrationOtp = async (
-    payload: VerifyOtpPayload
-): Promise<ApiResponse<[]>> => {
-    const { data } = await publicApi.post<ApiResponse<[]>>(
-        "/auth/verify-otp",
-        payload
-    );
+export const verifyRegistrationOtp = async (payload: VerifyOtpPayload): Promise<ApiResponse<[]>> => {
+    const { data } = await publicApi.post<ApiResponse<[]>>("/auth/verify-otp", payload);
     return data;
 };
 
-// ─── Login ───────────────────────────────────────────────────────────────────
-export const login = async (
-    payload: LoginPayload
-): Promise<ApiResponse<LoginResponseData>> => {
-    const { data } = await publicApi.post<ApiResponse<LoginResponseData>>(
-        "/auth/login",
-        payload
-    );
+export const login = async (payload: LoginPayload): Promise<ApiResponse<LoginResponseData>> => {
+    const { data } = await publicApi.post<ApiResponse<LoginResponseData>>("/auth/login", payload);
     return data;
 };
 
@@ -85,6 +70,37 @@ export const resetPassword = async (
 export const getProfile = async (): Promise<ApiResponse<StudentProfile>> => {
     const { data } = await privateApi.get<ApiResponse<StudentProfile>>(
         "/profile"
+    );
+    return data;
+};
+
+// ─── Update Profile ───────────────────────────────────────────────────────────
+// Uses multipart/form-data — let axios set Content-Type with boundary automatically
+export const updateProfile = async (
+    payload: UpdateProfilePayload
+): Promise<ApiResponse<StudentProfile>> => {
+    const formData = new FormData();
+    formData.append("name", payload.name);
+    formData.append("email", payload.email);
+    if (payload.phone) formData.append("phone", payload.phone);
+    if (payload.avatar) formData.append("avatar", payload.avatar);
+
+    const { data } = await privateApi.post<ApiResponse<StudentProfile>>(
+        "/profile",
+        formData
+        // ⚠️ Do NOT set Content-Type manually — axios sets it with the correct boundary
+    );
+    return data;
+};
+
+// ─── Change Password ──────────────────────────────────────────────────────────
+// ⚠️ Revokes all active tokens — student must log in again after success
+export const changePassword = async (
+    payload: ChangePasswordPayload
+): Promise<ApiResponse<[]>> => {
+    const { data } = await privateApi.put<ApiResponse<[]>>(
+        "/profile/change-password",
+        payload
     );
     return data;
 };

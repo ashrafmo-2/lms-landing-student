@@ -1,6 +1,7 @@
 {
   "Landing": {
     "navbar": {
+      "home": "Home",
       "features": "Features",
       "howItWorks": "How it works",
       "courses": "Courses",
@@ -9,7 +10,15 @@
       "signup": "Sign Up",
       "tracks": "Tracks",
       "welcome": "Welcome, {name}",
-      "logout": "Logout"
+      "logout": "Logout",
+      "dropdown": {
+        "profile": "Profile",
+        "myCourses": "My Courses",
+        "exams": "Exams",
+        "achievements": "Achievements",
+        "subscriptions": "Subscriptions"
+      },
+      "quickLinks": "Quick Links"
     },
     "hero": {
       "title": "Learn without limits with our platform",
@@ -235,6 +244,7 @@
       "theme": "Theme",
       "profile": "Profile",
       "profileDesc": "Manage your profile information",
+      "security": "Security",
       "active": "Active",
       "inactive": "Inactive",
       "fullName": "Full Name",
@@ -247,6 +257,9 @@
       "saved": "Saved",
       "displayMode": "Display Mode",
       "displayModeDesc": "Choose the appearance that suits you",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System",
       "accentColor": "Accent Color",
       "accentColorDesc": "Choose the platform's primary color",
       "themePreview": "Theme Preview",
@@ -258,6 +271,7 @@
     }
   },
   "Common": {
+    "brandName": "t3lm",
     "switchLanguage": "Switch Language",
     "arabic": "Arabic",
     "english": "English",
@@ -274,7 +288,12 @@
     "exam": "Exam",
     "subjects": "Subjects",
     "loading": "Loading...",
-    "back": "Back"
+    "back": "Back",
+    "quickLinks": "Quick Links",
+    "minutes": "min",
+    "item": "item",
+    "subjectExams": "Subject Exams",
+    "defaultDesc": "A comprehensive track covering all courses with the latest teaching methods and interactive exams."
   },
   "Tracks": {
     "title": "All Educational Tracks and Bundles",
@@ -282,10 +301,23 @@
     "integratedTrack": "Integrated Track",
     "comprehensiveSubscription": "Comprehensive Subscription",
     "notFound": "Track not found",
+    "searchPlaceholder": "Search tracks...",
+    "noResults": "No tracks found",
+    "resultsCount": "{count} result(s) for \"{query}\"",
     "subjectsCount": "Subjects ({count})",
     "whatIncluded": "What's included in the track",
     "includedSubjects": "Included Subjects:",
     "subscribeInTrack": "Subscribe in track",
+    "alreadySubscribed": "Already Subscribed ✓",
+    "subscribers": "students enrolled",
+    "drawer": {
+      "units": "Units & Lessons",
+      "exams": "Exams",
+      "viewDetails": "View details",
+      "tapToExplore": "Tap a subject to explore",
+      "noUnits": "No units available",
+      "noExams": "No exams available"
+    },
     "stats": {
       "subject": "Subject",
       "unit": "Educational Unit",
@@ -293,4 +325,4 @@
       "exam": "Interactive Exam"
     }
   }
-  }
+}

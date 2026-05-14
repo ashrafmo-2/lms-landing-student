@@ -7,4 +7,6 @@ export {
     verifyForgotPasswordOtp,
     resetPassword,
     getProfile,
+    updateProfile,
+    changePassword,
 } from "./auth-api";

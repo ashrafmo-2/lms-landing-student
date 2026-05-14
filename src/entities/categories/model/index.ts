@@ -3,6 +3,8 @@ export type {
     CategoriesPagination,
     CategoriesResponse,
     Lesson,
+    Exam,
+    SubUnit,
     Unit,
     Subject,
     CategoryDetail,

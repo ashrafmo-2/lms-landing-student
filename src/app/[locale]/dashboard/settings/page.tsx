@@ -9,7 +9,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { useTheme, ACCENT_COLORS } from "@/contexts/theme-context";
 import type { ThemeMode } from "@/contexts/theme-context";
 import { useTranslations } from "next-intl";
-import { LanguageSwitcher } from "@/shared/ui/language-switcher";
+import { updateProfile } from "@/entities/auth/api";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -30,29 +30,50 @@ const inputCls =
 
 function ProfileTab() {
     const t = useTranslations("Dashboard.settings");
-    const { user } = useAuth();
+    const { user, refreshProfile } = useAuth();
 
     const [form, setForm] = useState({
         name: user?.name ?? "",
         email: user?.email ?? "",
         phone: user?.phone ?? "",
     });
+    const [avatarFile, setAvatarFile] = useState<File | null>(null);
+    const [avatarPreview, setAvatarPreview] = useState<string | null>(user?.avatar || null);
     const [saving, setSaving] = useState(false);
     const [saved, setSaved] = useState(false);
+    const [error, setError] = useState<string | null>(null);
     const fileRef = useRef<HTMLInputElement>(null);
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setForm((p) => ({ ...p, [e.target.id]: e.target.value }));
     }
 
+    function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        setAvatarFile(file);
+        setAvatarPreview(URL.createObjectURL(file));
+    }
+
     async function handleSave(e: React.FormEvent) {
         e.preventDefault();
         setSaving(true);
-        // TODO: call update profile API
-        await new Promise((r) => setTimeout(r, 800));
-        setSaving(false);
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2500);
+        setError(null);
+        try {
+            await updateProfile({
+                name: form.name,
+                email: form.email,
+                phone: form.phone || undefined,
+                avatar: avatarFile || undefined,
+            });
+            await refreshProfile();
+            setSaved(true);
+            setTimeout(() => setSaved(false), 2500);
+        } catch {
+            setError("حدث خطأ أثناء الحفظ، حاول مرة أخرى.");
+        } finally {
+            setSaving(false);
+        }
     }
 
     return (
@@ -60,9 +81,17 @@ function ProfileTab() {
             {/* Avatar */}
             <div className="flex items-center gap-6">
                 <div className="relative">
-                    <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-primary to-secondary flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-                        {user?.name?.[0] ?? "؟"}
-                    </div>
+                    {avatarPreview ? (
+                        <img
+                            src={avatarPreview}
+                            alt="avatar"
+                            className="w-20 h-20 rounded-2xl object-cover shadow-lg"
+                        />
+                    ) : (
+                        <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-primary to-secondary flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                            {user?.name?.[0] ?? "؟"}
+                        </div>
+                    )}
                     <button
                         type="button"
                         onClick={() => fileRef.current?.click()}
@@ -70,7 +99,13 @@ function ProfileTab() {
                     >
                         <Camera className="w-3.5 h-3.5" />
                     </button>
-                    <input ref={fileRef} type="file" accept="image/*" className="hidden" />
+                    <input
+                        ref={fileRef}
+                        type="file"
+                        accept="image/jpeg,image/jpg,image/png,image/gif,image/svg+xml,image/webp"
+                        className="hidden"
+                        onChange={handleAvatarChange}
+                    />
                 </div>
                 <div>
                     <p className="font-bold text-foreground">{user?.name}</p>
@@ -122,6 +157,10 @@ function ProfileTab() {
                     <p className="text-xs text-muted-foreground">{t("accountId")}</p>
                 </div>
             </div>
+
+            {error && (
+                <p className="text-red-500 text-sm">{error}</p>
+            )}
 
             <button
                 type="submit"
@@ -247,9 +286,9 @@ function LanguageTab() {
             <div>
                 <h3 className="font-bold text-foreground mb-1">{t("language")}</h3>
                 <p className="text-sm text-muted-foreground mb-6">{t("languageDesc")}</p>
-                <div className="bg-muted/30 p-6 rounded-2xl border border-border">
+                {/* <div className="bg-muted/30 p-6 rounded-2xl border border-border">
                     <LanguageSwitcher />
-                </div>
+                </div> */}
             </div>
         </div>
     );

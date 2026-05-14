@@ -29,40 +29,91 @@ export type CategoriesResponse = {
 
 // ─── Category Details ─────────────────────────────────────────────────────────
 
+/** A single lesson — VIDEO has a numeric duration (minutes), PDF has null */
 export type Lesson = {
     lessonId: number;
     title: string;
-    duration: string; // e.g. "45 دقيقة"
-    type: "video" | "pdf" | "quiz";
+    /** Duration in minutes for VIDEO lessons; null for PDF */
+    duration: number | null;
+    type: "VIDEO" | "PDF";
+    lessonUrl: string;
+    status: "ACTIVE" | "IN_ACTIVE";
+    isCompleted: number; // 1 or 0
 };
 
+/** A single exam at any level (subject / unit / sub-unit) */
+export type Exam = {
+    examId: number;
+    title: string;
+    /** Duration in minutes */
+    duration: number;
+    isActive: "ACTIVE" | "IN_ACTIVE";
+    totalMarks: number;
+    isLimited: boolean;
+    isCompleted: number; // 1 or 0
+};
+
+/** Sub-unit (child of a parent unit) */
+export type SubUnit = {
+    subUnitId: number;
+    title: string;
+    subUnitStatus: "ACTIVE" | "IN_ACTIVE";
+    countLessons: number;
+    countExams: number;
+    lessons: Lesson[];
+    exams: Exam[];
+};
+
+/** Parent unit — contains lessons, sub-units, and unit-level exams */
 export type Unit = {
     unitId: number;
     title: string;
+    unitStatus: "ACTIVE" | "IN_ACTIVE";
+    countLessons: number;
+    countSubUnits: number;
+    countExams: number;
     lessons: Lesson[];
+    subUnits: SubUnit[];
+    exams: Exam[];
 };
 
+/** Subject inside a category or stand-alone detail */
 export type Subject = {
     subjectId: number;
-    name: string;
-    doctorName: string;
-    totalUnits: number;
-    totalLessons: number;
-    totalExams: number;
+    title: string;
+    shortDescription: string;
+    longDescription?: string;
+    image: string;
+    teacherId?: number | string;
+    teacherName: string;
+    status: "ACTIVE" | "IN_ACTIVE";
+    countUnits: number;
+    countLessons: number;
+    countExams: number;
     units: Unit[];
+    /** Subject-level exams (not linked to any unit) */
+    exams: Exam[];
 };
 
+export type SubjectDetailResponse = {
+    success: boolean;
+    message: string;
+    data: Subject;
+};
+
+/** Full category detail returned by GET /public/categories/{id} */
 export type CategoryDetail = {
     categoryId: number;
     name: string;
     description: string;
-    tag: string;
+    priceBeforeDiscount: number;
+    /** null when there is no discount */
+    priceAfterDiscount: number | null;
     totalSubjects: number;
     totalUnits: number;
     totalLessons: number;
     totalExams: number;
-    priceBeforeDiscount: number;
-    priceAfterDiscount: number;
+    totalSubscribers: number;
     isSubscribed: number;
     subjects: Subject[];
 };

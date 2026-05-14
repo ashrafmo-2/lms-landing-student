@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, IBM_Plex_Sans_Arabic } from "next/font/google";
 import "../globals.css";
 import { Providers } from "../providers";
 import { routing } from "@/shared/i18n/routing";
@@ -15,6 +15,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
+  variable: "--font-ibm-plex-sans-arabic",
+  subsets: ["arabic"],
+  weight: ["100", "200", "300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -46,7 +52,7 @@ export default async function RootLayout({
     <html
       lang={locale}
       dir={direction}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${ibmPlexSansArabic.variable} h-full antialiased`}
     >
       <head>
         {/* Apply saved theme before first paint to avoid flash */}
@@ -68,7 +74,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col" style={{ fontFamily: locale === "ar" ? "var(--font-ibm-plex-sans-arabic), sans-serif" : undefined }}>
         <NextIntlClientProvider messages={messages}>
           <Providers>{children}</Providers>
         </NextIntlClientProvider>

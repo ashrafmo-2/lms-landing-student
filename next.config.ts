@@ -5,7 +5,6 @@ const withNextIntl = createNextIntlPlugin("./src/shared/i18n/request.ts");
 
 const nextConfig: NextConfig = {
   /* config options here */
-  reactCompiler: true,
 };
 
 export default withNextIntl(nextConfig);

@@ -62,16 +62,16 @@ export const Sidebar = () => {
                 })}
             </nav>
 
-            <div className="px-6 py-8 border-t border-border">
+            {/* <div className="px-6 py-8 border-t border-border">
                 <div className="flex flex-col gap-4">
                     <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-2">
                         {t("settings")}
                     </span>
                     <div className="px-2">
                         <LanguageSwitcher />
-                    </div>
+                    </div> 
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };

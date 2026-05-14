@@ -7,5 +7,7 @@ export type {
     LoginPayload,
     VerifyOtpPayload,
     ResetPasswordPayload,
+    UpdateProfilePayload,
+    ChangePasswordPayload,
     ValidationErrors,
 } from "./types";

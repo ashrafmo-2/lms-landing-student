@@ -4,9 +4,11 @@ export type {
     Category,
     CategoriesPagination,
     CategoriesResponse,
-    Subject,
-    Unit,
     Lesson,
+    Exam,
+    SubUnit,
+    Unit,
+    Subject,
     CategoryDetail,
     CategoryDetailResponse,
 } from "../model";

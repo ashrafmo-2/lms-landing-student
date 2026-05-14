@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
 import { Loader2 } from "lucide-react";
 import { Sidebar } from "@/widgets/sidebar";
+import { useLocale } from "next-intl";
 
 export default function DashboardLayout({
     children,
@@ -13,6 +14,7 @@ export default function DashboardLayout({
 }) {
     const { isAuthenticated, isLoading } = useAuth();
     const router = useRouter();
+    const locale = useLocale()
 
     useEffect(() => {
         if (!isLoading && !isAuthenticated) {
@@ -36,11 +38,11 @@ export default function DashboardLayout({
     }
 
     return (
-        <div className="flex flex-row-reverse min-h-screen bg-background">
-            <div className="w-66 sticky top-0 h-screen bg-card border-l border-border">
+        <div className="flex min-h-screen bg-background" dir={locale === "ar" ? "rtl" : "ltr"}>
+            <div className="w-66 shrink-0 sticky top-0 h-screen bg-card border-l border-border">
                 <Sidebar />
             </div>
-            <div className="p-5 bg-muted min-h-screen w-[calc(100%-264px)] flex flex-col items-end">
+            <div className="p-5 bg-muted min-h-screen flex-1">
                 {children}
             </div>
         </div>

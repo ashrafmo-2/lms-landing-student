@@ -46,7 +46,9 @@ privateApi.interceptors.response.use(
             if (typeof window !== "undefined") {
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
-                window.location.href = "/auth/login";
+                // redirect preserving locale prefix if present
+                const locale = document.documentElement.lang || "ar";
+                window.location.href = `/${locale}/auth/login`;
             }
         }
         return Promise.reject(error);

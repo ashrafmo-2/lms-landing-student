@@ -59,7 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [token, setToken] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Rehydrate from localStorage on mount
+    // Rehydrate from localStorage on mount, then refresh from API
     useEffect(() => {
         const storedToken = localStorage.getItem(STORAGE_KEYS.TOKEN);
         const storedUser = localStorage.getItem(STORAGE_KEYS.USER);
@@ -70,9 +70,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 setUser(JSON.parse(storedUser));
             } catch {
                 clearSession();
+                setIsLoading(false);
+                return;
             }
+
+            // Fetch fresh profile from API in background
+            getProfile()
+                .then((res) => {
+                    setUser(res.data);
+                    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(res.data));
+                })
+                .catch(() => {
+                    // Token might be expired — clear session
+                    clearSession();
+                    setToken(null);
+                    setUser(null);
+                })
+                .finally(() => setIsLoading(false));
+        } else {
+            setIsLoading(false);
         }
-        setIsLoading(false);
     }, []);
 
     // ── Login ──────────────────────────────────────────────────────────────────

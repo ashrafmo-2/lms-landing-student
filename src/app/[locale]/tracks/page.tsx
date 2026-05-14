@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Search, X } from "lucide-react";
 import { TrackCard } from "@/components/landing/track-card";
 import { getPublicCategories, type Category } from "@/entities/categories/api";
 import { Navbar } from "@/widgets/landing-navbar";
@@ -16,12 +17,38 @@ const GRADIENTS = [
     "from-cyan-500 to-sky-800",
 ];
 
+const DEBOUNCE_MS = 400;
+
 export default function TracksPage() {
     const t = useTranslations("Tracks");
     const tCommon = useTranslations("Common");
     const locale = useLocale();
+
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
+    const [searchInput, setSearchInput] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
+    const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    // Debounce: update searchQuery 400ms after the user stops typing
+    useEffect(() => {
+        if (debounceRef.current) clearTimeout(debounceRef.current);
+        debounceRef.current = setTimeout(() => {
+            setSearchQuery(searchInput.trim());
+        }, DEBOUNCE_MS);
+        return () => {
+            if (debounceRef.current) clearTimeout(debounceRef.current);
+        };
+    }, [searchInput]);
+
+    // Fetch whenever searchQuery changes
+    useEffect(() => {
+        setLoading(true);
+        getPublicCategories({ perPage: 12, page: 1, search: searchQuery || undefined })
+            .then(({ categories }) => setCategories(categories))
+            .catch(() => setCategories([]))
+            .finally(() => setLoading(false));
+    }, [searchQuery]);
 
     function formatPrice(amount: number): string {
         return `${amount.toLocaleString(locale === "ar" ? "ar-EG" : "en-US")} ${tCommon("currency")}`;
@@ -34,9 +61,7 @@ export default function TracksPage() {
             gradient: GRADIENTS[index % GRADIENTS.length],
             tag: t("integratedTrack"),
             title: cat.name,
-            description:
-                cat.description ||
-                tCommon("defaultDesc"),
+            description: cat.description || tCommon("defaultDesc"),
             includes: cat.subjectNames.slice(0, 3),
             extraIncludes:
                 cat.subjectNames.length > 3
@@ -53,14 +78,8 @@ export default function TracksPage() {
         };
     }
 
-    useEffect(() => {
-        getPublicCategories({ perPage: 12, page: 1 })
-            .then(({ categories }) => setCategories(categories))
-            .catch(() => { })
-            .finally(() => setLoading(false));
-    }, []);
-
     const direction = locale === "ar" ? "rtl" : "ltr";
+    const isSearching = searchInput !== searchQuery; // debounce in-flight
 
     return (
         <main className="min-h-screen flex flex-col" dir={direction}>
@@ -68,18 +87,53 @@ export default function TracksPage() {
 
             <div className="grow pt-24 pb-20 bg-gray-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="mb-12 text-center">
+
+                    {/* ── Page header ── */}
+                    <div className="mb-10 text-center">
                         <div className="inline-block px-3 py-1 bg-primary-100 text-primary-700 rounded-lg text-sm font-bold mb-3">
                             {t("comprehensiveSubscription")}
                         </div>
                         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
                             {t("title")}
                         </h1>
-                        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
                             {t("subtitle")}
                         </p>
+
+                        {/* ── Search bar ── */}
+                        <div className="max-w-xl mx-auto relative">
+                            <div className="relative flex items-center">
+                                <Search className="absolute start-4 w-4 h-4 text-gray-400 pointer-events-none" />
+                                <input
+                                    type="text"
+                                    value={searchInput}
+                                    onChange={(e) => setSearchInput(e.target.value)}
+                                    placeholder={t("searchPlaceholder")}
+                                    className="w-full bg-white border border-gray-200 rounded-2xl py-3 ps-11 pe-10 text-sm text-gray-800 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#6c3aff]/40 focus:border-[#6c3aff] transition-all"
+                                />
+                                {/* Clear button */}
+                                {searchInput && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setSearchInput("")}
+                                        className="absolute end-3 w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+                                        aria-label="Clear search"
+                                    >
+                                        <X className="w-3 h-3 text-gray-500" />
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* Live indicator */}
+                            {isSearching && (
+                                <p className="text-xs text-gray-400 mt-2 text-center animate-pulse">
+                                    {tCommon("loading")}
+                                </p>
+                            )}
+                        </div>
                     </div>
 
+                    {/* ── Results ── */}
                     {loading ? (
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {Array.from({ length: 6 }).map((_, i) => (
@@ -96,15 +150,33 @@ export default function TracksPage() {
                                 </div>
                             ))}
                         </div>
-                    ) : (
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {categories.map((cat, index) => (
-                                <TrackCard
-                                    key={cat.categoryId}
-                                    {...categoryToCardProps(cat, index)}
-                                />
-                            ))}
+                    ) : categories.length === 0 ? (
+                        <div className="text-center py-24">
+                            <Search className="w-12 h-12 text-gray-200 mx-auto mb-4" />
+                            <p className="text-gray-500 font-medium">{t("noResults")}</p>
+                            {searchQuery && (
+                                <p className="text-sm text-gray-400 mt-1">
+                                    "{searchQuery}"
+                                </p>
+                            )}
                         </div>
+                    ) : (
+                        <>
+                            {/* Result count when searching */}
+                            {searchQuery && (
+                                <p className="text-sm text-gray-500 mb-4">
+                                    {t("resultsCount", { count: categories.length, query: searchQuery })}
+                                </p>
+                            )}
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {categories.map((cat, index) => (
+                                    <TrackCard
+                                        key={cat.categoryId}
+                                        {...categoryToCardProps(cat, index)}
+                                    />
+                                ))}
+                            </div>
+                        </>
                     )}
                 </div>
             </div>

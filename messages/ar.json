@@ -1,6 +1,7 @@
 {
     "Landing": {
         "navbar": {
+            "home": "الرئيسية",
             "features": "المميزات",
             "howItWorks": "كيف نعمل",
             "courses": "الكورسات",
@@ -9,7 +10,15 @@
             "signup": "إنشاء حساب",
             "tracks": "المسارات",
             "welcome": "مرحباً، {name}",
-            "logout": "تسجيل الخروج"
+            "logout": "تسجيل الخروج",
+            "dropdown": {
+                "profile": "الملف الشخصي",
+                "myCourses": "كورساتي",
+                "exams": "الاختبارات",
+                "achievements": "انجازاتي",
+                "subscriptions": "الاشتراكات"
+            },
+            "quickLinks": "روابط سريعة"
         },
         "hero": {
             "title": "تعلم بلا حدود مع منصتنا",
@@ -31,7 +40,11 @@
                 "offlineAvailable": "متاح Offline",
                 "examResult": "نتيجة الامتحان",
                 "sampleUser": "أحمد محمد",
-                "sampleInitials": ["أ", "م", "س"]
+                "sampleInitials": [
+                    "أ",
+                    "م",
+                    "س"
+                ]
             }
         },
         "features": {
@@ -237,6 +250,7 @@
             "theme": "المظهر",
             "profile": "الملف الشخصي",
             "profileDesc": "إدارة معلومات ملفك الشخصي",
+            "security": "الأمان",
             "active": "نشط",
             "inactive": "غير نشط",
             "fullName": "الاسم بالكامل",
@@ -249,6 +263,9 @@
             "saved": "تم الحفظ",
             "displayMode": "وضع العرض",
             "displayModeDesc": "اختر المظهر المناسب لك",
+            "light": "فاتح",
+            "dark": "داكن",
+            "system": "النظام",
             "accentColor": "لون التمييز",
             "accentColorDesc": "اختر اللون الأساسي للمنصة",
             "themePreview": "معاينة المظهر",
@@ -260,12 +277,15 @@
         }
     },
     "Common": {
+        "brandName": "تعلم",
         "switchLanguage": "تغيير اللغة",
         "arabic": "العربية",
         "english": "الإنجليزية",
-        "italian": "الإيطالية"
-    }
-}ibeNow": "اشترك الآن",
+        "italian": "الإيطالية",
+        "appName": "إديوستار",
+        "currency": "ج.م",
+        "save": "حفظ",
+        "subscribeNow": "اشترك الآن",
         "video": "فيديو",
         "pdf": "PDF",
         "quiz": "اختبار",
@@ -274,7 +294,11 @@
         "exam": "اختبار",
         "subjects": "مواد",
         "loading": "جاري التحميل...",
-        "back": "رجوع"
+        "back": "رجوع",
+        "minutes": "د",
+        "item": "عنصر",
+        "subjectExams": "اختبارات المادة",
+        "defaultDesc": "مسار شامل يغطي جميع المقررات بأحدث طرق الشرح والامتحانات التفاعلية."
     },
     "Tracks": {
         "title": "كل المسارات والباقات التعليمية",
@@ -282,10 +306,23 @@
         "integratedTrack": "مسار متكامل",
         "comprehensiveSubscription": "اشتراك شامل",
         "notFound": "لم يتم العثور على المسار",
-        "subjectsCount": "المواد الدراسية ({count})",
+        "searchPlaceholder": "ابحث عن مسار...",
+        "noResults": "لا توجد نتائج",
+        "resultsCount": "{count} نتيجة لـ \"{query}\"",
+        "subjectsCount": "المواد ({count})",
         "whatIncluded": "ما يشمله المسار",
         "includedSubjects": "المواد المشمولة:",
         "subscribeInTrack": "اشترك في المسار",
+        "alreadySubscribed": "مشترك بالفعل ✓",
+        "subscribers": "طالب مشترك",
+        "drawer": {
+            "units": "الوحدات والدروس",
+            "exams": "الاختبارات",
+            "viewDetails": "عرض التفاصيل",
+            "tapToExplore": "اضغط على مادة لاستعراضها",
+            "noUnits": "لا توجد وحدات",
+            "noExams": "لا توجد اختبارات"
+        },
         "stats": {
             "subject": "مادة دراسية",
             "unit": "وحدة تعليمية",

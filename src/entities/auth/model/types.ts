@@ -56,5 +56,19 @@ export interface ResetPasswordPayload {
     password: string;
 }
 
+// ─── Update profile payload ───────────────────────────────────────────────────
+export interface UpdateProfilePayload {
+    name: string;
+    email: string;
+    phone?: string;
+    avatar?: File;
+}
+
+// ─── Change password payload ──────────────────────────────────────────────────
+export interface ChangePasswordPayload {
+    currentPassword: string;
+    password: string;
+}
+
 // ─── Validation error shape ──────────────────────────────────────────────────
 export type ValidationErrors = Record<string, string[]>;

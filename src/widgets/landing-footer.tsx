@@ -4,6 +4,7 @@ import { Link } from "@/shared/i18n/routing";
 
 export function Footer() {
     const t = useTranslations("Landing.footer");
+    const tNav = useTranslations("Landing.navbar");
     const tCommon = useTranslations("Common");
 
     return (
@@ -34,39 +35,17 @@ export function Footer() {
                             </li>
                             <li>
                                 <Link href="/#modules" className="hover:text-white transition-colors">
-                                    {t("Landing.navbar.courses")}
+                                    {tNav("courses")}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/#features" className="hover:text-white transition-colors">
-                                    {t("Landing.navbar.features")}
+                                    {tNav("features")}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/#contact" className="hover:text-white transition-colors">
-                                    {t("Landing.navbar.contact")}
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Support */}
-                    <div>
-                        <h3 className="font-bold text-base mb-4">{t("support")}</h3>
-                        <ul className="space-y-2 text-sm text-white/70">
-                            <li>
-                                <Link href="/auth/login" className="hover:text-white transition-colors">
-                                    {t("faq")}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/auth/login" className="hover:text-white transition-colors">
-                                    {t("terms")}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/auth/login" className="hover:text-white transition-colors">
-                                    {t("privacy")}
+                                    {tNav("contact")}
                                 </Link>
                             </li>
                         </ul>
