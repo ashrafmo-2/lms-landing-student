@@ -81,7 +81,7 @@ export function Navbar() {
                                     href={`/${locale}/dashboard`}
                                     className="text-sm font-medium text-[#6c3aff] hover:underline"
                                 >
-                                    {t("welcome", { name: user?.name })}
+                                    {t("welcome", { name: user?.name ?? "" })}
                                 </Link>
                                 <button
                                     type="button"

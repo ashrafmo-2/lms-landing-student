@@ -41,13 +41,10 @@ export function TrackCard({
     href,
 }: TrackCardProps) {
     const t = useTranslations("Tracks");
-    const Wrapper = href ? Link : "div";
+    const cardClass = "bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group cursor-pointer";
 
-    return (
-        <Wrapper
-            {...(href ? { href } : {})}
-            className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group cursor-pointer"
-        >
+    const content = (
+        <>
             <div
                 className={`h-40 bg-linear-to-br ${gradient} relative overflow-hidden flex flex-col justify-center px-6`}
             >
@@ -117,6 +114,12 @@ export function TrackCard({
                     </button>
                 </div>
             </div>
-        </Wrapper>
+        </>
     );
+
+    if (href) {
+        return <Link href={href} className={cardClass}>{content}</Link>;
+    }
+
+    return <div className={cardClass}>{content}</div>;
 }
