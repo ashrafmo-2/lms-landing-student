@@ -41,7 +41,7 @@ export default function LoginPage() {
         try {
             setServerError("");
             await login(values.email, values.password);
-            router.push(`/${locale}/dashboard`);
+            router.push(`/${locale}/`);
         } catch (err) {
             setServerError(getApiErrorMessage(err));
         }

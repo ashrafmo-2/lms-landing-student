@@ -1,1 +1,1 @@
-export { getSubjectById, flattenLessons, lessonsQueryKeys } from "./lessons-api";
+export { getSubjectById, completeLesson, flattenLessons, lessonsQueryKeys } from "./lessons-api";

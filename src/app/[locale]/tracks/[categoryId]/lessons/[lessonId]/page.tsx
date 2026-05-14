@@ -1,26 +1,42 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useParams, useSearchParams } from "next/navigation";
-import { Link } from "@/shared/i18n/routing";
-import { getSubjectById, flattenLessons } from "@/entities/lessons/api";
-import type { SubjectDetail, LessonItem, FlatLesson } from "@/entities/lessons/model";
-import { Loader2, PlayCircle, FileText, ChevronLeft, ChevronRight, Clock, CheckCircle2, Download, ArrowRight, BookOpen, User, AlertCircle } from "lucide-react";
-import { cn } from "@/shared/lib/utils";
 import { useLocale } from "next-intl";
 
+import { Link } from "@/shared/i18n/routing";
+import { getSubjectById, flattenLessons, completeLesson } from "@/entities/lessons/api";
+import type { SubjectDetail, LessonItem, FlatLesson } from "@/entities/lessons/model";
+import { Loader2, PlayCircle, FileText, ChevronLeft, ChevronRight, Clock, CheckCircle2, ArrowRight, BookOpen, User, AlertCircle } from "lucide-react";
+import { cn } from "@/shared/lib/utils";
+import { formatDuration } from "@/shared/lib/format-duration";
 
-function formatDuration(minutes: number | null): string {
-    if (!minutes) return "";
-    if (minutes < 60) return `${minutes} د`;
-    const h = Math.floor(minutes / 60);
-    const m = minutes % 60;
-    return m > 0 ? `${h}س ${m}د` : `${h}س`;
+function useContentProtection(ref: React.RefObject<HTMLElement | null>) {
+    useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+
+        const block = (e: Event) => e.preventDefault();
+        el.addEventListener("contextmenu", block);
+
+        const blockKeys = (e: KeyboardEvent) => {
+            if ((e.ctrlKey || e.metaKey) && ["s", "p", "u", "a"].includes(e.key.toLowerCase())) {
+                e.preventDefault();
+            }
+        };
+        el.addEventListener("keydown", blockKeys);
+
+        return () => {
+            el.removeEventListener("contextmenu", block);
+            el.removeEventListener("keydown", blockKeys);
+        };
+    }, [ref]);
 }
 
-// ─── Video Player ─────────────────────────────────────────────────────────────
-
 function VideoPlayer({ url, title }: { url: string; title: string }) {
+    const wrapperRef = useRef<HTMLDivElement>(null);
+    useContentProtection(wrapperRef);
+
     if (!url) {
         return (
             <div className="aspect-video bg-gray-900 rounded-2xl flex flex-col items-center justify-center gap-3 text-white/60">
@@ -29,51 +45,54 @@ function VideoPlayer({ url, title }: { url: string; title: string }) {
             </div>
         );
     }
+
     return (
-        <div className="aspect-video bg-black rounded-2xl overflow-hidden shadow-xl">
+        <div ref={wrapperRef} className="aspect-video bg-black rounded-2xl overflow-hidden shadow-xl relative select-none">
             <video
                 src={url}
                 controls
                 className="w-full h-full object-contain"
                 title={title}
+                controlsList="nodownload noremoteplayback"
+                disablePictureInPicture
+                onDragStart={(e) => e.preventDefault()}
             />
         </div>
     );
 }
 
+
 function PdfViewer({ url, title }: { url: string; title: string }) {
+    const wrapperRef = useRef<HTMLDivElement>(null);
+    useContentProtection(wrapperRef);
+
+    if (!url) {
+        return (
+            <div className="w-full rounded-2xl overflow-hidden shadow-xl bg-gray-900 flex flex-col items-center justify-center gap-3 text-white/60" style={{ height: "75vh" }}>
+                <FileText className="w-12 h-12" />
+                <p className="text-sm">الملف غير متاح بعد</p>
+            </div>
+        );
+    }
+
+    // Append PDF viewer params to hide toolbar/download in Chrome/Edge built-in viewer
+    const viewerUrl = `${url}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`;
+
     return (
-        <div className="aspect-video bg-gray-900 rounded-2xl overflow-hidden shadow-xl flex flex-col items-center justify-center gap-6 text-white">
-            <div className="w-20 h-20 bg-orange-500/20 rounded-2xl flex items-center justify-center">
-                <FileText className="w-10 h-10 text-orange-400" />
-            </div>
-            <div className="text-center space-y-1">
-                <h3 className="text-lg font-bold">{title}</h3>
-                <p className="text-sm text-white/60">ملف PDF</p>
-            </div>
-            {url ? (
-                <div className="flex gap-3">
-                    <a
-                        href={url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold px-5 py-2.5 rounded-xl transition-colors text-sm"
-                    >
-                        <Download className="w-4 h-4" />
-                        تحميل الملف
-                    </a>
-                    <a
-                        href={url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-5 py-2.5 rounded-xl transition-colors text-sm"
-                    >
-                        عرض في نافذة جديدة
-                    </a>
-                </div>
-            ) : (
-                <p className="text-sm text-white/40">الملف غير متاح بعد</p>
-            )}
+        <div
+            ref={wrapperRef}
+            className="relative w-full rounded-2xl overflow-hidden shadow-xl bg-gray-100 select-none"
+            style={{ height: "75vh" }}
+            onContextMenu={(e) => e.preventDefault()}
+        >
+            <iframe
+                src={viewerUrl}
+                title={title}
+                className="w-full h-full border-0"
+                // No sandbox — needed for cross-origin PDF rendering
+                // Protection is handled by CSS user-select + JS event blocking
+                referrerPolicy="no-referrer"
+            />
         </div>
     );
 }
@@ -90,8 +109,22 @@ export default function LessonPage() {
     const [subject, setSubject] = useState<SubjectDetail | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<"not_found" | "forbidden" | "unknown" | null>(null);
+    // optimistic completion state — starts from API value, toggled locally on success
+    const [isCompleted, setIsCompleted] = useState<0 | 1>(0);
+    const [completing, setCompleting] = useState(false);
 
     const isRtl = locale === "ar";
+
+    // Global page-level protection: block Ctrl+S, Ctrl+P on the whole page
+    useEffect(() => {
+        const block = (e: KeyboardEvent) => {
+            if ((e.ctrlKey || e.metaKey) && ["s", "p", "u"].includes(e.key.toLowerCase())) {
+                e.preventDefault();
+            }
+        };
+        window.addEventListener("keydown", block);
+        return () => window.removeEventListener("keydown", block);
+    }, []);
 
     useEffect(() => {
         if (!subjectId) {
@@ -118,6 +151,26 @@ export default function LessonPage() {
     const lesson: LessonItem | undefined = flatList[currentIndex];
     const prevLesson: FlatLesson | undefined = flatList[currentIndex - 1];
     const nextLesson: FlatLesson | undefined = flatList[currentIndex + 1];
+
+    // Sync isCompleted from API whenever the lesson changes
+    useEffect(() => {
+        if (lesson) setIsCompleted(lesson.isCompleted);
+    }, [lesson?.lessonId, lesson?.isCompleted]);
+
+    const handleComplete = useCallback(async () => {
+        if (isCompleted === 1 || completing) return;
+        setCompleting(true);
+        try {
+            await completeLesson(lessonId);
+            setIsCompleted(1);
+            // Notify the sidebar to refetch so progress updates immediately
+            window.dispatchEvent(new CustomEvent("lesson:completed", { detail: { lessonId } }));
+        } catch {
+            // silently ignore — user can retry
+        } finally {
+            setCompleting(false);
+        }
+    }, [lessonId, isCompleted, completing]);
 
     const navLink = useCallback((l: FlatLesson) => `/tracks/${categoryId}/lessons/${l.lessonId}?subjectId=${subjectId}`, [locale, categoryId, subjectId]);
 
@@ -166,17 +219,19 @@ export default function LessonPage() {
 
             {/* ── Top bar ── */}
             <div className="sticky top-0 z-20 bg-white border-b border-gray-100 shadow-sm px-4 md:px-6 py-3 flex items-center justify-between gap-4">
-                {/* Back + breadcrumb */}
+                {/* Back button + breadcrumb */}
                 <div className="flex items-center gap-3 min-w-0">
                     <Link
                         href={`/tracks/${categoryId}`}
-                        className="w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center shrink-0 transition-colors"
+                        className="flex items-center gap-1.5 shrink-0 bg-gray-100 hover:bg-[#ede9ff] hover:text-[#6c3aff] text-gray-600 font-semibold text-xs px-3 py-2 rounded-xl transition-colors"
                     >
-                        <ChevronRight className="w-4 h-4 text-gray-600 rtl:rotate-0 ltr:rotate-180" />
+                        <ChevronRight className="w-4 h-4 rtl:rotate-0 ltr:rotate-180" />
+                        <span className="hidden sm:inline">تفاصيل المسار</span>
                     </Link>
+                    <div className="w-px h-5 bg-gray-200 shrink-0" />
                     <div className="min-w-0">
                         <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">
-                            <BookOpen className="w-3 h-3" />
+                            <BookOpen className="w-3 h-3 shrink-0" />
                             <span className="truncate">{subject?.title}</span>
                         </div>
                         <h1 className="text-sm font-bold text-gray-900 truncate">{lesson.title}</h1>
@@ -241,6 +296,27 @@ export default function LessonPage() {
                                 {currentIndex + 1} / {flatList.length}
                             </span>
                         )}
+                    </div>
+
+                    {/* Mark complete button */}
+                    <div className="flex justify-center">
+                        <button
+                            onClick={handleComplete}
+                            disabled={isCompleted === 1 || completing}
+                            className={cn(
+                                "flex items-center gap-2.5 px-6 py-3 rounded-2xl font-bold text-sm transition-all shadow-sm",
+                                isCompleted === 1
+                                    ? "bg-green-100 text-green-700 cursor-default"
+                                    : "bg-[#6c3aff] hover:bg-[#5228e8] text-white shadow-[#6c3aff]/25 shadow-lg active:scale-95"
+                            )}
+                        >
+                            {completing ? (
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : (
+                                <CheckCircle2 className="w-4 h-4" />
+                            )}
+                            {isCompleted === 1 ? "تم إكمال الدرس" : completing ? "جاري الحفظ..." : "خلصت الدرس"}
+                        </button>
                     </div>
 
                     {/* Description */}

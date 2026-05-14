@@ -9,4 +9,5 @@ export type {
     Subject,
     CategoryDetail,
     CategoryDetailResponse,
+    SubjectDetailResponse,
 } from "./types";

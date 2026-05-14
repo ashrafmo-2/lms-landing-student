@@ -8,6 +8,7 @@ import { Navbar } from "@/widgets/landing-navbar";
 import { Footer } from "@/widgets/landing-footer";
 import { useTranslations, useLocale } from "next-intl";
 
+
 const GRADIENTS = [
     "from-blue-600 to-blue-900",
     "from-purple-600 to-indigo-900",
@@ -50,12 +51,11 @@ export default function TracksPage() {
             .finally(() => setLoading(false));
     }, [searchQuery]);
 
-    function formatPrice(amount: number): string {
-        return `${amount.toLocaleString(locale === "ar" ? "ar-EG" : "en-US")} ${tCommon("currency")}`;
-    }
-
     function categoryToCardProps(cat: Category, index: number) {
         const hasDiscount = cat.priceBeforeDiscount > cat.priceAfterDiscount;
+        const currency = tCommon("currency");
+        const fmt = (n: number) =>
+            `${n.toLocaleString(locale === "ar" ? "ar-EG" : "en-US")} ${currency}`;
         return {
             icon: "ph-duotone ph-stack",
             gradient: GRADIENTS[index % GRADIENTS.length],
@@ -72,9 +72,10 @@ export default function TracksPage() {
                 { label: tCommon("unit"), value: String(cat.totalUnits) },
                 { label: tCommon("lesson"), value: String(cat.totalLessons) },
             ],
-            price: formatPrice(cat.priceAfterDiscount),
-            oldPrice: hasDiscount ? formatPrice(cat.priceBeforeDiscount) : undefined,
+            price: fmt(cat.priceAfterDiscount),
+            oldPrice: hasDiscount ? fmt(cat.priceBeforeDiscount) : undefined,
             href: `/${locale}/tracks/${cat.categoryId}`,
+            isSubscribed: cat.isSubscribed,
         };
     }
 
@@ -103,7 +104,7 @@ export default function TracksPage() {
                         {/* ── Search bar ── */}
                         <div className="max-w-xl mx-auto relative">
                             <div className="relative flex items-center">
-                                <Search className="absolute start-4 w-4 h-4 text-gray-400 pointer-events-none" />
+                                <Search className="absolute inset-s-4 w-4 h-4 text-gray-400 pointer-events-none" />
                                 <input
                                     type="text"
                                     value={searchInput}
@@ -116,7 +117,7 @@ export default function TracksPage() {
                                     <button
                                         type="button"
                                         onClick={() => setSearchInput("")}
-                                        className="absolute end-3 w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+                                        className="absolute inset-e-3 w-6 h-6 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
                                         aria-label="Clear search"
                                     >
                                         <X className="w-3 h-3 text-gray-500" />

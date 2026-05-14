@@ -138,10 +138,10 @@ function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void })
 
     const accountLinks = [
         { icon: User, label: t("dropdown.profile"), href: "/profile" },
-        { icon: BookOpen, label: t("dropdown.myCourses"), href: "/dashboard/courses" },
-        { icon: ClipboardList, label: t("dropdown.exams"), href: "/dashboard/exams" },
-        { icon: Trophy, label: t("dropdown.achievements"), href: "/dashboard/achievements" },
-        { icon: CreditCard, label: t("dropdown.subscriptions"), href: "/dashboard/subscriptions" },
+        { icon: BookOpen, label: t("dropdown.myCourses"), href: "/courses" },
+        { icon: ClipboardList, label: t("dropdown.exams"), href: "/exams" },
+        { icon: Trophy, label: t("dropdown.achievements"), href: "/achievements" },
+        { icon: CreditCard, label: t("dropdown.subscriptions"), href: "/subscriptions" },
     ];
 
     const activeLinkClass = "bg-[#f5f3ff] text-[#6c3aff] font-semibold";

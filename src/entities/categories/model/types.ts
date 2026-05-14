@@ -8,7 +8,8 @@ export type Category = {
     subjectNames: string[];
     priceBeforeDiscount: number;
     priceAfterDiscount: number;
-    isSubscribed: number;
+    /** 1 = subscribed, 0 = not subscribed. Only present when request includes a valid Bearer token. */
+    isSubscribed: 0 | 1;
 };
 
 export type CategoriesPagination = {

@@ -1,16 +1,13 @@
-import { publicApi, privateApi, BASE_URL } from "@/shared/api";
+import { privateApi, BASE_URL } from "@/shared/api";
 import type {
     CategoriesResponse,
     Category,
     CategoryDetail,
     CategoryDetailResponse,
-    Subject,
-    SubjectDetailResponse,
 } from "../model";
+import type { SubjectDetail, SubjectDetailResponse } from "@/entities/lessons/model";
 
 const publicBase = BASE_URL.replace(/\/student$/, "/public");
-
-// ─── List ─────────────────────────────────────────────────────────────────────
 
 export type GetCategoriesParams = {
     search?: string;
@@ -23,7 +20,10 @@ export const getPublicCategories = async (
 ): Promise<{ categories: Category[]; pagination: CategoriesResponse["data"]["pagination"] }> => {
     const { search, perPage = 12, page = 1 } = params;
 
-    const { data } = await publicApi.get<CategoriesResponse>(`${publicBase}/categories`, {
+    // Use privateApi so the Bearer token is attached when the student is logged in.
+    // The interceptor skips the header silently when no token exists, so this works
+    // for both authenticated and unauthenticated requests.
+    const { data } = await privateApi.get<CategoriesResponse>(`${publicBase}/categories`, {
         params: {
             ...(search ? { "filter[search]": search } : {}),
             perPage,
@@ -46,7 +46,7 @@ export const getCategoryById = async (id: number): Promise<CategoryDetail> => {
     return data.data;
 };
 
-export const getSubjectDetail = async (id: number | string): Promise<Subject> => {
+export const getSubjectDetail = async (id: number | string): Promise<SubjectDetail> => {
     const { data } = await privateApi.get<SubjectDetailResponse>(
         `/subjects/${id}`
     );

@@ -7,7 +7,7 @@ export default function AuthLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#f5f3ff] via-white to-[#ede9ff] flex flex-col" dir="rtl">
+        <div className="min-h-screen bg-linear-to-br from-[#f5f3ff] via-white to-[#ede9ff] flex flex-col" dir="rtl">
             {/* Header */}
             <header className="p-4 sm:p-6">
                 <Link href="/" className="inline-flex items-center gap-2">

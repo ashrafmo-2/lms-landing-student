@@ -6,6 +6,7 @@ import { TrackCard } from "./track-card";
 import { getPublicCategories, type Category } from "@/entities/categories/api";
 import { useTranslations, useLocale } from "next-intl";
 
+
 // Gradient palette — cycles through cards
 const GRADIENTS = [
     "from-blue-600 to-blue-900",
@@ -18,16 +19,15 @@ const GRADIENTS = [
 
 export function CoursesSection() {
     const t = useTranslations("Landing.courses");
+    const tCommon = useTranslations("Common");
     const locale = useLocale();
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
 
-    function formatPrice(amount: number): string {
-        return `${amount.toLocaleString(locale === "ar" ? "ar-EG" : "en-US")} ${locale === "ar" ? "ج.م" : "EGP"}`;
-    }
-
     function categoryToCardProps(cat: Category, index: number) {
         const hasDiscount = cat.priceBeforeDiscount > cat.priceAfterDiscount;
+        const fmt = (n: number) =>
+            `${n.toLocaleString(locale === "ar" ? "ar-EG" : "en-US")} ${tCommon("currency")}`;
 
         return {
             icon: "ph-duotone ph-stack",
@@ -45,8 +45,8 @@ export function CoursesSection() {
                 { label: t("units"), value: String(cat.totalUnits) },
                 { label: t("lessons"), value: String(cat.totalLessons) },
             ],
-            price: formatPrice(cat.priceAfterDiscount),
-            oldPrice: hasDiscount ? formatPrice(cat.priceBeforeDiscount) : undefined,
+            price: fmt(cat.priceAfterDiscount),
+            oldPrice: hasDiscount ? fmt(cat.priceBeforeDiscount) : undefined,
             href: `/${locale}/tracks/${cat.categoryId}`,
         };
     }

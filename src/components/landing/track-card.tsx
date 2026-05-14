@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { CheckCircle2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 interface TrackStat {
@@ -22,6 +23,7 @@ interface TrackCardProps {
     priceLabel?: string;
     buttonColor?: string;
     href?: string;
+    isSubscribed?: 0 | 1;
 }
 
 export function TrackCard({
@@ -39,25 +41,39 @@ export function TrackCard({
     priceLabel,
     buttonColor = "hover:bg-primary-600",
     href,
+    isSubscribed = 0,
 }: TrackCardProps) {
     const t = useTranslations("Tracks");
-    const cardClass = "bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group cursor-pointer";
+    const subscribed = isSubscribed === 1;
+
+    const cardClass = `bg-white rounded-3xl overflow-hidden shadow-sm border transition-all duration-300 flex flex-col group cursor-pointer ${subscribed
+            ? "border-green-200 hover:shadow-green-100 hover:shadow-xl hover:-translate-y-1"
+            : "border-gray-100 hover:shadow-xl hover:-translate-y-1"
+        }`;
 
     const content = (
         <>
-            <div
-                className={`h-40 bg-linear-to-br ${gradient} relative overflow-hidden flex flex-col justify-center px-6`}
-            >
-                <i
-                    className={`${icon} absolute -left-6 -bottom-6 text-[140px] text-white/10 group-hover:scale-110 transition-transform duration-500`}
-                ></i>
-                <span className="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full w-fit mb-3 backdrop-blur-sm">
-                    {tag}
-                </span>
+            <div className={`h-40 bg-linear-to-br ${gradient} relative overflow-hidden flex flex-col justify-center px-6`}>
+                <i className={`${icon} absolute -left-6 -bottom-6 text-[140px] text-white/10 group-hover:scale-110 transition-transform duration-500`} />
+
+                <div className="flex items-center justify-between mb-3">
+                    <span className="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">
+                        {tag}
+                    </span>
+                    {/* Subscribed badge */}
+                    {subscribed && (
+                        <span className="flex items-center gap-1 bg-green-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-md">
+                            <CheckCircle2 className="w-3 h-3" />
+                            {t("alreadySubscribed")}
+                        </span>
+                    )}
+                </div>
+
                 <h3 className="text-2xl font-bold text-white relative z-10 leading-tight">
                     {title}
                 </h3>
             </div>
+
             <div className="p-6 grow flex flex-col">
                 <p className="text-sm text-gray-500 mb-4 line-clamp-2">{description}</p>
 
@@ -65,10 +81,7 @@ export function TrackCard({
                     <p className="text-xs font-bold text-gray-400 mb-2">{includesTitle || t("includedSubjects")}</p>
                     <div className="flex flex-wrap gap-2">
                         {includes.map((item) => (
-                            <span
-                                key={item}
-                                className="bg-gray-100 text-gray-700 text-xs px-2.5 py-1 rounded-md font-medium"
-                            >
+                            <span key={item} className="bg-gray-100 text-gray-700 text-xs px-2.5 py-1 rounded-md font-medium">
                                 {item}
                             </span>
                         ))}
@@ -82,14 +95,10 @@ export function TrackCard({
                     {stats.map((stat, index) => (
                         <React.Fragment key={stat.label}>
                             <div className="flex flex-col text-center">
-                                <span className="font-bold text-gray-900 text-lg">
-                                    {stat.value}
-                                </span>
+                                <span className="font-bold text-gray-900 text-lg">{stat.value}</span>
                                 <span className="text-gray-500 text-xs">{stat.label}</span>
                             </div>
-                            {index < stats.length - 1 && (
-                                <div className="w-px h-8 bg-gray-200"></div>
-                            )}
+                            {index < stats.length - 1 && <div className="w-px h-8 bg-gray-200" />}
                         </React.Fragment>
                     ))}
                 </div>
@@ -97,21 +106,27 @@ export function TrackCard({
                 <div className="flex items-center justify-between">
                     <div>
                         {oldPrice && (
-                            <span className="text-xs text-gray-400 block line-through">
-                                {oldPrice}
-                            </span>
+                            <span className="text-xs text-gray-400 block line-through">{oldPrice}</span>
                         )}
                         {priceLabel && (
                             <span className="text-xs text-gray-400 block">{priceLabel}</span>
                         )}
                         <div className="text-xl font-extrabold text-primary-600">{price}</div>
                     </div>
-                    <button
-                        type="button"
-                        className={`bg-gray-900 text-white ${buttonColor} px-5 py-2.5 rounded-xl font-bold transition-colors text-sm shadow-md`}
-                    >
-                        {t("subscribeInTrack")}
-                    </button>
+
+                    {subscribed ? (
+                        <span className="flex items-center gap-1.5 bg-green-100 text-green-700 px-4 py-2.5 rounded-xl font-bold text-sm">
+                            <CheckCircle2 className="w-4 h-4" />
+                            {t("alreadySubscribed")}
+                        </span>
+                    ) : (
+                        <button
+                            type="button"
+                            className={`bg-gray-900 text-white ${buttonColor} px-5 py-2.5 rounded-xl font-bold transition-colors text-sm shadow-md`}
+                        >
+                            {t("subscribeInTrack")}
+                        </button>
+                    )}
                 </div>
             </div>
         </>

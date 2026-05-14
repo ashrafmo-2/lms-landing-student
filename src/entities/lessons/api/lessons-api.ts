@@ -10,6 +10,14 @@ export const getSubjectById = async (subjectId: string | number): Promise<Subjec
     return data.data;
 };
 
+// ─── Mark a lesson as complete ────────────────────────────────────────────────
+// Endpoint: POST /api/v1/student/lessons/complete
+// Body: { lessonId: number }
+
+export const completeLesson = async (lessonId: number): Promise<void> => {
+    await privateApi.post("/lessons/complete", { lessonId });
+};
+
 // ─── Query keys ───────────────────────────────────────────────────────────────
 
 export const lessonsQueryKeys = {

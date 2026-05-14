@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
     ChevronDown,
     ChevronRight,
     PlayCircle,
     FileText,
     CheckCircle2,
-    ClipboardList,
     Trophy,
     BookOpen,
     BarChart3,
@@ -22,6 +21,7 @@ import type {
     ExamItem,
 } from "@/entities/lessons/model";
 import { cn } from "@/shared/lib/utils";
+import { formatDurationShort } from "@/shared/lib/format-duration";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
@@ -52,49 +52,32 @@ function LessonRow({
         <Link
             href={`/tracks/${categoryId}/lessons/${lesson.lessonId}?subjectId=${subjectId}`}
             className={cn(
-                "flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all group",
+                "flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all group",
                 isActive
                     ? "bg-[#6c3aff] text-white shadow-md shadow-[#6c3aff]/20"
                     : "text-gray-600 hover:bg-[#6c3aff]/5 hover:text-[#6c3aff]"
             )}
         >
+            {/* Icon — start side (right in RTL) */}
             <div
                 className={cn(
-                    "w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors",
+                    "w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors",
                     isActive ? "bg-white/20" : "bg-gray-100 group-hover:bg-[#6c3aff]/10"
                 )}
             >
                 {done ? (
-                    <CheckCircle2
-                        className={cn("w-4 h-4", isActive ? "text-white" : "text-green-500")}
-                    />
+                    <CheckCircle2 className={cn("w-3.5 h-3.5", isActive ? "text-white" : "text-green-500")} />
                 ) : (
-                    <Icon
-                        className={cn(
-                            "w-4 h-4",
-                            isActive ? "text-white" : "text-gray-400 group-hover:text-[#6c3aff]"
-                        )}
-                    />
+                    <Icon className={cn("w-3.5 h-3.5", isActive ? "text-white" : "text-gray-400 group-hover:text-[#6c3aff]")} />
                 )}
             </div>
-            <div className="flex-1 min-w-0">
-                <p className="truncate text-[13px] font-medium leading-none mb-1 text-right">
-                    {lesson.title}
+            {/* Text */}
+            <div className="flex-1 min-w-0 text-right">
+                <p className="truncate text-[13px] font-medium leading-snug">{lesson.title}</p>
+                <p className={cn("text-[10px] font-bold mt-0.5", isActive ? "text-white/70" : "text-gray-400")}>
+                    {lesson.type === "VIDEO" ? "فيديو" : "PDF"}
+                    {lesson.duration && ` · ${formatDurationShort(lesson.duration)}`}
                 </p>
-                <div
-                    className={cn(
-                        "flex items-center gap-1.5 text-[10px] font-bold",
-                        isActive ? "text-white/70" : "text-gray-400"
-                    )}
-                >
-                    <span>{lesson.type === "VIDEO" ? "فيديو" : "PDF"}</span>
-                    {lesson.duration !== null && (
-                        <>
-                            <span className="w-0.5 h-0.5 rounded-full bg-current" />
-                            <span>{lesson.duration} د</span>
-                        </>
-                    )}
-                </div>
             </div>
         </Link>
     );
@@ -115,29 +98,20 @@ function ExamRow({
     return (
         <Link
             href={`/tracks/${categoryId}/exams/${exam.examId}`}
-            className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all group text-gray-600 hover:bg-green-50 hover:text-green-700"
+            className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all group text-gray-600 hover:bg-green-50 hover:text-green-700"
         >
-            <div className="w-8 h-8 rounded-full bg-green-100 group-hover:bg-green-200 flex items-center justify-center shrink-0 transition-colors">
+            <div className="w-7 h-7 rounded-full bg-green-100 group-hover:bg-green-200 flex items-center justify-center shrink-0 transition-colors">
                 {done ? (
-                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-green-600" />
                 ) : (
-                    <Trophy className="w-4 h-4 text-green-600" />
+                    <Trophy className="w-3.5 h-3.5 text-green-600" />
                 )}
             </div>
-            <div className="flex-1 min-w-0">
-                <p className="truncate text-[13px] font-bold leading-none mb-1 text-right">
-                    {exam.title}
+            <div className="flex-1 min-w-0 text-right">
+                <p className="truncate text-[13px] font-bold leading-snug">{exam.title}</p>
+                <p className="text-[10px] font-bold text-gray-400 mt-0.5">
+                    {formatDurationShort(exam.duration)}{exam.totalMarks > 0 ? ` · ${exam.totalMarks} درجة` : ""}
                 </p>
-                <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-400">
-                    <ClipboardList className="w-3 h-3" />
-                    <span>{exam.duration} د</span>
-                    {exam.totalMarks > 0 && (
-                        <>
-                            <span className="w-0.5 h-0.5 rounded-full bg-current" />
-                            <span>{exam.totalMarks} درجة</span>
-                        </>
-                    )}
-                </div>
             </div>
         </Link>
     );
@@ -168,8 +142,8 @@ function SubUnitAccordion({
                 type="button"
                 onClick={onToggle}
                 className={cn(
-                    "w-full flex items-center gap-2 px-4 py-2 text-[13px] font-medium transition-all rounded-lg text-right",
-                    expanded ? "text-gray-900" : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                    "w-full flex items-center gap-2 px-3 py-2 text-[13px] font-medium transition-all rounded-lg",
+                    expanded ? "text-gray-900 bg-gray-50" : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
                 )}
             >
                 <div className="w-4 h-4 rounded-full bg-purple-100 flex items-center justify-center shrink-0">
@@ -178,13 +152,13 @@ function SubUnitAccordion({
                         : <ChevronRight className="w-2.5 h-2.5 text-purple-600 rtl:rotate-180" />}
                 </div>
                 <span className="flex-1 text-right truncate">{subUnit.title}</span>
-                <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded-md font-bold shrink-0">
+                <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded-md font-bold shrink-0 tabular-nums">
                     {subUnit.countLessons + subUnit.countExams}
                 </span>
             </button>
 
             {expanded && (
-                <div className="me-4 border-e-2 border-purple-100 pe-1 py-0.5 space-y-0.5">
+                <div className="ms-5 border-s-2 border-purple-200 ps-2 py-1 space-y-0.5">
                     {subUnit.lessons.map((l) => (
                         <LessonRow
                             key={l.lessonId}
@@ -240,11 +214,12 @@ function UnitAccordion({
                 type="button"
                 onClick={onToggle}
                 className={cn(
-                    "w-full flex flex-col px-4 py-3 text-sm font-semibold transition-all hover:bg-gray-50 group",
+                    "w-full flex flex-col px-4 py-3 text-sm font-semibold transition-all hover:bg-gray-50 group rounded-xl",
                     expanded ? "bg-gray-50" : ""
                 )}
             >
                 <div className="w-full flex items-center gap-3">
+                    {/* Chevron — always on the visual "start" (right in RTL) */}
                     <div
                         className={cn(
                             "w-6 h-6 rounded-lg flex items-center justify-center transition-all shrink-0",
@@ -257,14 +232,16 @@ function UnitAccordion({
                             ? <ChevronDown className="w-3.5 h-3.5" />
                             : <ChevronRight className="w-3.5 h-3.5 rtl:rotate-180" />}
                     </div>
+                    {/* Title */}
                     <span className="flex-1 text-right text-[13px] line-clamp-1">{unit.title}</span>
-                    <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded-md font-bold shrink-0">
+                    {/* Count badge — on the visual "end" (left in RTL) */}
+                    <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded-md font-bold shrink-0 tabular-nums">
                         {totalItems}
                     </span>
                 </div>
                 {/* Mini progress bar */}
                 {totalItems > 0 && (
-                    <div className="w-full h-1 bg-gray-100 rounded-full mt-2 overflow-hidden">
+                    <div className="w-full h-1 bg-gray-100 rounded-full mt-2.5 overflow-hidden">
                         <div
                             className={cn(
                                 "h-full rounded-full transition-all duration-500",
@@ -277,7 +254,7 @@ function UnitAccordion({
             </button>
 
             {expanded && (
-                <div className="bg-gray-50/50 border-e-2 border-[#6c3aff]/20 me-4 pe-1 py-1 space-y-0.5">
+                <div className="bg-gray-50/50 border-s-2 border-[#6c3aff]/20 ms-5 ps-2 py-1 space-y-0.5">
                     {unit.lessons.map((l) => (
                         <LessonRow
                             key={l.lessonId}
@@ -315,12 +292,23 @@ export function LessonSidebar({ subjectId, categoryId, currentLessonId }: Lesson
     const [expandedUnits, setExpandedUnits] = useState<Record<string, boolean>>({});
     const [expandedSubUnits, setExpandedSubUnits] = useState<Record<string, boolean>>({});
 
-    useEffect(() => {
+    const fetchSubject = useCallback(() => {
         setLoading(true);
         getSubjectById(subjectId)
             .then(setSubject)
             .finally(() => setLoading(false));
     }, [subjectId]);
+
+    useEffect(() => {
+        fetchSubject();
+    }, [fetchSubject]);
+
+    // Re-fetch when a lesson is marked complete so progress updates immediately
+    useEffect(() => {
+        const handler = () => fetchSubject();
+        window.addEventListener("lesson:completed", handler);
+        return () => window.removeEventListener("lesson:completed", handler);
+    }, [fetchSubject]);
 
     // Auto-expand the unit/sub-unit containing the current lesson
     useEffect(() => {
