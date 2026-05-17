@@ -1,14 +1,22 @@
-export { getPublicCategories, getCategoryById, categoriesQueryKeys } from "./categories-api";
-export type { GetCategoriesParams } from "./categories-api";
 export type {
-    Category,
-    CategoriesPagination,
-    CategoriesResponse,
-    Lesson,
-    Exam,
-    SubUnit,
-    Unit,
-    Subject,
-    CategoryDetail,
-    CategoryDetailResponse,
+  CategoriesPagination,
+  CategoriesResponse,
+  Category,
+  CategoryDetail,
+  CategoryDetailResponse,
+  Exam,
+  Lesson,
+  MyCategoriesResponse,
+  MyCategory,
+  MyCategorySubject,
+  Subject,
+  SubUnit,
+  Unit,
 } from "../model";
+export type { GetCategoriesParams } from "./categories-api";
+export {
+  categoriesQueryKeys,
+  getCategoryById,
+  getMyCategories,
+  getPublicCategories,
+} from "./categories-api";

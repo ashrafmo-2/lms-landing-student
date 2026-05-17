@@ -1,37 +1,65 @@
-import { privateApi, BASE_URL } from "@/shared/api";
 import type {
-    CategoriesResponse,
-    Category,
-    CategoryDetail,
-    CategoryDetailResponse,
+  SubjectDetail,
+  SubjectDetailResponse,
+} from "@/entities/lessons/model";
+import { BASE_URL, privateApi } from "@/shared/api";
+import type {
+  CategoriesResponse,
+  Category,
+  CategoryDetail,
+  CategoryDetailResponse,
+  MyCategoriesResponse,
 } from "../model";
-import type { SubjectDetail, SubjectDetailResponse } from "@/entities/lessons/model";
 
 const publicBase = BASE_URL.replace(/\/student$/, "/public");
 
 export type GetCategoriesParams = {
-    search?: string;
-    perPage?: number;
-    page?: number;
+  search?: string;
+  perPage?: number;
+  page?: number;
 };
 
 export const getPublicCategories = async (
-    params: GetCategoriesParams = {}
-): Promise<{ categories: Category[]; pagination: CategoriesResponse["data"]["pagination"] }> => {
-    const { search, perPage = 12, page = 1 } = params;
+  params: GetCategoriesParams = {},
+): Promise<{
+  categories: Category[];
+  pagination: CategoriesResponse["data"]["pagination"];
+}> => {
+  const { search, perPage = 12, page = 1 } = params;
 
-    // Use privateApi so the Bearer token is attached when the student is logged in.
-    // The interceptor skips the header silently when no token exists, so this works
-    // for both authenticated and unauthenticated requests.
-    const { data } = await privateApi.get<CategoriesResponse>(`${publicBase}/categories`, {
-        params: {
-            ...(search ? { "filter[search]": search } : {}),
-            perPage,
-            page,
-        },
-    });
+  // Use privateApi so the Bearer token is attached when the student is logged in.
+  // The interceptor skips the header silently when no token exists, so this works
+  // for both authenticated and unauthenticated requests.
+  const { data } = await privateApi.get<CategoriesResponse>(
+    `${publicBase}/categories`,
+    {
+      params: {
+        ...(search ? { "filter[search]": search } : {}),
+        perPage,
+        page,
+      },
+    },
+  );
 
-    return data.data;
+  return data.data;
+};
+
+export const getMyCategories = async (
+  params: Pick<GetCategoriesParams, "perPage" | "page"> = {},
+): Promise<MyCategoriesResponse["data"]> => {
+  const { perPage = 12, page = 1 } = params;
+
+  const { data } = await privateApi.get<MyCategoriesResponse>(
+    "/categories/my-categories",
+    {
+      params: {
+        perPage,
+        page,
+      },
+    },
+  );
+
+  return data.data;
 };
 
 // ─── Detail ───────────────────────────────────────────────────────────────────
@@ -40,24 +68,29 @@ export const getPublicCategories = async (
 // Falls back gracefully when no token is present (interceptor skips the header).
 
 export const getCategoryById = async (id: number): Promise<CategoryDetail> => {
-    const { data } = await privateApi.get<CategoryDetailResponse>(
-        `${publicBase}/categories/${id}`
-    );
-    return data.data;
+  const { data } = await privateApi.get<CategoryDetailResponse>(
+    `${publicBase}/categories/${id}`,
+  );
+  return data.data;
 };
 
-export const getSubjectDetail = async (id: number | string): Promise<SubjectDetail> => {
-    const { data } = await privateApi.get<SubjectDetailResponse>(
-        `/subjects/${id}`
-    );
-    return data.data;
+export const getSubjectDetail = async (
+  id: number | string,
+): Promise<SubjectDetail> => {
+  const { data } = await privateApi.get<SubjectDetailResponse>(
+    `/subjects/${id}`,
+  );
+  return data.data;
 };
 
 // ─── Query keys ───────────────────────────────────────────────────────────────
 
 export const categoriesQueryKeys = {
-    all: ["categories"] as const,
-    public: (params?: GetCategoriesParams) => ["categories", "public", params] as const,
-    detail: (id: number) => ["categories", "detail", id] as const,
-    subjectDetail: (id: number | string) => ["subjects", "detail", id] as const,
+  all: ["categories"] as const,
+  public: (params?: GetCategoriesParams) =>
+    ["categories", "public", params] as const,
+  my: (params?: Pick<GetCategoriesParams, "perPage" | "page">) =>
+    ["categories", "my", params] as const,
+  detail: (id: number) => ["categories", "detail", id] as const,
+  subjectDetail: (id: number | string) => ["subjects", "detail", id] as const,
 };

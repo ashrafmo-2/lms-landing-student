@@ -1,46 +1,20 @@
 "use client";
 
-import { useState, useRef } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { Eye, EyeOff, Mail, Lock, User, Phone, Loader2, CheckCircle, ShieldCheck } from "lucide-react";
+
 import { useAuth } from "@/contexts/auth-context";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { getApiErrorMessage } from "@/shared/lib/api-error";
-
-const signupSchema = z
-    .object({
-        name: z.string().min(3, "الاسم يجب أن يكون 3 أحرف على الأقل"),
-        email: z.string().email("البريد الإلكتروني غير صحيح"),
-        phone: z
-            .string()
-            .regex(/^01[0-9]{9}$/, "رقم الهاتف غير صحيح (مثال: 01012345678)")
-            .optional()
-            .or(z.literal("")),
-        password: z
-            .string()
-            .min(8, "كلمة المرور يجب أن تكون 8 أحرف على الأقل")
-            .regex(/[A-Za-z]/, "يجب أن تحتوي على حروف")
-            .regex(/[0-9]/, "يجب أن تحتوي على أرقام"),
-        confirmPassword: z.string(),
-    })
-    .refine((d) => d.password === d.confirmPassword, {
-        message: "كلمتا المرور غير متطابقتين",
-        path: ["confirmPassword"],
-    });
-
-type SignupFormValues = z.infer<typeof signupSchema>;
+import { SignupFormValues, createSignupSchema } from "@/features/auth/signup/schema";
+import { LabelDir } from "@/shared/ui/Label-dir";
 
 
-function OtpInput({
-    value,
-    onChange,
-}: {
-    value: string[];
-    onChange: (v: string[]) => void;
-}) {
+function OtpInput({ value, onChange }: {value: string[]; onChange: (v: string[]) => void}) {
     const refs = [
         useRef<HTMLInputElement>(null),
         useRef<HTMLInputElement>(null),
@@ -91,9 +65,6 @@ function OtpInput({
     );
 }
 
-import { useLocale, useTranslations } from "next-intl";
-
-// ─── Main Page ────────────────────────────────────────────────────────────────
 export default function SignupPage() {
     const t = useTranslations("Auth.signup");
     const tOtp = useTranslations("Auth.otp");
@@ -108,29 +79,6 @@ export default function SignupPage() {
 
     const locale = useLocale();
 
-    const signupSchema = z
-        .object({
-            name: z.string().min(3, t("errors.nameMin")),
-            email: z.string().email(t("errors.emailInvalid")),
-            phone: z
-                .string()
-                .regex(/^01[0-9]{9}$/, t("errors.phoneInvalid"))
-                .optional()
-                .or(z.literal("")),
-            password: z
-                .string()
-                .min(8, t("errors.passwordMin"))
-                .regex(/[A-Za-z]/, t("errors.passwordLetter"))
-                .regex(/[0-9]/, t("errors.passwordNumber")),
-            confirmPassword: z.string(),
-        })
-        .refine((d) => d.password === d.confirmPassword, {
-            message: t("errors.passwordsMismatch"),
-            path: ["confirmPassword"],
-        });
-
-    type SignupFormValues = z.infer<typeof signupSchema>;
-
     const passwordRules = [
         { label: t("passwordRules.minChars"), test: (p: string) => p.length >= 8 },
         { label: t("passwordRules.uppercase"), test: (p: string) => /[A-Z]/.test(p) },
@@ -140,12 +88,8 @@ export default function SignupPage() {
     const { register: registerUser, verifyOtp } = useAuth();
     const router = useRouter();
 
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors, isSubmitting },
-    } = useForm<SignupFormValues>({ resolver: zodResolver(signupSchema) });
+    const signupSchema = createSignupSchema(t);
+    const { register, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm<SignupFormValues>({ resolver: zodResolver(signupSchema) });
 
     const passwordValue = watch("password", "");
 
@@ -238,7 +182,6 @@ export default function SignupPage() {
         );
     }
 
-    // ── Register Step UI ────────────────────────────────────────────────────────
     return (
         <div className="w-full max-w-md">
             <div className="bg-white rounded-2xl shadow-xl border border-[#e2e8f0] p-8">
@@ -251,18 +194,12 @@ export default function SignupPage() {
                     </p>
                 </div>
 
-                {serverError && (
-                    <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600 text-center">
-                        {serverError}
-                    </div>
-                )}
+                {serverError && ( <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600 text-center"> {serverError} </div>)}
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    {/* Name */}
                     <div>
-                        <label className="block text-sm font-medium text-[#0f172a] mb-1.5">
-                            {t("name")}
-                        </label>
+                        <LabelDir labeltitle={t("name")} />
+                        
                         <div className="relative">
                             <User className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94a3b8]" />
                             <input
@@ -280,21 +217,15 @@ export default function SignupPage() {
                         )}
                     </div>
 
-                    {/* Email */}
                     <div>
-                        <label className="block text-sm font-medium text-[#0f172a] mb-1.5">
-                            {t("email")}
-                        </label>
+                        <LabelDir labeltitle={t("email")} />
                         <div className="relative">
                             <Mail className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94a3b8]" />
                             <input
                                 type="email"
                                 placeholder="example@email.com"
                                 dir="ltr"
-                                className={`w-full pr-10 pl-4 py-2.5 rounded-xl border text-sm outline-none transition-all ${errors.email
-                                    ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                                    : "border-[#e2e8f0] focus:border-[#6c3aff] focus:ring-2 focus:ring-[#6c3aff]/20"
-                                    }`}
+                                className={`w-full pr-10 pl-4 py-2.5 rounded-xl border text-sm outline-none transition-all ${errors.email ? "border-red-400 focus:ring-2 focus:ring-red-200" : "border-[#e2e8f0] focus:border-[#6c3aff] focus:ring-2 focus:ring-[#6c3aff]/20"}`}
                                 {...register("email")}
                             />
                         </div>
@@ -303,12 +234,10 @@ export default function SignupPage() {
                         )}
                     </div>
 
-                    {/* Phone */}
                     <div>
-                        <label className="block text-sm font-medium text-[#0f172a] mb-1.5">
-                            {t("phone")}{" "}
-                            <span className="text-[#94a3b8] font-normal">{t("optional")}</span>
-                        </label>
+                        <LabelDir labeltitle={t("phone")} />
+                        <span className="text-[#94a3b8] font-normal">{t("optional")}</span>
+
                         <div className="relative">
                             <Phone className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94a3b8]" />
                             <input
@@ -327,11 +256,9 @@ export default function SignupPage() {
                         )}
                     </div>
 
-                    {/* Password */}
                     <div>
-                        <label className="block text-sm font-medium text-[#0f172a] mb-1.5">
-                            {t("password")}
-                        </label>
+                        <LabelDir labeltitle={t("password")} />
+
                         <div className="relative">
                             <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94a3b8]" />
                             <input
@@ -373,11 +300,9 @@ export default function SignupPage() {
                         )}
                     </div>
 
-                    {/* Confirm Password */}
                     <div>
-                        <label className="block text-sm font-medium text-[#0f172a] mb-1.5">
-                            {t("confirmPassword")}
-                        </label>
+                        <LabelDir labeltitle={t("confirmPassword")} />
+
                         <div className="relative">
                             <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94a3b8]" />
                             <input
@@ -405,11 +330,7 @@ export default function SignupPage() {
                         )}
                     </div>
 
-                    <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full flex items-center justify-center gap-2 bg-[#6c3aff] hover:bg-[#5228e8] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#6c3aff]/30 mt-2"
-                    >
+                    <button type="submit" disabled={isSubmitting} className="w-full flex items-center justify-center gap-2 bg-[#6c3aff] hover:bg-[#5228e8] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#6c3aff]/30 mt-2">
                         {isSubmitting ? (
                             <>
                                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -423,12 +344,9 @@ export default function SignupPage() {
 
                 <p className="text-center text-sm text-[#64748b] mt-6">
                     {t("hasAccount")}{" "}
-                    <Link href="/auth/login" className="text-[#6c3aff] font-semibold hover:underline">
-                        {t("loginLink")}
-                    </Link>
+                    <Link href="/auth/login" className="text-[#6c3aff] font-semibold hover:underline">{t("loginLink")}</Link>
                 </p>
             </div>
         </div>
     );
 }
-
