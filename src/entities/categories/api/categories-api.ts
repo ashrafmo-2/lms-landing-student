@@ -30,18 +30,34 @@ export const getPublicCategories = async (
   // Use privateApi so the Bearer token is attached when the student is logged in.
   // The interceptor skips the header silently when no token exists, so this works
   // for both authenticated and unauthenticated requests.
-  const { data } = await privateApi.get<CategoriesResponse>(
-    `${publicBase}/categories`,
-    {
-      params: {
-        ...(search ? { "filter[search]": search } : {}),
-        perPage,
-        page,
+  try {
+    const { data } = await privateApi.get<CategoriesResponse>(
+      `${publicBase}/categories`,
+      {
+        params: {
+          ...(search ? { "filter[search]": search } : {}),
+          perPage,
+          page,
+        },
       },
-    },
-  );
+    );
 
-  return data.data;
+    if (data.data?.categories) {
+      return data.data;
+    }
+  } catch {
+    // Keep the landing usable if the public API is temporarily unavailable.
+  }
+
+  return {
+    categories: [],
+    pagination: {
+      total: 0,
+      perPage,
+      currentPage: page,
+      totalPages: 1,
+    },
+  };
 };
 
 export const getMyCategories = async (

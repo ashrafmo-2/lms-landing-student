@@ -233,7 +233,7 @@ export default function ForgotPasswordPage() {
                     <p className="text-sm text-[#64748b] mb-8">
                         {tReset("successDesc")}
                     </p>
-                    <button onClick={() => router.push(`${locale}/auth/login`)} className="w-full bg-[#6c3aff] hover:bg-[#5228e8] text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#6c3aff]/30">
+                    <button onClick={() => router.push(`/${locale}/auth/login`)} className="w-full bg-[#6c3aff] hover:bg-[#5228e8] text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#6c3aff]/30">
                         {tReset("loginLink") || tSignup("loginLink")}
                     </button>
                 </div>
@@ -305,7 +305,7 @@ export default function ForgotPasswordPage() {
 
                         <div className="mt-6 text-center">
                             <Link
-                                href={`${locale}/auth/login`}
+                                href={`/${locale}/auth/login`}
                                 className="inline-flex items-center gap-2 text-sm text-[#64748b] hover:text-[#6c3aff] transition-colors"
                             >
                                 <ArrowRight className="w-4 h-4 ltr:rotate-180" />
@@ -482,4 +482,3 @@ export default function ForgotPasswordPage() {
         </div>
     );
 }
-

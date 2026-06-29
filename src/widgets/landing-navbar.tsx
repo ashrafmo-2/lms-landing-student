@@ -1,16 +1,30 @@
 "use client";
 
-import { BookOpen, ChevronDown, ClipboardList, CreditCard, GraduationCap, Home, Layers, LogOut, Menu, Phone, Trophy, User, X } from "lucide-react";
+import {
+  BookOpen,
+  ChevronDown,
+  ClipboardList,
+  CreditCard,
+  GraduationCap,
+  Home,
+  Layers,
+  LogOut,
+  Menu,
+  Phone,
+  Presentation,
+  Trophy,
+  User,
+  X,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
 import { Link } from "@/shared/i18n/routing";
 import { stripLocale } from "@/shared/lib/strip-locale";
-
+import { LanguageSwitcher } from "@/shared/ui/language-switcher";
 
 function isActive(href: string, pathname: string): boolean {
-  // Hash anchor links are never highlighted as active
   if (href.includes("#")) return false;
 
   const cleanHref = stripLocale(href);
@@ -21,10 +35,21 @@ function isActive(href: string, pathname: string): boolean {
   return cleanPath === cleanHref || cleanPath.startsWith(`${cleanHref}/`);
 }
 
-// ─── User Avatar ──────────────────────────────────────────────────────────────
-
-function UserAvatar({ name, avatar, size = "sm" }: { name: string; avatar?: string | null; size?: "sm" | "md" | "lg" }) {
-  const dim = size === "sm" ? "w-8 h-8 text-xs" : size === "md" ? "w-10 h-10 text-sm" : "w-14 h-14 text-base";
+function UserAvatar({
+  name,
+  avatar,
+  size = "sm",
+}: {
+  name: string;
+  avatar?: string | null;
+  size?: "sm" | "md" | "lg";
+}) {
+  const dim =
+    size === "sm"
+      ? "w-8 h-8 text-xs"
+      : size === "md"
+        ? "w-10 h-10 text-sm"
+        : "w-14 h-14 text-base";
 
   if (avatar) {
     return (
@@ -37,7 +62,9 @@ function UserAvatar({ name, avatar, size = "sm" }: { name: string; avatar?: stri
   }
 
   return (
-    <div className={`${dim} rounded-full bg-linear-to-br from-[#6c3aff] to-[#f97316] flex items-center justify-center text-white font-bold shrink-0`}>
+    <div
+      className={`${dim} rounded-full bg-linear-to-br from-[#6c3aff] to-[#f97316] flex items-center justify-center text-white font-bold shrink-0`}
+    >
       {name?.[0] ?? "؟"}
     </div>
   );
@@ -49,11 +76,12 @@ function UserDropdown({ onClose }: { onClose: () => void }) {
   const pathname = usePathname();
 
   const menuItems = [
-    { icon: User, label: t("dropdown.profile"), href: `/profile` },
-    { icon: BookOpen, label: t("dropdown.myCourses"), href: `/courses` },
-    { icon: ClipboardList, label: t("dropdown.exams"), href: `/exams` },
-    { icon: Trophy, label: t("dropdown.achievements"), href: `/achievements` },
-    { icon: CreditCard, label: t("dropdown.subscriptions"), href: `/subscriptions` },
+    { icon: User, label: t("dropdown.profile"), href: "/profile" },
+    { icon: BookOpen, label: t("dropdown.myCourses"), href: "/courses" },
+    { icon: ClipboardList, label: t("dropdown.exams"), href: "/exams" },
+    { icon: Trophy, label: t("dropdown.achievements"), href: "/achievements" },
+    { icon: CreditCard, label: t("dropdown.subscriptions"), href: "/subscriptions" },
+    { icon: Presentation, label: "Workshops", href: "/dashboard/workshops" },
   ];
 
   return (
@@ -106,7 +134,6 @@ function UserDropdown({ onClose }: { onClose: () => void }) {
   );
 }
 
-
 function MobileDrawer({
   open,
   onClose,
@@ -127,11 +154,10 @@ function MobileDrawer({
     };
   }, [open]);
 
-  // Close on Escape
   useEffect(() => {
     if (!open) return;
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+    const handler = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
@@ -142,20 +168,18 @@ function MobileDrawer({
   const navLinks = [
     { icon: Home, label: t("home"), href: "/" },
     { icon: Layers, label: t("tracks"), href: "/tracks" },
+    { icon: Presentation, label: locale === "ar" ? "الوركشوبات" : "Workshops", href: "/workshops" },
     { icon: BookOpen, label: t("courses"), href: "/#modules" },
     { icon: Phone, label: t("contact"), href: "/#contact" },
   ];
 
   const accountLinks = [
+    { icon: Presentation, label: locale === "ar" ? "وركشوباتي" : "My workshops", href: "/dashboard/workshops" },
     { icon: User, label: t("dropdown.profile"), href: "/profile" },
     { icon: BookOpen, label: t("dropdown.myCourses"), href: "/courses" },
     { icon: ClipboardList, label: t("dropdown.exams"), href: "/exams" },
     { icon: Trophy, label: t("dropdown.achievements"), href: "/achievements" },
-    {
-      icon: CreditCard,
-      label: t("dropdown.subscriptions"),
-      href: "/subscriptions",
-    },
+    { icon: CreditCard, label: t("dropdown.subscriptions"), href: "/subscriptions" },
   ];
 
   const activeLinkClass = "bg-[#f5f3ff] text-[#6c3aff] font-semibold";
@@ -164,20 +188,21 @@ function MobileDrawer({
 
   return (
     <>
-      {/* Backdrop */}
       <button
         type="button"
         aria-label="Close menu"
         onClick={onClose}
-        className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-opacity duration-300 md:hidden ${open ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+        className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-opacity duration-300 md:hidden ${
+          open ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
       />
 
-      {/* Drawer panel */}
       <div
-        className={`fixed top-0 ${isRtl ? "right-0" : "left-0"} h-full w-80 max-w-[85vw] bg-white z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${open ? "translate-x-0" : isRtl ? "translate-x-full" : "-translate-x-full"}`}
+        className={`fixed top-0 ${isRtl ? "right-0" : "left-0"} h-full w-80 max-w-[85vw] bg-white z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
+          open ? "translate-x-0" : isRtl ? "translate-x-full" : "-translate-x-full"
+        }`}
         dir={isRtl ? "rtl" : "ltr"}
       >
-        {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 shrink-0">
           <Link href="/" onClick={onClose} className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-[#6c3aff] flex items-center justify-center">
@@ -197,9 +222,7 @@ function MobileDrawer({
           </button>
         </div>
 
-        {/* Scrollable body */}
         <div className="flex-1 overflow-y-auto px-4 py-4 space-y-6">
-          {/* Nav links */}
           <div>
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-2 mb-2">
               {t("quickLinks")}
@@ -210,7 +233,9 @@ function MobileDrawer({
                   key={href}
                   href={href}
                   onClick={onClose}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${isActive(href, pathname) ? activeLinkClass : inactiveLinkClass}`}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${
+                    isActive(href, pathname) ? activeLinkClass : inactiveLinkClass
+                  }`}
                 >
                   <Icon className="w-4 h-4 shrink-0" />
                   {label}
@@ -219,10 +244,8 @@ function MobileDrawer({
             </nav>
           </div>
 
-          {/* Account section */}
           {isAuthenticated ? (
             <div>
-              {/* User card */}
               <div className="flex items-center gap-3 p-3 rounded-2xl bg-linear-to-br from-[#f5f3ff] to-[#ede9ff] mb-3">
                 <UserAvatar
                   name={user?.name ?? ""}
@@ -248,7 +271,9 @@ function MobileDrawer({
                     key={href}
                     href={href}
                     onClick={onClose}
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${isActive(href, pathname) ? activeLinkClass : inactiveLinkClass}`}
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${
+                      isActive(href, pathname) ? activeLinkClass : inactiveLinkClass
+                    }`}
                   >
                     <Icon className="w-4 h-4 shrink-0" />
                     {label}
@@ -276,7 +301,6 @@ function MobileDrawer({
           )}
         </div>
 
-        {/* Footer — logout */}
         {isAuthenticated && (
           <div className="shrink-0 px-4 py-4 border-t border-gray-100">
             <button
@@ -297,11 +321,10 @@ function MobileDrawer({
   );
 }
 
-// ─── Navbar ───────────────────────────────────────────────────────────────────
-
 export function Navbar() {
   const t = useTranslations("Landing.navbar");
   const tCommon = useTranslations("Common");
+  const locale = useLocale();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { isAuthenticated, user } = useAuth();
@@ -309,10 +332,10 @@ export function Navbar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
+    function handleClickOutside(event: MouseEvent) {
       if (
         dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
+        !dropdownRef.current.contains(event.target as Node)
       ) {
         setDropdownOpen(false);
       }
@@ -321,11 +344,10 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // next-intl's <Link> prepends the locale automatically — keep hrefs locale-free
   const navLinks = [
-    { label: t("home"), href: "/" },
     { label: t("features"), href: "/#features" },
     { label: t("howItWorks"), href: "/#how-it-works" },
+    { label: locale === "ar" ? "الوركشوبات" : "Workshops", href: "/workshops" },
     { label: t("courses"), href: "/#modules" },
     { label: t("contact"), href: "/#contact" },
     { label: t("tracks"), href: "/tracks" },
@@ -343,7 +365,6 @@ export function Navbar() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#e2e8f0] shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
               <div className="w-9 h-9 rounded-xl bg-[#6c3aff] flex items-center justify-center">
                 <GraduationCap className="w-5 h-5 text-white" />
@@ -353,7 +374,6 @@ export function Navbar() {
               </span>
             </Link>
 
-            {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => (
                 <Link
@@ -369,13 +389,13 @@ export function Navbar() {
               ))}
             </nav>
 
-            {/* Desktop Auth */}
             <div className="hidden md:flex items-center gap-3">
+              <LanguageSwitcher />
               {isAuthenticated ? (
                 <div className="relative" ref={dropdownRef}>
                   <button
                     type="button"
-                    onClick={() => setDropdownOpen((v) => !v)}
+                    onClick={() => setDropdownOpen((value) => !value)}
                     className="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-[#f5f3ff] transition-colors"
                   >
                     <UserAvatar name={user?.name ?? ""} avatar={user?.avatar} />
@@ -383,7 +403,9 @@ export function Navbar() {
                       {user?.name}
                     </span>
                     <ChevronDown
-                      className={`w-4 h-4 text-[#64748b] transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}
+                      className={`w-4 h-4 text-[#64748b] transition-transform duration-200 ${
+                        dropdownOpen ? "rotate-180" : ""
+                      }`}
                     />
                   </button>
                   {dropdownOpen && (
@@ -408,12 +430,11 @@ export function Navbar() {
               )}
             </div>
 
-            {/* Mobile hamburger */}
             <button
               type="button"
               className="md:hidden p-2 rounded-lg text-[#64748b] hover:bg-[#f8fafc] transition-colors"
               onClick={() => setDrawerOpen(true)}
-              aria-label="Open menu"
+              aria-label={locale === "ar" ? "فتح القائمة" : "Open menu"}
             >
               <Menu className="w-5 h-5" />
             </button>
@@ -421,7 +442,6 @@ export function Navbar() {
         </div>
       </header>
 
-      {/* Mobile drawer — rendered outside header so it can cover full viewport */}
       <MobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
     </>
   );

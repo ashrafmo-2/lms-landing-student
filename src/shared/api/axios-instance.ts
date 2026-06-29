@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const BASE_URL =
-    "https://lms-api.testingelmo.com/api/v1/student";
+    "http://127.0.0.1:8000/api/v1/student";
 
 // ─── Public client (no auth) ────────────────────────────────────────────────
 export const publicApi = axios.create({

@@ -4,6 +4,7 @@ import { CTASection } from "@/components/landing/cta-section";
 import { FeaturesSection } from "@/components/landing/features-section";
 import { HeroSection } from "@/components/landing/hero-section";
 import { HowItWorksSection } from "@/components/landing/how-it-works-section";
+import { WorkshopSection } from "@/components/landing/workshop-section";
 
 import { Footer } from "@/widgets/landing-footer";
 import { Navbar } from "@/widgets/landing-navbar";
@@ -15,6 +16,7 @@ export default function Home() {
       <HeroSection />
       <FeaturesSection />
       <HowItWorksSection />
+      <WorkshopSection />
       <CoursesSection />
       <ContactSection />
       <CTASection />

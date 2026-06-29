@@ -39,6 +39,9 @@
         "downloaded": "Downloaded",
         "offlineAvailable": "Available Offline",
         "examResult": "Exam Result"
+        ,
+        "sampleUser": "Ahmed Mohamed",
+        "sampleInitials": ["A", "M", "S"]
       }
     },
     "features": {
@@ -232,6 +235,7 @@
       "dashboard": "Dashboard",
       "myCourses": "My Courses",
       "tracks": "Tracks",
+      "workshops": "Workshops",
       "settings": "Settings",
       "logout": "Logout"
     },
