@@ -32,10 +32,41 @@ export type WorkshopTask = {
     points?: number;
     difficulty: "beginner" | "intermediate" | "advanced";
     estimatedTime?: string;
-    submissionType: "link" | "file" | "text" | "quiz" | "checklist";
+    submissionType: "link" | "github" | "file" | "text" | "quiz" | "checklist";
     status?: string;
+    attachments?: WorkshopFile[];
+    rubric?: string[];
+    checklist?: string[];
     feedback?: string;
     score?: number;
+};
+
+export type WorkshopFile = {
+    name?: string;
+    url?: string;
+    path?: string;
+    size?: number;
+    mimeType?: string;
+};
+
+export type WorkshopSubmission = {
+    submissionId: number;
+    workshopId?: number;
+    taskId: number;
+    taskTitle?: string;
+    studentId?: number;
+    studentName?: string;
+    status: "not_submitted" | "submitted" | "late" | "under_review" | "needs_changes" | "approved" | "rejected";
+    submissionUrl?: string;
+    textAnswer?: string;
+    files?: WorkshopFile[];
+    quizAnswers?: unknown[];
+    checklistAnswers?: unknown[];
+    feedback?: string;
+    score?: number;
+    submittedAt?: string;
+    reviewedAt?: string;
+    reviewerName?: string;
 };
 
 export type Workshop = {

@@ -1,5 +1,5 @@
 import { BASE_URL, privateApi, publicApi } from "@/shared/api";
-import type { StudentWorkshop, Workshop, WorkshopTask } from "../model/types";
+import type { StudentWorkshop, Workshop, WorkshopSubmission, WorkshopTask } from "../model/types";
 
 const publicBase = BASE_URL.replace(/\/student$/, "/public");
 
@@ -36,9 +36,9 @@ export const fallbackWorkshop: Workshop = {
         { sessionId: 3, title: "Project review", date: "2026-08-05", time: "19:00", durationMinutes: 90, type: "recorded", status: "upcoming" },
     ],
     tasks: [
-        { taskId: 1, title: "Pre-work checklist", description: "ثبت الأدوات وجهز حساباتك.", deadline: "2026-07-12T20:00:00.000Z", difficulty: "beginner", estimatedTime: "45 دقيقة", submissionType: "checklist", status: "not_started" },
-        { taskId: 2, title: "Weekly assignment", description: "ارفع رابط تصميم الـ API.", deadline: "2026-07-18T20:00:00.000Z", difficulty: "intermediate", estimatedTime: "ساعتين", submissionType: "link", status: "in_progress" },
-        { taskId: 3, title: "Final project", description: "سلم رابط المشروع النهائي.", deadline: "2026-08-07T20:00:00.000Z", difficulty: "advanced", estimatedTime: "6 ساعات", submissionType: "link", status: "not_started" },
+        { taskId: 1, title: "Pre-work checklist", description: "ثبت الأدوات وجهز حساباتك.", instructions: "علّم على كل خطوة بعد الانتهاء.", deadline: "2026-07-12T20:00:00.000Z", difficulty: "beginner", estimatedTime: "45 دقيقة", submissionType: "checklist", status: "not_started", checklist: ["ثبت Node.js", "جهز GitHub", "افتح المشروع محليا"] },
+        { taskId: 2, title: "Weekly assignment", description: "ارفع رابط تصميم الـ API.", instructions: "ارفع رابط repository أو gist فيه التصميم.", deadline: "2026-07-18T20:00:00.000Z", difficulty: "intermediate", estimatedTime: "ساعتين", submissionType: "github", status: "in_progress", rubric: ["وضوح endpoints", "تنظيم الملفات", "توثيق مختصر"] },
+        { taskId: 3, title: "Final project", description: "سلم رابط المشروع النهائي.", instructions: "يمكنك إرسال رابط GitHub أو رفع ملف مضغوط.", deadline: "2026-08-07T20:00:00.000Z", difficulty: "advanced", estimatedTime: "6 ساعات", submissionType: "file", status: "not_started" },
     ],
     faq: [
         { question: "هل الورشة Live؟", answer: "Hybrid، الجلسات الأساسية Live والتسجيلات متاحة بعد كل جلسة." },
@@ -81,15 +81,38 @@ export async function getStudentWorkshops(): Promise<StudentWorkshop[]> {
     }
 }
 
-export async function getStudentTask(taskId: string | number): Promise<{ task: WorkshopTask; submission?: unknown }> {
+function normalizeTask(task: Record<string, unknown>): WorkshopTask {
+    return {
+        taskId: Number(task.taskId ?? task.id),
+        title: String(task.title ?? ""),
+        description: task.description as string | undefined,
+        instructions: task.instructions as string | undefined,
+        deadline: task.deadline as string | undefined,
+        points: task.points as number | undefined,
+        difficulty: (task.difficulty as WorkshopTask["difficulty"]) ?? "beginner",
+        estimatedTime: (task.estimatedTime ?? task.estimated_time) as string | undefined,
+        submissionType: ((task.submissionType ?? task.submission_type) as WorkshopTask["submissionType"]) ?? "link",
+        status: task.status as string | undefined,
+        attachments: (task.attachments as WorkshopTask["attachments"]) ?? [],
+        rubric: (task.rubric as string[]) ?? [],
+        checklist: (task.checklist as string[]) ?? [],
+        feedback: task.feedback as string | undefined,
+        score: task.score as number | undefined,
+    };
+}
+
+export async function getStudentTask(taskId: string | number): Promise<{ task: WorkshopTask; submission?: WorkshopSubmission | null }> {
     try {
         const { data } = await privateApi.get(`/workshop-tasks/${taskId}`);
-        return data.data;
+        return {
+            task: normalizeTask(data.data.task),
+            submission: data.data.submission ?? null,
+        };
     } catch {
         return { task: fallbackWorkshop.tasks?.find((task) => task.taskId === Number(taskId)) ?? fallbackWorkshop.tasks![0] };
     }
 }
 
-export async function submitStudentTask(taskId: string | number, payload: Record<string, unknown>) {
+export async function submitStudentTask(taskId: string | number, payload: FormData | Record<string, unknown>) {
     return privateApi.post(`/workshop-tasks/${taskId}/submit`, payload);
 }
