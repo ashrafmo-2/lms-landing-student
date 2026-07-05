@@ -11,7 +11,7 @@ RUN npm ci
 FROM node:22-alpine AS build
 WORKDIR /app
 
-ARG NEXT_PUBLIC_API_BASE_URL=https://lms-admin.elmotechsoft.online/api/v1/student
+ARG NEXT_PUBLIC_API_BASE_URL=https://lms-backend.elmotechsoft.online/api/v1/student
 ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
 ENV NEXT_TELEMETRY_DISABLED=1
 
