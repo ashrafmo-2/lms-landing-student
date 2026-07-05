@@ -22,7 +22,7 @@ export function UnitSection({ unit, categoryId, subjectId, index, tCommon }: { u
                 <div className="flex items-center gap-3">
                     <div className={cn(
                         "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors",
-                        open ? "bg-[#6c3aff] text-white" : "bg-[#ede9ff] text-[#6c3aff]"
+                        open ? "bg-[#0067b8] text-white" : "bg-[#e8f4ff] text-[#0067b8]"
                     )}>
                         <Layers className="w-5 h-5" />
                     </div>

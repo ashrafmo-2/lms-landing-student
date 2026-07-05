@@ -56,14 +56,14 @@ function UserAvatar({
       <img
         src={avatar}
         alt={name}
-        className={`${dim} rounded-full object-cover ring-2 ring-[#6c3aff]/30`}
+        className={`${dim} object-cover ring-2 ring-[#0067b8]/25`}
       />
     );
   }
 
   return (
     <div
-      className={`${dim} rounded-full bg-linear-to-br from-[#6c3aff] to-[#f97316] flex items-center justify-center text-white font-bold shrink-0`}
+      className={`${dim} bg-linear-to-br from-[#0067b8] to-[#00a6a6] flex items-center justify-center text-white font-bold shrink-0`}
     >
       {name?.[0] ?? "؟"}
     </div>
@@ -80,14 +80,20 @@ function UserDropdown({ onClose }: { onClose: () => void }) {
     { icon: BookOpen, label: t("dropdown.myCourses"), href: "/courses" },
     { icon: ClipboardList, label: t("dropdown.exams"), href: "/exams" },
     { icon: Trophy, label: t("dropdown.achievements"), href: "/achievements" },
-    { icon: CreditCard, label: t("dropdown.subscriptions"), href: "/subscriptions" },
+    {
+      icon: CreditCard,
+      label: t("dropdown.subscriptions"),
+      href: "/subscriptions",
+    },
     { icon: Presentation, label: "Workshops", href: "/dashboard/workshops" },
   ];
 
   return (
-    <div className="absolute left-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-xl border border-[#e2e8f0] overflow-hidden z-50">
-      <div className="px-4 py-3 border-b border-[#f1f5f9] bg-[#f8fafc]">
-        <p className="text-sm font-bold text-[#0f172a] truncate">{user?.name}</p>
+    <div className="absolute left-0 top-full z-50 mt-2 w-56 overflow-hidden border border-[#d9e3ee] bg-white shadow-xl">
+      <div className="border-b border-[#edf2f7] bg-[#f8fbfd] px-4 py-3">
+        <p className="text-sm font-bold text-[#0f172a] truncate">
+          {user?.name}
+        </p>
         <p className="text-xs text-[#64748b] truncate">{user?.email}</p>
       </div>
       <div className="py-1">
@@ -101,15 +107,15 @@ function UserDropdown({ onClose }: { onClose: () => void }) {
               onClick={onClose}
               className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors group ${
                 active
-                  ? "bg-[#f5f3ff] text-[#6c3aff] font-semibold"
-                  : "text-[#374151] hover:bg-[#f5f3ff] hover:text-[#6c3aff]"
+                  ? "bg-[#e8f4ff] text-[#0067b8] font-semibold"
+                  : "text-[#374151] hover:bg-[#f8fbfd] hover:text-[#0067b8]"
               }`}
             >
               <Icon
                 className={`w-4 h-4 transition-colors ${
                   active
-                    ? "text-[#6c3aff]"
-                    : "text-[#9ca3af] group-hover:text-[#6c3aff]"
+                    ? "text-[#0067b8]"
+                    : "text-[#9ca3af] group-hover:text-[#0067b8]"
                 }`}
               />
               {label}
@@ -168,23 +174,35 @@ function MobileDrawer({
   const navLinks = [
     { icon: Home, label: t("home"), href: "/" },
     { icon: Layers, label: t("tracks"), href: "/tracks" },
-    { icon: Presentation, label: locale === "ar" ? "الوركشوبات" : "Workshops", href: "/workshops" },
+    {
+      icon: Presentation,
+      label: locale === "ar" ? "الوركشوبات" : "Workshops",
+      href: "/workshops",
+    },
     { icon: BookOpen, label: t("courses"), href: "/#modules" },
     { icon: Phone, label: t("contact"), href: "/#contact" },
   ];
 
   const accountLinks = [
-    { icon: Presentation, label: locale === "ar" ? "وركشوباتي" : "My workshops", href: "/dashboard/workshops" },
+    {
+      icon: Presentation,
+      label: locale === "ar" ? "وركشوباتي" : "My workshops",
+      href: "/dashboard/workshops",
+    },
     { icon: User, label: t("dropdown.profile"), href: "/profile" },
     { icon: BookOpen, label: t("dropdown.myCourses"), href: "/courses" },
     { icon: ClipboardList, label: t("dropdown.exams"), href: "/exams" },
     { icon: Trophy, label: t("dropdown.achievements"), href: "/achievements" },
-    { icon: CreditCard, label: t("dropdown.subscriptions"), href: "/subscriptions" },
+    {
+      icon: CreditCard,
+      label: t("dropdown.subscriptions"),
+      href: "/subscriptions",
+    },
   ];
 
-  const activeLinkClass = "bg-[#f5f3ff] text-[#6c3aff] font-semibold";
+  const activeLinkClass = "bg-[#e8f4ff] text-[#0067b8] font-semibold";
   const inactiveLinkClass =
-    "text-[#374151] hover:bg-gray-50 hover:text-[#6c3aff]";
+    "text-[#374151] hover:bg-[#f8fbfd] hover:text-[#0067b8]";
 
   return (
     <>
@@ -199,13 +217,17 @@ function MobileDrawer({
 
       <div
         className={`fixed top-0 ${isRtl ? "right-0" : "left-0"} h-full w-80 max-w-[85vw] bg-white z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
-          open ? "translate-x-0" : isRtl ? "translate-x-full" : "-translate-x-full"
+          open
+            ? "translate-x-0"
+            : isRtl
+              ? "translate-x-full"
+              : "-translate-x-full"
         }`}
         dir={isRtl ? "rtl" : "ltr"}
       >
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 shrink-0">
           <Link href="/" onClick={onClose} className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-[#6c3aff] flex items-center justify-center">
+            <div className="w-8 h-8 bg-[#0067b8] flex items-center justify-center">
               <GraduationCap className="w-4 h-4 text-white" />
             </div>
             <span className="text-lg font-bold text-[#0f172a]">
@@ -215,7 +237,7 @@ function MobileDrawer({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+            className="w-8 h-8 bg-[#eef3f8] hover:bg-[#d9e3ee] flex items-center justify-center transition-colors"
             aria-label="Close menu"
           >
             <X className="w-4 h-4 text-gray-600" />
@@ -233,8 +255,10 @@ function MobileDrawer({
                   key={href}
                   href={href}
                   onClick={onClose}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${
-                    isActive(href, pathname) ? activeLinkClass : inactiveLinkClass
+                  className={`flex items-center gap-3 px-3 py-2.5 text-sm transition-colors ${
+                    isActive(href, pathname)
+                      ? activeLinkClass
+                      : inactiveLinkClass
                   }`}
                 >
                   <Icon className="w-4 h-4 shrink-0" />
@@ -246,7 +270,7 @@ function MobileDrawer({
 
           {isAuthenticated ? (
             <div>
-              <div className="flex items-center gap-3 p-3 rounded-2xl bg-linear-to-br from-[#f5f3ff] to-[#ede9ff] mb-3">
+              <div className="mb-3 flex items-center gap-3 border border-[#d9e3ee] bg-linear-to-br from-[#f8fbfd] to-[#e8f4ff] p-3">
                 <UserAvatar
                   name={user?.name ?? ""}
                   avatar={user?.avatar}
@@ -271,8 +295,10 @@ function MobileDrawer({
                     key={href}
                     href={href}
                     onClick={onClose}
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${
-                      isActive(href, pathname) ? activeLinkClass : inactiveLinkClass
+                    className={`flex items-center gap-3 px-3 py-2.5 text-sm transition-colors ${
+                      isActive(href, pathname)
+                        ? activeLinkClass
+                        : inactiveLinkClass
                     }`}
                   >
                     <Icon className="w-4 h-4 shrink-0" />
@@ -286,14 +312,14 @@ function MobileDrawer({
               <Link
                 href="/auth/login"
                 onClick={onClose}
-                className="flex items-center justify-center w-full text-sm font-semibold text-[#6c3aff] border-2 border-[#6c3aff] py-2.5 rounded-xl hover:bg-[#f5f3ff] transition-colors"
+                className="flex w-full items-center justify-center border-2 border-[#0067b8] py-2.5 text-sm font-semibold text-[#0067b8] transition-colors hover:bg-[#e8f4ff]"
               >
                 {t("login")}
               </Link>
               <Link
                 href="/auth/signup"
                 onClick={onClose}
-                className="flex items-center justify-center w-full text-sm font-semibold text-white bg-[#6c3aff] hover:bg-[#5228e8] py-2.5 rounded-xl transition-colors"
+                className="flex w-full items-center justify-center bg-[#0067b8] py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#004a86]"
               >
                 {t("signup")}
               </Link>
@@ -309,7 +335,7 @@ function MobileDrawer({
                 logout();
                 onClose();
               }}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-red-500 hover:bg-red-50 transition-colors"
+              className="flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-red-500 transition-colors hover:bg-red-50"
             >
               <LogOut className="w-4 h-4" />
               {t("logout")}
@@ -356,17 +382,17 @@ export function Navbar() {
   const linkClass = (href: string) =>
     `text-sm font-medium transition-colors ${
       isActive(href, pathname)
-        ? "text-[#6c3aff] font-semibold"
-        : "text-[#64748b] hover:text-[#6c3aff]"
+        ? "text-[#0067b8] font-semibold"
+        : "text-[#64748b] hover:text-[#0067b8]"
     }`;
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#e2e8f0] shadow-sm">
+      <header className="fixed left-0 right-0 top-0 z-50 border-b border-[#d9e3ee] bg-white/86 shadow-sm backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-xl bg-[#6c3aff] flex items-center justify-center">
+              <div className="w-9 h-9 bg-[#0067b8] flex items-center justify-center">
                 <GraduationCap className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-bold text-[#0f172a]">
@@ -383,7 +409,7 @@ export function Navbar() {
                 >
                   {link.label}
                   {isActive(link.href, pathname) && (
-                    <span className="block h-0.5 bg-[#6c3aff] rounded-full mt-0.5" />
+                    <span className="mt-0.5 block h-0.5 bg-[#0067b8]" />
                   )}
                 </Link>
               ))}
@@ -396,7 +422,7 @@ export function Navbar() {
                   <button
                     type="button"
                     onClick={() => setDropdownOpen((value) => !value)}
-                    className="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-[#f5f3ff] transition-colors"
+                    className="flex items-center gap-2 px-2 py-1.5 transition-colors hover:bg-[#e8f4ff]"
                   >
                     <UserAvatar name={user?.name ?? ""} avatar={user?.avatar} />
                     <span className="text-sm font-medium text-[#0f172a] max-w-24 truncate">
@@ -416,13 +442,13 @@ export function Navbar() {
                 <>
                   <Link
                     href="/auth/login"
-                    className="text-sm font-medium text-[#64748b] hover:text-[#6c3aff] transition-colors px-4 py-2"
+                    className="px-4 py-2 text-sm font-medium text-[#64748b] transition-colors hover:text-[#0067b8]"
                   >
                     {t("login")}
                   </Link>
                   <Link
                     href="/auth/signup"
-                    className="text-sm font-medium text-white bg-[#6c3aff] hover:bg-[#5228e8] transition-colors px-4 py-2 rounded-lg"
+                    className="bg-[#0067b8] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#004a86]"
                   >
                     {t("signup")}
                   </Link>

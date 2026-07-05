@@ -114,7 +114,7 @@ function SubscriptionCard({
       <div className="grid grid-cols-2 gap-3 text-sm">
         <div className="rounded-xl bg-gray-50 p-3">
           <p className="text-xs text-gray-500 mb-1">المدفوع</p>
-          <p className="font-extrabold text-[#6c3aff]">
+          <p className="font-extrabold text-[#0067b8]">
             {formatMoney(subscription.paid, locale)}
           </p>
         </div>
@@ -247,8 +247,8 @@ export default function SubscriptionsPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-[#ede9ff] flex items-center justify-center shrink-0">
-                  <CreditCard className="w-6 h-6 text-[#6c3aff]" />
+                <div className="w-12 h-12 rounded-2xl bg-[#e8f4ff] flex items-center justify-center shrink-0">
+                  <CreditCard className="w-6 h-6 text-[#0067b8]" />
                 </div>
                 <div>
                   <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900">
@@ -265,7 +265,7 @@ export default function SubscriptionsPage() {
                   {
                     label: "كل الاشتراكات",
                     value: subscriptions.length,
-                    className: "bg-[#ede9ff] text-[#6c3aff]",
+                    className: "bg-[#e8f4ff] text-[#0067b8]",
                   },
                   {
                     label: "النشطة",
@@ -298,7 +298,7 @@ export default function SubscriptionsPage() {
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                     placeholder="ابحث باسم المسار..."
-                    className="w-full bg-white border border-gray-200 rounded-2xl py-3 ps-11 pe-10 text-sm text-gray-800 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#6c3aff]/40 focus:border-[#6c3aff] transition-all"
+                    className="w-full bg-white border border-gray-200 rounded-2xl py-3 ps-11 pe-10 text-sm text-gray-800 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#0067b8]/40 focus:border-[#0067b8] transition-all"
                   />
                   {searchInput && (
                     <button

@@ -81,7 +81,7 @@ export function SubjectDrawer({ subject, categoryId, gradientClass, open, onClos
                 </div>
 
                 <div className="flex border-b border-gray-100 shrink-0 bg-white">
-                    <button type="button" onClick={() => setTab("units")} className={`flex-1 py-3.5 text-sm font-semibold transition-colors border-b-2 ${tab === "units" ? "border-[#6c3aff] text-[#6c3aff]" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
+                    <button type="button" onClick={() => setTab("units")} className={`flex-1 py-3.5 text-sm font-semibold transition-colors border-b-2 ${tab === "units" ? "border-[#0067b8] text-[#0067b8]" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
                         <span className="flex items-center justify-center gap-1.5">
                             <Layers className="w-4 h-4" />
                             {t("drawer.units")}

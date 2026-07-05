@@ -49,7 +49,7 @@ export default function DashboardWorkshopsPage() {
                             <span>{current.progress}%</span>
                         </div>
                         <div className="mt-3 h-3 overflow-hidden rounded-full bg-background">
-                            <div className="h-full rounded-full bg-[#6c3aff]" style={{ width: `${current.progress}%` }} />
+                            <div className="h-full rounded-full bg-[#0067b8]" style={{ width: `${current.progress}%` }} />
                         </div>
                         <p className="mt-3 text-sm text-muted-foreground">{isAr ? "المرحلة الحالية:" : "Current stage:"} {current.currentMilestone}</p>
                     </div>
@@ -77,12 +77,12 @@ export default function DashboardWorkshopsPage() {
 
             <section className="rounded-3xl bg-card p-6 shadow-sm">
                 <div className="mb-5 flex items-center gap-2">
-                    <CheckSquare className="h-5 w-5 text-[#6c3aff]" />
+                    <CheckSquare className="h-5 w-5 text-[#0067b8]" />
                     <h2 className="text-2xl font-black">{isAr ? "التاسكات المطلوبة" : "Required tasks"}</h2>
                 </div>
                 <div className="grid gap-3">
                     {current.tasks.map((task) => (
-                        <Link key={task.taskId} href={`/dashboard/tasks/${task.taskId}`} className="rounded-2xl border border-border bg-background p-4 transition hover:border-[#6c3aff]">
+                        <Link key={task.taskId} href={`/dashboard/tasks/${task.taskId}`} className="rounded-2xl border border-border bg-background p-4 transition hover:border-[#0067b8]">
                             <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                                 <div>
                                     <p className="font-black">{task.title}</p>

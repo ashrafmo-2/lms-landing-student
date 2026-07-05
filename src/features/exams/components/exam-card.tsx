@@ -30,7 +30,7 @@ export function ExamCard({
     >
       <div className="mb-5 flex items-start justify-between gap-4">
         <div className="flex min-w-0 items-start gap-3">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#ede9ff] text-[#6c3aff] transition-colors group-hover:bg-[#6c3aff] group-hover:text-white">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#e8f4ff] text-[#0067b8] transition-colors group-hover:bg-[#0067b8] group-hover:text-white">
             <ClipboardList className="h-5 w-5" />
           </div>
           <div className="min-w-0">
@@ -60,19 +60,19 @@ export function ExamCard({
 
       <div className="mb-5 grid grid-cols-3 gap-2 text-center">
         <div className="rounded-xl bg-gray-50 p-3">
-          <Clock3 className="mx-auto mb-1 h-4 w-4 text-[#6c3aff]" />
+          <Clock3 className="mx-auto mb-1 h-4 w-4 text-[#0067b8]" />
           <p className="text-xs font-bold text-gray-700">
             {formatMinutes(exam.durationInMinutes, locale)}
           </p>
         </div>
         <div className="rounded-xl bg-gray-50 p-3">
-          <Trophy className="mx-auto mb-1 h-4 w-4 text-[#6c3aff]" />
+          <Trophy className="mx-auto mb-1 h-4 w-4 text-[#0067b8]" />
           <p className="text-xs font-bold text-gray-700">
             {exam.totalMarks} درجة
           </p>
         </div>
         <div className="rounded-xl bg-gray-50 p-3">
-          <Users className="mx-auto mb-1 h-4 w-4 text-[#6c3aff]" />
+          <Users className="mx-auto mb-1 h-4 w-4 text-[#0067b8]" />
           <p className="text-xs font-bold text-gray-700">{score}</p>
         </div>
       </div>
@@ -84,7 +84,7 @@ export function ExamCard({
             ? formatPercent(exam.lastAttempt.percentage, locale)
             : "جاهز للحل"}
         </div>
-        <span className="text-sm font-extrabold text-[#6c3aff]">
+        <span className="text-sm font-extrabold text-[#0067b8]">
           عرض الاختبار
         </span>
       </div>

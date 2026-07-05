@@ -96,7 +96,7 @@ export default function DashboardTaskPage() {
                                     value={submissionUrl}
                                     onChange={(event) => setSubmissionUrl(event.target.value)}
                                     placeholder={task.submissionType === "github" ? "https://github.com/user/repo" : "https://..."}
-                                    className="w-full rounded-2xl border border-border bg-background p-4 outline-none focus:border-[#6c3aff]"
+                                    className="w-full rounded-2xl border border-border bg-background p-4 outline-none focus:border-[#0067b8]"
                                 />
                             </Field>
                         )}
@@ -108,15 +108,15 @@ export default function DashboardTaskPage() {
                                     onChange={(event) => setTextAnswer(event.target.value)}
                                     rows={5}
                                     placeholder={isAr ? "اكتب شرح مختصر للتسليم أو أي ملاحظات للمدرب" : "Add a short explanation or notes for the instructor"}
-                                    className="w-full rounded-2xl border border-border bg-background p-4 outline-none focus:border-[#6c3aff]"
+                                    className="w-full rounded-2xl border border-border bg-background p-4 outline-none focus:border-[#0067b8]"
                                 />
                             </Field>
                         )}
 
                         {["file", "github", "link"].includes(task.submissionType) && (
                             <Field label={isAr ? "رفع ملفات" : "Upload files"} icon={FileArchive}>
-                                <label className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-background p-6 text-center transition hover:border-[#6c3aff]">
-                                    <UploadCloud className="h-8 w-8 text-[#6c3aff]" />
+                                <label className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-background p-6 text-center transition hover:border-[#0067b8]">
+                                    <UploadCloud className="h-8 w-8 text-[#0067b8]" />
                                     <span className="mt-2 text-sm font-bold">{isAr ? "اختر ملف أو أكثر" : "Choose one or more files"}</span>
                                     <span className="mt-1 text-xs text-muted-foreground">{isAr ? "ZIP, PDF, صور، أو ملفات المشروع" : "ZIP, PDF, images, or project files"}</span>
                                     <input
@@ -145,7 +145,7 @@ export default function DashboardTaskPage() {
                     {done && <p className="mt-5 rounded-xl bg-emerald-50 p-3 text-sm font-bold text-emerald-700">{isAr ? "تم تسليم التاسك بنجاح." : "Task submitted successfully."}</p>}
                     {error && <p className="mt-5 rounded-xl bg-red-50 p-3 text-sm font-bold text-red-700">{error}</p>}
 
-                    <button type="button" onClick={submit} disabled={saving} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#6c3aff] px-6 py-3 text-sm font-black text-white disabled:opacity-60">
+                    <button type="button" onClick={submit} disabled={saving} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#0067b8] px-6 py-3 text-sm font-black text-white disabled:opacity-60">
                         <UploadCloud className="h-4 w-4" />
                         {saving ? (isAr ? "جاري التسليم..." : "Submitting...") : (isAr ? "تسليم التاسك" : "Submit task")}
                     </button>
@@ -158,7 +158,7 @@ export default function DashboardTaskPage() {
                             <h2 className="text-xl font-black">{isAr ? "مرفقات المهمة" : "Task attachments"}</h2>
                             <div className="mt-4 space-y-2">
                                 {task.attachments.map((file, index) => (
-                                    <a key={`${file.url ?? file.path ?? index}`} href={file.url ?? file.path} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-2xl border border-border p-3 text-sm font-bold hover:border-[#6c3aff]">
+                                    <a key={`${file.url ?? file.path ?? index}`} href={file.url ?? file.path} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-2xl border border-border p-3 text-sm font-bold hover:border-[#0067b8]">
                                         <span>{file.name ?? `${isAr ? "ملف" : "File"} ${index + 1}`}</span>
                                         <ExternalLink className="h-4 w-4" />
                                     </a>
@@ -176,7 +176,7 @@ function Field({ label, icon: Icon, children }: { label: string; icon: ElementTy
     return (
         <div>
             <label className="mb-2 flex items-center gap-2 text-sm font-bold">
-                <Icon className="h-4 w-4 text-[#6c3aff]" />
+                <Icon className="h-4 w-4 text-[#0067b8]" />
                 {label}
             </label>
             {children}
@@ -233,7 +233,7 @@ function SubmissionStatus({ submission, task, isAr }: { submission: WorkshopSubm
             {submission?.submittedAt && <p className="mt-3 text-sm text-muted-foreground">{isAr ? "تم التسليم:" : "Submitted:"} {new Date(submission.submittedAt).toLocaleString()}</p>}
 
             {submission?.submissionUrl && (
-                <a href={submission.submissionUrl} target="_blank" rel="noreferrer" className="mt-4 flex items-center justify-between rounded-2xl border border-border p-3 text-sm font-bold text-[#6c3aff]">
+                <a href={submission.submissionUrl} target="_blank" rel="noreferrer" className="mt-4 flex items-center justify-between rounded-2xl border border-border p-3 text-sm font-bold text-[#0067b8]">
                     <span>{submission.submissionUrl}</span>
                     <ExternalLink className="h-4 w-4" />
                 </a>

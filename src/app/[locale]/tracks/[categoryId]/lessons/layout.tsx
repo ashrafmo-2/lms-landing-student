@@ -25,7 +25,7 @@ export default function LessonsLayout({
   const fallback = (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="flex flex-col items-center gap-3">
-        <Loader2 className="w-8 h-8 text-[#6c3aff] animate-spin" />
+        <Loader2 className="w-8 h-8 text-[#0067b8] animate-spin" />
         <p className="text-sm text-gray-500">جاري التحميل...</p>
       </div>
     </div>

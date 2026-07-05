@@ -93,8 +93,8 @@ export function ExamsListPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-8">
               <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#ede9ff]">
-                  <ClipboardList className="h-6 w-6 text-[#6c3aff]" />
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#e8f4ff]">
+                  <ClipboardList className="h-6 w-6 text-[#0067b8]" />
                 </div>
                 <div>
                   <h1 className="text-2xl font-extrabold text-gray-900 md:text-3xl">
@@ -111,7 +111,7 @@ export function ExamsListPage() {
                   {
                     label: "كل الاختبارات",
                     value: stats.totalExams,
-                    className: "bg-[#ede9ff] text-[#6c3aff]",
+                    className: "bg-[#e8f4ff] text-[#0067b8]",
                   },
                   {
                     label: "مكتملة",
@@ -144,7 +144,7 @@ export function ExamsListPage() {
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                     placeholder="ابحث باسم الاختبار أو المسار..."
-                    className="w-full rounded-2xl border border-gray-200 bg-white py-3 ps-11 pe-10 text-sm text-gray-800 shadow-sm outline-none transition-all placeholder:text-gray-400 focus:border-[#6c3aff] focus:ring-2 focus:ring-[#6c3aff]/40"
+                    className="w-full rounded-2xl border border-gray-200 bg-white py-3 ps-11 pe-10 text-sm text-gray-800 shadow-sm outline-none transition-all placeholder:text-gray-400 focus:border-[#0067b8] focus:ring-2 focus:ring-[#0067b8]/40"
                   />
                   {searchInput && (
                     <button
@@ -165,7 +165,7 @@ export function ExamsListPage() {
                       onClick={() => setFilter(item.id)}
                       className={`rounded-xl px-4 py-2 text-sm font-bold transition-colors ${
                         filter === item.id
-                          ? "bg-[#6c3aff] text-white"
+                          ? "bg-[#0067b8] text-white"
                           : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
                       }`}
                     >

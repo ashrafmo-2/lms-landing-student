@@ -14,8 +14,8 @@ export function SubUnitSection({ subUnit, categoryId, subjectId, tCommon }: { su
                 className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100 transition-colors text-right"
             >
                 <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-md bg-purple-100 flex items-center justify-center shrink-0">
-                        <Layers className="w-3 h-3 text-purple-600" />
+                    <div className="w-5 h-5 rounded-md bg-[#e8f4ff] flex items-center justify-center shrink-0">
+                        <Layers className="w-3 h-3 text-[#0067b8]" />
                     </div>
                     <span className="text-sm font-bold text-gray-700">{subUnit.title}</span>
                 </div>

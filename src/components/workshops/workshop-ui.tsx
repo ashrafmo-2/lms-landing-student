@@ -39,7 +39,7 @@ export function WorkshopCard({ workshop }: { workshop: Workshop }) {
         <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <div className="flex flex-wrap items-center gap-2">
                 <StatusPill status={workshop.registrationStatus} />
-                <span className="rounded-full bg-violet-50 px-3 py-1 text-xs font-bold text-violet-700">{workshop.deliveryMode}</span>
+                <span className="rounded-full bg-[#e8f4ff] px-3 py-1 text-xs font-bold text-[#0067b8]">{workshop.deliveryMode}</span>
                 <span className="rounded-full bg-sky-50 px-3 py-1 text-xs font-bold text-sky-700">{workshop.level}</span>
             </div>
             <h3 className="mt-4 text-2xl font-black text-slate-950">{workshop.title}</h3>
@@ -50,7 +50,7 @@ export function WorkshopCard({ workshop }: { workshop: Workshop }) {
                 <Info icon={Radio} label={workshop.deliveryMode} />
                 <Info icon={Trophy} label={workshop.isFree ? (locale === "ar" ? "مجاني" : "Free") : `${workshop.price} EGP`} />
             </div>
-            <Link href={`/workshops/${workshop.workshopId}`} className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-[#6c3aff] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#5228e8]">
+            <Link href={`/workshops/${workshop.workshopId}`} className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-[#0067b8] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#004a86]">
                 {locale === "ar" ? "عرض التفاصيل" : "View details"}
             </Link>
         </article>
@@ -62,7 +62,7 @@ export function RoadmapView({ workshop }: { workshop: Workshop }) {
         <div className="grid gap-3 md:grid-cols-5">
             {(workshop.roadmap ?? []).map((item) => (
                 <div key={item.milestoneId} className="rounded-2xl border border-slate-200 bg-white p-4">
-                    <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-[#6c3aff]/10 text-[#6c3aff]">
+                    <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-[#0067b8]/10 text-[#0067b8]">
                         <Layers3 className="h-5 w-5" />
                     </div>
                     <p className="text-sm font-black text-slate-950">{item.title}</p>
@@ -114,7 +114,7 @@ export function DeadlineCallout({ task }: { task?: WorkshopTask }) {
 function Info({ icon: Icon, label }: { icon: React.ElementType; label: string | number }) {
     return (
         <div className="flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-2 text-slate-700">
-            <Icon className="h-4 w-4 text-[#6c3aff]" />
+            <Icon className="h-4 w-4 text-[#0067b8]" />
             <span className="truncate">{label}</span>
         </div>
     );
@@ -124,7 +124,7 @@ export function BadgeList({ badges }: { badges: string[] }) {
     return (
         <div className="flex flex-wrap gap-2">
             {badges.map((badge) => (
-                <span key={badge} className="inline-flex items-center gap-1 rounded-full bg-violet-50 px-3 py-1 text-xs font-bold text-violet-700">
+                <span key={badge} className="inline-flex items-center gap-1 rounded-full bg-[#e8f4ff] px-3 py-1 text-xs font-bold text-[#0067b8]">
                     <CheckCircle2 className="h-3 w-3" />
                     {badge}
                 </span>

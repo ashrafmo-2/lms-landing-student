@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, IBM_Plex_Sans_Arabic } from "next/font/google";
 import "../globals.css";
-import { Providers } from "../providers";
-import { routing } from "@/shared/i18n/routing";
 import { notFound } from "next/navigation";
-import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { routing } from "@/shared/i18n/routing";
+import { Providers } from "../providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,6 +53,8 @@ export default async function RootLayout({
       lang={locale}
       dir={direction}
       className={`${geistSans.variable} ${geistMono.variable} ${ibmPlexSansArabic.variable} h-full antialiased`}
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
     >
       <head>
         {/* Apply saved theme before first paint to avoid flash */}
@@ -74,7 +76,15 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col" style={{ fontFamily: locale === "ar" ? "var(--font-ibm-plex-sans-arabic), sans-serif" : undefined }}>
+      <body
+        className="min-h-full flex flex-col"
+        style={{
+          fontFamily:
+            locale === "ar"
+              ? "var(--font-ibm-plex-sans-arabic), sans-serif"
+              : undefined,
+        }}
+      >
         <NextIntlClientProvider messages={messages}>
           <Providers>{children}</Providers>
         </NextIntlClientProvider>

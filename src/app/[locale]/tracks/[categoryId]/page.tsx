@@ -15,7 +15,7 @@ import { SubjectDrawer } from "@/features/category-details/components/subject-dr
 
 const GRADIENTS = [
     "from-blue-600 to-blue-900",
-    "from-purple-600 to-indigo-900",
+    "from-[#0067b8] to-[#101827]",
     "from-teal-500 to-emerald-800",
     "from-rose-500 to-pink-900",
     "from-orange-500 to-amber-800",
@@ -65,11 +65,11 @@ export default function CategoryDetailPage() {
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
                     <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8">
-                        <Link href="/" className="hover:text-[#6c3aff] transition-colors">
+                        <Link href="/" className="hover:text-[#0067b8] transition-colors">
                             {tLanding("footer.home")}
                         </Link>
                         <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
-                        <Link href={`/${locale}/tracks`} className="hover:text-[#6c3aff] transition-colors">
+                        <Link href={`/${locale}/tracks`} className="hover:text-[#0067b8] transition-colors">
                             {tLanding("navbar.tracks")}
                         </Link>
                         <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
@@ -118,7 +118,7 @@ export default function CategoryDetailPage() {
                                                 {fmt(detail.priceBeforeDiscount)}
                                             </p>
                                         )}
-                                        <p className="text-2xl font-extrabold text-[#6c3aff]">
+                                        <p className="text-2xl font-extrabold text-[#0067b8]">
                                             {fmt(effectivePrice)}
                                         </p>
                                         {hasDiscount && detail.priceAfterDiscount !== null && (
@@ -140,7 +140,7 @@ export default function CategoryDetailPage() {
                                                             firstSubject?.units[0]?.subUnits[0]?.lessons[0];
                                                         return `/${locale}/tracks/${categoryId}/lessons/${firstLesson?.lessonId ?? 1}?subjectId=${firstSubject?.subjectId ?? 1}`;
                                                     })()}
-                                                    className="w-full bg-[#6c3aff] hover:bg-[#5228e8] text-white font-bold py-2.5 rounded-xl transition-all text-sm text-center shadow-md shadow-[#6c3aff]/30"
+                                                    className="w-full bg-[#0067b8] hover:bg-[#004a86] text-white font-bold py-2.5 rounded-xl transition-all text-sm text-center shadow-md shadow-[#0067b8]/30"
                                                 >
                                                     {tLanding("hero.getStarted")}
                                                 </Link>
@@ -148,7 +148,7 @@ export default function CategoryDetailPage() {
                                         ) : (
                                             <button
                                                 type="button"
-                                                className="mt-4 w-full bg-[#6c3aff] hover:bg-[#5228e8] text-white font-bold py-2.5 rounded-xl transition-all text-sm shadow-md shadow-[#6c3aff]/30"
+                                                className="mt-4 w-full bg-[#0067b8] hover:bg-[#004a86] text-white font-bold py-2.5 rounded-xl transition-all text-sm shadow-md shadow-[#0067b8]/30"
                                             >
                                                 {tCommon("subscribeNow")}
                                             </button>
@@ -159,9 +159,9 @@ export default function CategoryDetailPage() {
 
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 {[
-                                    { icon: <BookOpen className="w-5 h-5 text-[#6c3aff]" />, value: detail.totalSubjects, label: t("stats.subject") },
-                                    { icon: <Layers className="w-5 h-5 text-[#6c3aff]" />, value: detail.totalUnits, label: t("stats.unit") },
-                                    { icon: <PlayCircle className="w-5 h-5 text-[#6c3aff]" />, value: detail.totalLessons, label: t("stats.lesson") },
+                                    { icon: <BookOpen className="w-5 h-5 text-[#0067b8]" />, value: detail.totalSubjects, label: t("stats.subject") },
+                                    { icon: <Layers className="w-5 h-5 text-[#0067b8]" />, value: detail.totalUnits, label: t("stats.unit") },
+                                    { icon: <PlayCircle className="w-5 h-5 text-[#0067b8]" />, value: detail.totalLessons, label: t("stats.lesson") },
                                     { icon: <ClipboardList className="w-5 h-5 text-green-500" />, value: detail.totalExams, label: t("stats.exam") },
                                 ].map((s) => (
                                     <div key={s.label} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col items-center text-center gap-2">

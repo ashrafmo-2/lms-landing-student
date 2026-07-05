@@ -15,7 +15,7 @@ import { Navbar } from "@/widgets/landing-navbar";
 
 const GRADIENTS = [
   "from-blue-600 to-blue-900",
-  "from-purple-600 to-indigo-900",
+  "from-[#0067b8] to-[#101827]",
   "from-teal-500 to-emerald-800",
   "from-rose-500 to-pink-900",
   "from-orange-500 to-amber-800",
@@ -134,8 +134,8 @@ export default function MyCoursesPage() {
             <div className="mb-10">
               {/* Greeting */}
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-[#ede9ff] flex items-center justify-center shrink-0">
-                  <BookOpen className="w-6 h-6 text-[#6c3aff]" />
+                <div className="w-12 h-12 rounded-2xl bg-[#e8f4ff] flex items-center justify-center shrink-0">
+                  <BookOpen className="w-6 h-6 text-[#0067b8]" />
                 </div>
                 <div>
                   <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900">
@@ -143,7 +143,7 @@ export default function MyCoursesPage() {
                   </h1>
                   <p className="text-sm text-gray-500 mt-0.5">
                     مرحباً {user?.name} — لديك{" "}
-                    <span className="font-bold text-[#6c3aff]">
+                    <span className="font-bold text-[#0067b8]">
                       {courses.length}
                     </span>{" "}
                     {courses.length === 1 ? "مسار مشترك" : "مسارات مشترك بها"}
@@ -157,8 +157,8 @@ export default function MyCoursesPage() {
                   {
                     label: "المسارات",
                     value: totals.totalCategories,
-                    color: "text-[#6c3aff]",
-                    bg: "bg-[#ede9ff]",
+                    color: "text-[#0067b8]",
+                    bg: "bg-[#e8f4ff]",
                   },
                   {
                     label: "المواد",
@@ -193,7 +193,7 @@ export default function MyCoursesPage() {
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                   placeholder="ابحث في كورساتك..."
-                  className="w-full bg-white border border-gray-200 rounded-2xl py-3 ps-11 pe-10 text-sm text-gray-800 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#6c3aff]/40 focus:border-[#6c3aff] transition-all"
+                  className="w-full bg-white border border-gray-200 rounded-2xl py-3 ps-11 pe-10 text-sm text-gray-800 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#0067b8]/40 focus:border-[#0067b8] transition-all"
                 />
                 {searchInput && (
                   <button

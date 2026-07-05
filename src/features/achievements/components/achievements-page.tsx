@@ -65,7 +65,7 @@ function UserPortrait({
   }
 
   return (
-    <div className="flex h-28 w-28 items-center justify-center rounded-[2rem] bg-linear-to-br from-[#6c3aff] via-[#8b5cf6] to-[#f97316] text-4xl font-extrabold text-white ring-4 ring-white shadow-2xl">
+    <div className="flex h-28 w-28 items-center justify-center rounded-[2rem] bg-linear-to-br from-[#0067b8] via-[#8b5cf6] to-[#f97316] text-4xl font-extrabold text-white ring-4 ring-white shadow-2xl">
       {name?.[0] ?? <UserRound className="h-10 w-10" />}
     </div>
   );
@@ -165,7 +165,7 @@ function ProgressRing({ value, locale }: { value: number; locale: string }) {
     <div
       className="relative flex h-32 w-32 items-center justify-center rounded-full"
       style={{
-        background: `conic-gradient(#6c3aff ${safeValue * 3.6}deg, #ede9ff 0deg)`,
+        background: `conic-gradient(#0067b8 ${safeValue * 3.6}deg, #e8f4ff 0deg)`,
       }}
     >
       <div className="flex h-24 w-24 flex-col items-center justify-center rounded-full bg-white">
@@ -202,7 +202,7 @@ function EmptyAchievement({
       </p>
       <Link
         href={href}
-        className="mt-5 inline-flex rounded-xl bg-[#6c3aff] px-5 py-2.5 text-sm font-extrabold text-white transition-colors hover:bg-[#5228e8]"
+        className="mt-5 inline-flex rounded-xl bg-[#0067b8] px-5 py-2.5 text-sm font-extrabold text-white transition-colors hover:bg-[#004a86]"
       >
         {action}
       </Link>
@@ -219,7 +219,7 @@ function TopCategoryCard({
 }) {
   return (
     <section className="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
-      <div className="bg-linear-to-br from-[#6c3aff] to-[#14b8a6] p-6 text-white">
+      <div className="bg-linear-to-br from-[#0067b8] to-[#14b8a6] p-6 text-white">
         <div className="mb-5 flex items-center justify-between">
           <div>
             <p className="text-sm font-bold text-white/70">أفضل مسار</p>
@@ -264,7 +264,7 @@ function TopCategoryCard({
           </div>
           <div className="h-3 overflow-hidden rounded-full bg-gray-100">
             <div
-              className="h-full rounded-full bg-[#6c3aff]"
+              className="h-full rounded-full bg-[#0067b8]"
               style={{
                 width: `${Math.max(0, Math.min(achievement.completionPercentage, 100))}%`,
               }}
@@ -291,7 +291,7 @@ function BestExamCard({
     <section className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-bold text-[#6c3aff]">أفضل اختبار</p>
+          <p className="text-sm font-bold text-[#0067b8]">أفضل اختبار</p>
           <h2 className="mt-1 text-2xl font-extrabold text-gray-900">
             {achievement.title}
           </h2>
@@ -305,26 +305,26 @@ function BestExamCard({
         </div>
       </div>
 
-      <div className="mb-6 rounded-[2rem] bg-linear-to-br from-amber-50 to-[#f5f3ff] p-6 text-center">
+      <div className="mb-6 rounded-[2rem] bg-linear-to-br from-amber-50 to-[#f8fbfd] p-6 text-center">
         <p className="text-sm font-bold text-gray-500">نسبة النجاح</p>
         <p className="mt-2 text-5xl font-black text-gray-900">
           {formatAchievementPercent(achievement.percentage, locale)}
         </p>
-        <p className="mt-2 text-sm font-bold text-[#6c3aff]">
+        <p className="mt-2 text-sm font-bold text-[#0067b8]">
           {achievement.score} / {achievement.totalScore} درجة
         </p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         <div className="rounded-2xl bg-gray-50 p-4">
-          <Medal className="mb-2 h-5 w-5 text-[#6c3aff]" />
+          <Medal className="mb-2 h-5 w-5 text-[#0067b8]" />
           <p className="text-xs font-bold text-gray-400">ترتيب الاختبار</p>
           <p className="mt-1 text-2xl font-extrabold text-gray-900">
             #{achievement.rank}
           </p>
         </div>
         <div className="rounded-2xl bg-gray-50 p-4">
-          <Users className="mb-2 h-5 w-5 text-[#6c3aff]" />
+          <Users className="mb-2 h-5 w-5 text-[#0067b8]" />
           <p className="text-xs font-bold text-gray-400">المشاركون</p>
           <p className="mt-1 text-2xl font-extrabold text-gray-900">
             {formatAchievementNumber(achievement.totalParticipants, locale)}
@@ -383,7 +383,7 @@ export function AchievementsPage() {
               <AchievementLoading />
             ) : (
               <>
-                <section className="relative mb-8 overflow-hidden rounded-[2rem] bg-linear-to-br from-[#0f172a] via-[#3b216f] to-[#6c3aff] p-6 text-white shadow-2xl md:p-10">
+                <section className="relative mb-8 overflow-hidden rounded-[2rem] bg-linear-to-br from-[#0f172a] via-[#3b216f] to-[#0067b8] p-6 text-white shadow-2xl md:p-10">
                   <div className="absolute inset-0 opacity-20 [background-image:radial-gradient(circle_at_20%_20%,white_0,transparent_24%),radial-gradient(circle_at_80%_30%,#f97316_0,transparent_20%),radial-gradient(circle_at_50%_90%,#14b8a6_0,transparent_22%)]" />
                   <div className="relative grid gap-8 lg:grid-cols-[auto_1fr_auto] lg:items-center">
                     <PortraitCelebrationFrame
@@ -436,7 +436,7 @@ export function AchievementsPage() {
                       key={label}
                       className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm"
                     >
-                      <Icon className="mb-3 h-6 w-6 text-[#6c3aff]" />
+                      <Icon className="mb-3 h-6 w-6 text-[#0067b8]" />
                       <p className="text-xs font-bold text-gray-400">{label}</p>
                       <p className="mt-1 text-2xl font-extrabold text-gray-900">
                         {value}

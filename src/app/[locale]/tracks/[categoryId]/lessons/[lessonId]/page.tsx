@@ -177,7 +177,7 @@ export default function LessonPage() {
     if (loading) {
         return (
             <div className="flex flex-col h-full items-center justify-center gap-4 min-h-screen">
-                <Loader2 className="w-10 h-10 text-[#6c3aff] animate-spin" />
+                <Loader2 className="w-10 h-10 text-[#0067b8] animate-spin" />
                 <p className="text-sm text-gray-500 animate-pulse">جاري تحميل الدرس...</p>
             </div>
         );
@@ -201,7 +201,7 @@ export default function LessonPage() {
                     <p className="text-gray-500 text-sm">{msg.desc}</p>
                     <Link
                         href={`/tracks/${categoryId}`}
-                        className="inline-flex items-center gap-2 bg-[#6c3aff] text-white font-bold px-5 py-2.5 rounded-xl text-sm hover:bg-[#5228e8] transition-colors"
+                        className="inline-flex items-center gap-2 bg-[#0067b8] text-white font-bold px-5 py-2.5 rounded-xl text-sm hover:bg-[#004a86] transition-colors"
                     >
                         <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                         العودة للمسار
@@ -223,7 +223,7 @@ export default function LessonPage() {
                 <div className="flex items-center gap-3 min-w-0">
                     <Link
                         href={`/tracks/${categoryId}`}
-                        className="flex items-center gap-1.5 shrink-0 bg-gray-100 hover:bg-[#ede9ff] hover:text-[#6c3aff] text-gray-600 font-semibold text-xs px-3 py-2 rounded-xl transition-colors"
+                        className="flex items-center gap-1.5 shrink-0 bg-gray-100 hover:bg-[#e8f4ff] hover:text-[#0067b8] text-gray-600 font-semibold text-xs px-3 py-2 rounded-xl transition-colors"
                     >
                         <ChevronRight className="w-4 h-4 rtl:rotate-0 ltr:rotate-180" />
                         <span className="hidden sm:inline">تفاصيل المسار</span>
@@ -268,7 +268,7 @@ export default function LessonPage() {
                             {/* Type badge */}
                             <div className={cn(
                                 "flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full",
-                                isVideo ? "bg-[#ede9ff] text-[#6c3aff]" : "bg-orange-50 text-orange-600"
+                                isVideo ? "bg-[#e8f4ff] text-[#0067b8]" : "bg-orange-50 text-orange-600"
                             )}>
                                 {isVideo
                                     ? <PlayCircle className="w-3.5 h-3.5" />
@@ -307,7 +307,7 @@ export default function LessonPage() {
                                 "flex items-center gap-2.5 px-6 py-3 rounded-2xl font-bold text-sm transition-all shadow-sm",
                                 isCompleted === 1
                                     ? "bg-green-100 text-green-700 cursor-default"
-                                    : "bg-[#6c3aff] hover:bg-[#5228e8] text-white shadow-[#6c3aff]/25 shadow-lg active:scale-95"
+                                    : "bg-[#0067b8] hover:bg-[#004a86] text-white shadow-[#0067b8]/25 shadow-lg active:scale-95"
                             )}
                         >
                             {completing ? (
@@ -332,12 +332,12 @@ export default function LessonPage() {
                         {prevLesson ? (
                             <Link
                                 href={navLink(prevLesson)}
-                                className="flex items-center gap-3 bg-white border border-gray-200 hover:border-[#6c3aff]/40 hover:bg-[#f5f3ff] rounded-2xl px-4 py-3 transition-all group max-w-xs"
+                                className="flex items-center gap-3 bg-white border border-gray-200 hover:border-[#0067b8]/40 hover:bg-[#f8fbfd] rounded-2xl px-4 py-3 transition-all group max-w-xs"
                             >
-                                <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-[#6c3aff] shrink-0 rtl:rotate-0 ltr:rotate-180" />
+                                <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-[#0067b8] shrink-0 rtl:rotate-0 ltr:rotate-180" />
                                 <div className="min-w-0">
                                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">الدرس السابق</p>
-                                    <p className="text-sm font-semibold text-gray-700 group-hover:text-[#6c3aff] truncate">{prevLesson.title}</p>
+                                    <p className="text-sm font-semibold text-gray-700 group-hover:text-[#0067b8] truncate">{prevLesson.title}</p>
                                 </div>
                             </Link>
                         ) : <div />}
@@ -345,7 +345,7 @@ export default function LessonPage() {
                         {nextLesson ? (
                             <Link
                                 href={navLink(nextLesson)}
-                                className="flex items-center gap-3 bg-[#6c3aff] hover:bg-[#5228e8] rounded-2xl px-4 py-3 transition-all group max-w-xs shadow-lg shadow-[#6c3aff]/20"
+                                className="flex items-center gap-3 bg-[#0067b8] hover:bg-[#004a86] rounded-2xl px-4 py-3 transition-all group max-w-xs shadow-lg shadow-[#0067b8]/20"
                             >
                                 <div className="min-w-0 text-right">
                                     <p className="text-[10px] font-bold text-white/70 uppercase tracking-wider mb-0.5">الدرس التالي</p>

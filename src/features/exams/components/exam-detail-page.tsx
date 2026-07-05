@@ -97,7 +97,7 @@ function AttachmentPreview({ url }: { url: string | null }) {
             href={url}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1 text-xs font-bold text-[#6c3aff]"
+            className="inline-flex items-center gap-1 text-xs font-bold text-[#0067b8]"
           >
             فتح
             <ExternalLink className="h-3.5 w-3.5" />
@@ -112,7 +112,7 @@ function AttachmentPreview({ url }: { url: string | null }) {
             href={url}
             target="_blank"
             rel="noreferrer"
-            className="flex h-32 items-center justify-center text-sm font-bold text-[#6c3aff]"
+            className="flex h-32 items-center justify-center text-sm font-bold text-[#0067b8]"
           >
             فتح ملف PDF
           </a>
@@ -128,7 +128,7 @@ function AttachmentPreview({ url }: { url: string | null }) {
       rel="noreferrer"
       className="mt-3 inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-bold text-gray-700 transition-colors hover:bg-gray-100"
     >
-      <Paperclip className="h-4 w-4 text-[#6c3aff]" />
+      <Paperclip className="h-4 w-4 text-[#0067b8]" />
       فتح المرفق
       <ExternalLink className="h-3.5 w-3.5" />
     </a>
@@ -139,7 +139,7 @@ function DetailLoader() {
   return (
     <div className="flex min-h-[60vh] items-center justify-center">
       <div className="flex flex-col items-center gap-3">
-        <Loader2 className="h-8 w-8 animate-spin text-[#6c3aff]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#0067b8]" />
         <p className="text-sm font-semibold text-gray-500">
           جاري تحميل الاختبار...
         </p>
@@ -159,7 +159,7 @@ function StatCard({
 }) {
   return (
     <div className="rounded-2xl bg-white p-4 shadow-sm border border-gray-100">
-      <Icon className="mb-2 h-5 w-5 text-[#6c3aff]" />
+      <Icon className="mb-2 h-5 w-5 text-[#0067b8]" />
       <p className="text-xs font-bold text-gray-400">{label}</p>
       <p className="mt-1 text-lg font-extrabold text-gray-900">{value}</p>
     </div>
@@ -315,7 +315,7 @@ function SubmitSuccessPanel({
       <button
         type="button"
         onClick={onBackToDetails}
-        className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-[#6c3aff] px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-[#6c3aff]/20 transition-colors hover:bg-[#5228e8]"
+        className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-[#0067b8] px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-[#0067b8]/20 transition-colors hover:bg-[#004a86]"
       >
         <ClipboardList className="h-4 w-4" />
         العودة لتفاصيل الاختبار
@@ -522,7 +522,7 @@ function AttemptWorkspace({
               {hasTimer ? `${minutes}:${seconds}` : "امتحان مفتوح"}
             </p>
           </div>
-          <Clock3 className="h-8 w-8 text-[#6c3aff]" />
+          <Clock3 className="h-8 w-8 text-[#0067b8]" />
         </div>
 
         <div className="mb-5">
@@ -534,7 +534,7 @@ function AttemptWorkspace({
           </div>
           <div className="h-2 overflow-hidden rounded-full bg-gray-100">
             <div
-              className="h-full rounded-full bg-[#6c3aff] transition-all"
+              className="h-full rounded-full bg-[#0067b8] transition-all"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -552,7 +552,7 @@ function AttemptWorkspace({
                 onClick={() => setActiveQuestionId(question.questionId)}
                 className={`h-10 rounded-xl text-sm font-extrabold transition-colors ${
                   active
-                    ? "bg-[#6c3aff] text-white"
+                    ? "bg-[#0067b8] text-white"
                     : answered
                       ? "bg-green-50 text-green-700"
                       : "bg-gray-50 text-gray-500 hover:bg-gray-100"
@@ -568,7 +568,7 @@ function AttemptWorkspace({
       <section className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
         <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
-            <p className="mb-2 text-xs font-bold text-[#6c3aff]">
+            <p className="mb-2 text-xs font-bold text-[#0067b8]">
               السؤال {activeIndex + 1} من {attempt.questions.length}
             </p>
             <h2 className="text-xl font-extrabold leading-relaxed text-gray-900">
@@ -578,7 +578,7 @@ function AttemptWorkspace({
               الدرجة: {activeQuestion.grade}
             </p>
             {activeQuestion.isMultiAnswer && (
-              <p className="mt-2 inline-flex rounded-full bg-[#ede9ff] px-3 py-1 text-xs font-bold text-[#6c3aff]">
+              <p className="mt-2 inline-flex rounded-full bg-[#e8f4ff] px-3 py-1 text-xs font-bold text-[#0067b8]">
                 يمكن اختيار أكثر من إجابة
               </p>
             )}
@@ -607,7 +607,7 @@ function AttemptWorkspace({
                 key={answer.answerId}
                 className={`rounded-2xl border p-4 transition-all ${
                   selected
-                    ? "border-[#6c3aff] bg-[#f5f3ff] text-[#6c3aff] shadow-sm"
+                    ? "border-[#0067b8] bg-[#f8fbfd] text-[#0067b8] shadow-sm"
                     : "border-gray-100 bg-white text-gray-700 hover:border-[#d8ccff] hover:bg-[#fbfaff]"
                 }`}
               >
@@ -640,7 +640,7 @@ function AttemptWorkspace({
                         : "rounded-full"
                     } ${
                       selected
-                        ? "border-[#6c3aff] bg-[#6c3aff] text-white"
+                        ? "border-[#0067b8] bg-[#0067b8] text-white"
                         : "border-gray-200 text-gray-400"
                     }`}
                   >
@@ -697,7 +697,7 @@ function AttemptWorkspace({
             type="button"
             disabled={submitting}
             onClick={handleSubmit}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#6c3aff] px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-[#6c3aff]/20 transition-colors hover:bg-[#5228e8] disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0067b8] px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-[#0067b8]/20 transition-colors hover:bg-[#004a86] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {submitting ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -712,7 +712,7 @@ function AttemptWorkspace({
       {showIncompleteSubmitWarning && (
         <div className="fixed inset-0 z-[80] flex items-center justify-center bg-[#0f172a]/70 px-4 backdrop-blur-sm">
           <div className="w-full max-w-lg overflow-hidden rounded-[2rem] bg-white shadow-2xl">
-            <div className="bg-linear-to-br from-amber-500 via-orange-500 to-[#6c3aff] p-6 text-white">
+            <div className="bg-linear-to-br from-amber-500 via-orange-500 to-[#0067b8] p-6 text-white">
               <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15">
                 <AlertTriangle className="h-8 w-8" />
               </div>
@@ -765,7 +765,7 @@ function AttemptWorkspace({
                   type="button"
                   disabled={submitting}
                   onClick={submitAnswers}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#6c3aff] px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-[#6c3aff]/20 transition-colors hover:bg-[#5228e8] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0067b8] px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-[#0067b8]/20 transition-colors hover:bg-[#004a86] disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {submitting ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -783,7 +783,7 @@ function AttemptWorkspace({
       {showExitWarning && (
         <div className="fixed inset-0 z-[80] flex items-center justify-center bg-[#0f172a]/70 px-4 backdrop-blur-sm">
           <div className="w-full max-w-lg overflow-hidden rounded-[2rem] bg-white shadow-2xl">
-            <div className="bg-linear-to-br from-red-600 to-[#6c3aff] p-6 text-white">
+            <div className="bg-linear-to-br from-red-600 to-[#0067b8] p-6 text-white">
               <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15">
                 <ShieldAlert className="h-8 w-8" />
               </div>
@@ -836,7 +836,7 @@ function AttemptWorkspace({
                 <button
                   type="button"
                   onClick={() => setShowExitWarning(false)}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#6c3aff] px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-[#6c3aff]/20 transition-colors hover:bg-[#5228e8]"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0067b8] px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-[#0067b8]/20 transition-colors hover:bg-[#004a86]"
                 >
                   <CheckCircle2 className="h-4 w-4" />
                   أكمل الاختبار
@@ -1000,12 +1000,12 @@ export function ExamDetailPage({
                   <div>
                     <Link
                       href={localizedBackHref}
-                      className="mb-4 inline-flex items-center gap-2 text-sm font-bold text-gray-500 transition-colors hover:text-[#6c3aff]"
+                      className="mb-4 inline-flex items-center gap-2 text-sm font-bold text-gray-500 transition-colors hover:text-[#0067b8]"
                     >
                       <ArrowRight className="h-4 w-4 rotate-180" />
                       رجوع
                     </Link>
-                    <p className="mb-2 text-sm font-bold text-[#6c3aff]">
+                    <p className="mb-2 text-sm font-bold text-[#0067b8]">
                       {contextLabel}
                     </p>
                     <h1 className="text-2xl font-extrabold text-gray-900 md:text-4xl">
@@ -1021,7 +1021,7 @@ export function ExamDetailPage({
                     type="button"
                     onClick={handleStart}
                     disabled={!detail.canStart || starting}
-                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#6c3aff] px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-[#6c3aff]/20 transition-colors hover:bg-[#5228e8] disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none"
+                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#0067b8] px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-[#0067b8]/20 transition-colors hover:bg-[#004a86] disabled:cursor-not-allowed disabled:bg-gray-300 disabled:shadow-none"
                   >
                     {starting ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -1112,14 +1112,14 @@ export function ExamDetailPage({
                               </p>
                             </div>
                             <div className="flex items-center gap-3">
-                              <span className="rounded-full bg-[#ede9ff] px-3 py-1 text-xs font-extrabold text-[#6c3aff]">
+                              <span className="rounded-full bg-[#e8f4ff] px-3 py-1 text-xs font-extrabold text-[#0067b8]">
                                 {formatPercent(item.percentage, locale)}
                               </span>
                               <span className="text-sm font-extrabold text-gray-900">
                                 {item.score}/{item.totalScore}
                               </span>
                               {resultLoadingId === item.attemptId ? (
-                                <Loader2 className="h-4 w-4 animate-spin text-[#6c3aff]" />
+                                <Loader2 className="h-4 w-4 animate-spin text-[#0067b8]" />
                               ) : (
                                 <ChevronLeft className="h-4 w-4 text-gray-400" />
                               )}

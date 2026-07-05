@@ -92,7 +92,7 @@ function OtpInput({
                     onChange={(e) => handleChange(i, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(i, e)}
                     onPaste={handlePaste}
-                    className="w-14 h-14 text-center text-xl font-bold border-2 rounded-xl outline-none transition-all border-[#e2e8f0] focus:border-[#6c3aff] focus:ring-2 focus:ring-[#6c3aff]/20"
+                    className="w-14 h-14 text-center text-xl font-bold border-2 rounded-xl outline-none transition-all border-[#e2e8f0] focus:border-[#0067b8] focus:ring-2 focus:ring-[#0067b8]/20"
                 />
             ))}
         </div>
@@ -202,7 +202,7 @@ export default function ForgotPasswordPage() {
                         className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${i < currentStepIndex
                             ? "bg-[#22c55e] text-white"
                             : i === currentStepIndex
-                                ? "bg-[#6c3aff] text-white"
+                                ? "bg-[#0067b8] text-white"
                                 : "bg-[#f1f5f9] text-[#94a3b8]"
                             }`}
                     >
@@ -233,7 +233,7 @@ export default function ForgotPasswordPage() {
                     <p className="text-sm text-[#64748b] mb-8">
                         {tReset("successDesc")}
                     </p>
-                    <button onClick={() => router.push(`/${locale}/auth/login`)} className="w-full bg-[#6c3aff] hover:bg-[#5228e8] text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#6c3aff]/30">
+                    <button onClick={() => router.push(`/${locale}/auth/login`)} className="w-full bg-[#0067b8] hover:bg-[#004a86] text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#0067b8]/30">
                         {tReset("loginLink") || tSignup("loginLink")}
                     </button>
                 </div>
@@ -249,8 +249,8 @@ export default function ForgotPasswordPage() {
                 {step === "email" && (
                     <>
                         <div className="text-center mb-6">
-                            <div className="w-16 h-16 rounded-full bg-[#ede9ff] flex items-center justify-center mx-auto mb-4">
-                                <Mail className="w-8 h-8 text-[#6c3aff]" />
+                            <div className="w-16 h-16 rounded-full bg-[#e8f4ff] flex items-center justify-center mx-auto mb-4">
+                                <Mail className="w-8 h-8 text-[#0067b8]" />
                             </div>
                             <h1 className="text-2xl font-extrabold text-[#0f172a] mb-2">
                                 {t("title")}
@@ -275,7 +275,7 @@ export default function ForgotPasswordPage() {
                                         dir="ltr"
                                         className={`w-full pr-10 pl-4 py-2.5 rounded-xl border text-sm outline-none transition-all ${emailForm.formState.errors.email
                                             ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                                            : "border-[#e2e8f0] focus:border-[#6c3aff] focus:ring-2 focus:ring-[#6c3aff]/20"
+                                            : "border-[#e2e8f0] focus:border-[#0067b8] focus:ring-2 focus:ring-[#0067b8]/20"
                                             }`}
                                         {...emailForm.register("email")}
                                     />
@@ -290,7 +290,7 @@ export default function ForgotPasswordPage() {
                             <button
                                 type="submit"
                                 disabled={emailForm.formState.isSubmitting}
-                                className="w-full flex items-center justify-center gap-2 bg-[#6c3aff] hover:bg-[#5228e8] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#6c3aff]/30"
+                                className="w-full flex items-center justify-center gap-2 bg-[#0067b8] hover:bg-[#004a86] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#0067b8]/30"
                             >
                                 {emailForm.formState.isSubmitting ? (
                                     <>
@@ -306,7 +306,7 @@ export default function ForgotPasswordPage() {
                         <div className="mt-6 text-center">
                             <Link
                                 href={`/${locale}/auth/login`}
-                                className="inline-flex items-center gap-2 text-sm text-[#64748b] hover:text-[#6c3aff] transition-colors"
+                                className="inline-flex items-center gap-2 text-sm text-[#64748b] hover:text-[#0067b8] transition-colors"
                             >
                                 <ArrowRight className="w-4 h-4 ltr:rotate-180" />
                                 {t("backToLogin")}
@@ -319,8 +319,8 @@ export default function ForgotPasswordPage() {
                 {step === "otp" && (
                     <>
                         <div className="text-center mb-6">
-                            <div className="w-16 h-16 rounded-full bg-[#ede9ff] flex items-center justify-center mx-auto mb-4">
-                                <ShieldCheck className="w-8 h-8 text-[#6c3aff]" />
+                            <div className="w-16 h-16 rounded-full bg-[#e8f4ff] flex items-center justify-center mx-auto mb-4">
+                                <ShieldCheck className="w-8 h-8 text-[#0067b8]" />
                             </div>
                             <h1 className="text-2xl font-extrabold text-[#0f172a] mb-2">
                                 {tOtp("confirm")}
@@ -328,7 +328,7 @@ export default function ForgotPasswordPage() {
                             <p className="text-sm text-[#64748b] mb-1">
                                 {tOtp("subtitle")}
                             </p>
-                            <p className="text-sm font-semibold text-[#6c3aff] break-all" dir="ltr">
+                            <p className="text-sm font-semibold text-[#0067b8] break-all" dir="ltr">
                                 {email}
                             </p>
                         </div>
@@ -344,7 +344,7 @@ export default function ForgotPasswordPage() {
                         <button
                             onClick={handleVerifyOtp}
                             disabled={otpLoading || otpDigits.join("").length < 4}
-                            className="w-full flex items-center justify-center gap-2 bg-[#6c3aff] hover:bg-[#5228e8] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#6c3aff]/30 mt-6"
+                            className="w-full flex items-center justify-center gap-2 bg-[#0067b8] hover:bg-[#004a86] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#0067b8]/30 mt-6"
                         >
                             {otpLoading ? (
                                 <>
@@ -359,7 +359,7 @@ export default function ForgotPasswordPage() {
                         <div className="mt-4 flex items-center justify-between text-sm">
                             <button
                                 onClick={() => setStep("email")}
-                                className="text-[#64748b] hover:text-[#6c3aff] transition-colors"
+                                className="text-[#64748b] hover:text-[#0067b8] transition-colors"
                             >
                                 {tOtp("editEmail")}
                             </button>
@@ -371,7 +371,7 @@ export default function ForgotPasswordPage() {
                                         setOtpError(tOtp("resendError"));
                                     }
                                 }}
-                                className="text-[#6c3aff] hover:underline"
+                                className="text-[#0067b8] hover:underline"
                             >
                                 {tOtp("resend")}
                             </button>
@@ -383,8 +383,8 @@ export default function ForgotPasswordPage() {
                 {step === "reset" && (
                     <>
                         <div className="text-center mb-6">
-                            <div className="w-16 h-16 rounded-full bg-[#ede9ff] flex items-center justify-center mx-auto mb-4">
-                                <Lock className="w-8 h-8 text-[#6c3aff]" />
+                            <div className="w-16 h-16 rounded-full bg-[#e8f4ff] flex items-center justify-center mx-auto mb-4">
+                                <Lock className="w-8 h-8 text-[#0067b8]" />
                             </div>
                             <h1 className="text-2xl font-extrabold text-[#0f172a] mb-2">
                                 {tReset("title")}
@@ -409,7 +409,7 @@ export default function ForgotPasswordPage() {
                                         placeholder="••••••••"
                                         className={`w-full pr-10 pl-10 py-2.5 rounded-xl border text-sm outline-none transition-all ${resetForm.formState.errors.password
                                             ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                                            : "border-[#e2e8f0] focus:border-[#6c3aff] focus:ring-2 focus:ring-[#6c3aff]/20"
+                                            : "border-[#e2e8f0] focus:border-[#0067b8] focus:ring-2 focus:ring-[#0067b8]/20"
                                             }`}
                                         {...resetForm.register("password")}
                                     />
@@ -441,7 +441,7 @@ export default function ForgotPasswordPage() {
                                         placeholder="••••••••"
                                         className={`w-full pr-10 pl-10 py-2.5 rounded-xl border text-sm outline-none transition-all ${resetForm.formState.errors.confirmPassword
                                             ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                                            : "border-[#e2e8f0] focus:border-[#6c3aff] focus:ring-2 focus:ring-[#6c3aff]/20"
+                                            : "border-[#e2e8f0] focus:border-[#0067b8] focus:ring-2 focus:ring-[#0067b8]/20"
                                             }`}
                                         {...resetForm.register("confirmPassword")}
                                     />
@@ -464,7 +464,7 @@ export default function ForgotPasswordPage() {
                             <button
                                 type="submit"
                                 disabled={resetForm.formState.isSubmitting}
-                                className="w-full flex items-center justify-center gap-2 bg-[#6c3aff] hover:bg-[#5228e8] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#6c3aff]/30"
+                                className="w-full flex items-center justify-center gap-2 bg-[#0067b8] hover:bg-[#004a86] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#0067b8]/30"
                             >
                                 {resetForm.formState.isSubmitting ? (
                                     <>

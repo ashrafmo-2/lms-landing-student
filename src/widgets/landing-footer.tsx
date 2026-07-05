@@ -1,4 +1,4 @@
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, Mail, Phone } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/shared/i18n/routing";
 
@@ -8,80 +8,91 @@ export function Footer() {
   const tCommon = useTranslations("Common");
 
   return (
-    <footer className="bg-[#0f172a] text-white py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+    <footer className="border-t border-white/10 bg-[#101827] py-14 text-white">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-[1.25fr_0.75fr_0.75fr_0.9fr]">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-xl bg-[#6c3aff] flex items-center justify-center">
-                <GraduationCap className="w-5 h-5 text-white" />
+            <div className="mb-5 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center bg-[#0067b8]">
+                <GraduationCap className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-bold">{tCommon("brandName")}</span>
+              <span className="text-xl font-black">{tCommon("brandName")}</span>
             </div>
-            <p className="text-sm text-white/70 leading-relaxed mb-4">
+            <p className="max-w-sm text-sm leading-7 text-white/66">
               {t("description")}
             </p>
+            <div className="mt-6 flex gap-2">
+              <span className="h-1.5 w-10 bg-[#0067b8]" />
+              <span className="h-1.5 w-10 bg-[#00a6a6]" />
+              <span className="h-1.5 w-10 bg-[#ffb000]" />
+            </div>
           </div>
+
+          <FooterColumn
+            title={t("quickLinks")}
+            links={[
+              { href: "/#hero", label: t("home") },
+              { href: "/#modules", label: tNav("courses") },
+              { href: "/#features", label: tNav("features") },
+              { href: "/workshops", label: "Workshops" },
+              { href: "/#contact", label: tNav("contact") },
+            ]}
+          />
+
+          <FooterColumn
+            title={t("support")}
+            links={[
+              { href: "/auth/login", label: t("faq") },
+              { href: "/auth/login", label: t("terms") },
+              { href: "/auth/login", label: t("privacy") },
+            ]}
+          />
 
           <div>
-            <h3 className="font-bold text-base mb-4">{t("quickLinks")}</h3>
-            <ul className="space-y-2 text-sm text-white/70">
-              <li>
-                <Link href="/#hero" className="hover:text-white transition-colors">
-                  {t("home")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/#modules" className="hover:text-white transition-colors">
-                  {tNav("courses")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/#features" className="hover:text-white transition-colors">
-                  {tNav("features")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/workshops" className="hover:text-white transition-colors">
-                  Workshops
-                </Link>
-              </li>
-              <li>
-                <Link href="/#contact" className="hover:text-white transition-colors">
-                  {tNav("contact")}
-                </Link>
-              </li>
-            </ul>
+            <h3 className="mb-4 text-base font-black">{tNav("contact")}</h3>
+            <div className="space-y-3 text-sm font-bold text-white/66">
+              <div className="flex items-center gap-2">
+                <Phone className="h-4 w-4 text-[#7dd3fc]" />
+                <span dir="ltr">+20 123 456 7890</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Mail className="h-4 w-4 text-[#7dd3fc]" />
+                <span>support@edustar.com</span>
+              </div>
+            </div>
           </div>
-
-          <div>
-            <h3 className="font-bold text-base mb-4">{t("support")}</h3>
-            <ul className="space-y-2 text-sm text-white/70">
-              <li>
-                <Link href="/auth/login" className="hover:text-white transition-colors">
-                  {t("faq")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/auth/login" className="hover:text-white transition-colors">
-                  {t("terms")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/auth/login" className="hover:text-white transition-colors">
-                  {t("privacy")}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div />
         </div>
 
-        <div className="border-t border-white/10 pt-6 text-center text-sm text-white/60">
+        <div className="mt-10 border-t border-white/10 pt-6 text-center text-sm font-bold text-white/52">
           {t("copyright")}
         </div>
       </div>
     </footer>
+  );
+}
+
+function FooterColumn({
+  title,
+  links,
+}: {
+  title: string;
+  links: Array<{ href: string; label: string }>;
+}) {
+  return (
+    <div>
+      <h3 className="mb-4 text-base font-black">{title}</h3>
+      <ul className="space-y-2 text-sm font-bold text-white/66">
+        {links.map((link) => (
+          <li key={`${link.href}-${link.label}`}>
+            <Link
+              href={link.href}
+              className="transition-colors hover:text-white"
+            >
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

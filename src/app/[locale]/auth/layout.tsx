@@ -4,10 +4,10 @@ import { AuthGuard } from "@/features/auth/components/auth-guard";
 
 export default function AuthLayout({children}: {children: React.ReactNode}) {
   return (
-    <div className="min-h-screen bg-linear-to-br from-[#f5f3ff] via-white to-[#ede9ff] flex flex-col" dir="rtl">
+    <div className="min-h-screen bg-linear-to-br from-[#f8fbfd] via-white to-[#e8f4ff] flex flex-col" dir="rtl">
       <header className="p-4 sm:p-6">
         <Link href="/" className="inline-flex items-center gap-2">
-          <div className="w-9 h-9 rounded-xl bg-[#6c3aff] flex items-center justify-center">
+          <div className="w-9 h-9 rounded-xl bg-[#0067b8] flex items-center justify-center">
             <GraduationCap className="w-5 h-5 text-white" />
           </div>
           <span className="text-xl font-bold text-[#0f172a]">إديوستار</span>

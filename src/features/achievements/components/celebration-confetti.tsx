@@ -1,5 +1,5 @@
 const CONFETTI_PIECES = [
-  { left: 4, delay: 0.1, duration: 3.8, color: "#6c3aff", rotate: 18 },
+  { left: 4, delay: 0.1, duration: 3.8, color: "#0067b8", rotate: 18 },
   { left: 6, delay: 1.35, duration: 4.9, color: "#facc15", rotate: 121 },
   { left: 9, delay: 0.6, duration: 4.2, color: "#f97316", rotate: 72 },
   { left: 14, delay: 0.2, duration: 3.4, color: "#14b8a6", rotate: 28 },
@@ -27,7 +27,7 @@ const CONFETTI_PIECES = [
 
 const STREAMERS = [
   { left: 12, delay: 0.15, color: "#f97316", width: 78 },
-  { left: 33, delay: 0.45, color: "#6c3aff", width: 96 },
+  { left: 33, delay: 0.45, color: "#0067b8", width: 96 },
   { left: 52, delay: 0.25, color: "#14b8a6", width: 86 },
   { left: 73, delay: 0.65, color: "#ec4899", width: 92 },
   { left: 88, delay: 0.35, color: "#facc15", width: 72 },

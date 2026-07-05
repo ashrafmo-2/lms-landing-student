@@ -192,7 +192,7 @@ export default function WorkshopsPage() {
     `w-full rounded-lg border bg-white px-4 py-3 text-sm text-slate-950 outline-none transition ${
       errors[field]
         ? "border-red-400 focus:border-red-400 focus:ring-4 focus:ring-red-400/10"
-        : "border-slate-200 focus:border-[#6c3aff] focus:ring-4 focus:ring-[#6c3aff]/10"
+        : "border-slate-200 focus:border-[#0067b8] focus:ring-4 focus:ring-[#0067b8]/10"
     }`;
 
   return (
@@ -270,7 +270,7 @@ export default function WorkshopsPage() {
                     key={item.title}
                     className="grid grid-cols-[2.5rem_1fr] gap-4"
                   >
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-sm font-black text-[#6c3aff]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-sm font-black text-[#0067b8]">
                       {index + 1}
                     </div>
                     <div className="border-white/10 border-b pb-4 last:border-b-0 last:pb-0">
@@ -318,7 +318,7 @@ export default function WorkshopsPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#ede9ff] px-4 py-2 text-sm font-black text-[#6c3aff]">
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#e8f4ff] px-4 py-2 text-sm font-black text-[#0067b8]">
                 <Sparkles className="h-4 w-4" />
                 {copy.value.badge}
               </span>
@@ -333,7 +333,7 @@ export default function WorkshopsPage() {
               {copy.value.items.map((item) => (
                 <div
                   key={item.title}
-                  className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-[#6c3aff]/30 hover:shadow-xl hover:shadow-[#6c3aff]/10"
+                  className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-[#0067b8]/30 hover:shadow-xl hover:shadow-[#0067b8]/10"
                 >
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 transition group-hover:bg-emerald-600 group-hover:text-white">
                     <CircleCheck className="h-6 w-6" />
@@ -406,7 +406,7 @@ export default function WorkshopsPage() {
 
               <a
                 href="#apply"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#151029] px-6 py-4 text-sm font-black text-white transition hover:bg-[#6c3aff]"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#151029] px-6 py-4 text-sm font-black text-white transition hover:bg-[#0067b8]"
               >
                 {copy.pricing.cta}
                 <Send className="h-4 w-4" />
@@ -431,7 +431,7 @@ export default function WorkshopsPage() {
       <section className="border-y border-slate-200 bg-slate-50 py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-8 max-w-2xl">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#ede9ff] px-4 py-2 text-sm font-black text-[#6c3aff]">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#e8f4ff] px-4 py-2 text-sm font-black text-[#0067b8]">
               <Code2 className="h-4 w-4" />
               {copy.teachers.badge}
             </span>
@@ -459,7 +459,7 @@ export default function WorkshopsPage() {
                   <h3 className="text-2xl font-black text-slate-950">
                     {teacher.name}
                   </h3>
-                  <p className="mt-1 text-sm font-bold text-[#6c3aff]">
+                  <p className="mt-1 text-sm font-bold text-[#0067b8]">
                     {isAr ? teacher.roleAr : teacher.roleEn}
                   </p>
                   <p className="mt-4 text-sm leading-6 text-slate-600">
@@ -683,7 +683,7 @@ export default function WorkshopsPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#6c3aff] px-6 py-4 text-sm font-black text-white shadow-lg shadow-[#6c3aff]/20 transition hover:bg-[#5228e8] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#0067b8] px-6 py-4 text-sm font-black text-white shadow-lg shadow-[#0067b8]/20 transition hover:bg-[#004a86] disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {loading ? (
                     <>
@@ -759,7 +759,7 @@ function InfoRow({
   return (
     <div className="flex items-center gap-3 rounded-lg border border-slate-100 bg-slate-50 p-4">
       <div
-        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${highlight ? "bg-amber-50 text-amber-700" : "bg-[#ede9ff] text-[#6c3aff]"}`}
+        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${highlight ? "bg-amber-50 text-amber-700" : "bg-[#e8f4ff] text-[#0067b8]"}`}
       >
         <Icon className="h-5 w-5" />
       </div>

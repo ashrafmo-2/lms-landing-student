@@ -81,7 +81,7 @@ function OtpInput({
           onChange={(e) => handleChange(i, e.target.value)}
           onKeyDown={(e) => handleKeyDown(i, e)}
           onPaste={handlePaste}
-          className="w-14 h-14 text-center text-xl font-bold border-2 rounded-xl outline-none transition-all border-[#e2e8f0] focus:border-[#6c3aff] focus:ring-2 focus:ring-[#6c3aff]/20"
+          className="w-14 h-14 text-center text-xl font-bold border-2 rounded-xl outline-none transition-all border-[#e2e8f0] focus:border-[#0067b8] focus:ring-2 focus:ring-[#0067b8]/20"
         />
       ))}
     </div>
@@ -185,15 +185,15 @@ export default function SignupPage() {
     return (
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-xl border border-[#e2e8f0] p-8 text-center">
-          <div className="w-16 h-16 rounded-full bg-[#ede9ff] flex items-center justify-center mx-auto mb-4">
-            <ShieldCheck className="w-8 h-8 text-[#6c3aff]" />
+          <div className="w-16 h-16 rounded-full bg-[#e8f4ff] flex items-center justify-center mx-auto mb-4">
+            <ShieldCheck className="w-8 h-8 text-[#0067b8]" />
           </div>
           <h1 className="text-2xl font-extrabold text-[#0f172a] mb-2">
             {tOtp("title")}
           </h1>
           <p className="text-sm text-[#64748b] mb-1">{tOtp("subtitle")}</p>
           <p
-            className="text-sm font-semibold text-[#6c3aff] mb-6 break-all"
+            className="text-sm font-semibold text-[#0067b8] mb-6 break-all"
             dir="ltr"
           >
             {registeredEmail}
@@ -207,7 +207,7 @@ export default function SignupPage() {
             type="button"
             onClick={handleVerifyOtp}
             disabled={otpLoading || otpDigits.join("").length < 4}
-            className="w-full flex items-center justify-center gap-2 bg-[#6c3aff] hover:bg-[#5228e8] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#6c3aff]/30 mt-6"
+            className="w-full flex items-center justify-center gap-2 bg-[#0067b8] hover:bg-[#004a86] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#0067b8]/30 mt-6"
           >
             {otpLoading ? (
               <>
@@ -227,14 +227,14 @@ export default function SignupPage() {
               type="button"
               onClick={handleResendOtp}
               disabled={resendLoading || !verificationToken}
-              className="text-[#6c3aff] hover:text-[#5228e8] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+              className="text-[#0067b8] hover:text-[#004a86] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
             >
               {resendLoading ? t("creatingAccount") : tOtp("resend")}
             </button>
 
             <Link
               href={`/${locale}/auth/login`}
-              className="text-[#64748b] hover:text-[#6c3aff] transition-colors"
+              className="text-[#64748b] hover:text-[#0067b8] transition-colors"
             >
               {t("loginLink")}
             </Link>
@@ -273,7 +273,7 @@ export default function SignupPage() {
                 className={`w-full pr-10 pl-4 py-2.5 rounded-xl border text-sm outline-none transition-all ${
                   errors.name
                     ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                    : "border-[#e2e8f0] focus:border-[#6c3aff] focus:ring-2 focus:ring-[#6c3aff]/20"
+                    : "border-[#e2e8f0] focus:border-[#0067b8] focus:ring-2 focus:ring-[#0067b8]/20"
                 }`}
                 {...register("name")}
               />
@@ -291,7 +291,7 @@ export default function SignupPage() {
                 type="email"
                 placeholder="example@email.com"
                 dir="ltr"
-                className={`w-full pr-10 pl-4 py-2.5 rounded-xl border text-sm outline-none transition-all ${errors.email ? "border-red-400 focus:ring-2 focus:ring-red-200" : "border-[#e2e8f0] focus:border-[#6c3aff] focus:ring-2 focus:ring-[#6c3aff]/20"}`}
+                className={`w-full pr-10 pl-4 py-2.5 rounded-xl border text-sm outline-none transition-all ${errors.email ? "border-red-400 focus:ring-2 focus:ring-red-200" : "border-[#e2e8f0] focus:border-[#0067b8] focus:ring-2 focus:ring-[#0067b8]/20"}`}
                 {...register("email")}
               />
             </div>
@@ -315,7 +315,7 @@ export default function SignupPage() {
                 className={`w-full pr-10 pl-4 py-2.5 rounded-xl border text-sm outline-none transition-all ${
                   errors.phone
                     ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                    : "border-[#e2e8f0] focus:border-[#6c3aff] focus:ring-2 focus:ring-[#6c3aff]/20"
+                    : "border-[#e2e8f0] focus:border-[#0067b8] focus:ring-2 focus:ring-[#0067b8]/20"
                 }`}
                 {...register("phone")}
               />
@@ -338,7 +338,7 @@ export default function SignupPage() {
                 className={`w-full pr-10 pl-10 py-2.5 rounded-xl border text-sm outline-none transition-all ${
                   errors.password
                     ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                    : "border-[#e2e8f0] focus:border-[#6c3aff] focus:ring-2 focus:ring-[#6c3aff]/20"
+                    : "border-[#e2e8f0] focus:border-[#0067b8] focus:ring-2 focus:ring-[#0067b8]/20"
                 }`}
                 {...register("password")}
               />
@@ -390,7 +390,7 @@ export default function SignupPage() {
                 className={`w-full pr-10 pl-10 py-2.5 rounded-xl border text-sm outline-none transition-all ${
                   errors.confirmPassword
                     ? "border-red-400 focus:ring-2 focus:ring-red-200"
-                    : "border-[#e2e8f0] focus:border-[#6c3aff] focus:ring-2 focus:ring-[#6c3aff]/20"
+                    : "border-[#e2e8f0] focus:border-[#0067b8] focus:ring-2 focus:ring-[#0067b8]/20"
                 }`}
                 {...register("confirmPassword")}
               />
@@ -417,7 +417,7 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full flex items-center justify-center gap-2 bg-[#6c3aff] hover:bg-[#5228e8] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#6c3aff]/30 mt-2"
+            className="w-full flex items-center justify-center gap-2 bg-[#0067b8] hover:bg-[#004a86] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-[#0067b8]/30 mt-2"
           >
             {isSubmitting ? (
               <>
@@ -434,7 +434,7 @@ export default function SignupPage() {
           {t("hasAccount")}{" "}
           <Link
             href={`/${locale}/auth/login`}
-            className="text-[#6c3aff] font-semibold hover:underline"
+            className="text-[#0067b8] font-semibold hover:underline"
           >
             {t("loginLink")}
           </Link>

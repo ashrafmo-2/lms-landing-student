@@ -54,21 +54,21 @@ function LessonRow({
             className={cn(
                 "flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all group",
                 isActive
-                    ? "bg-[#6c3aff] text-white shadow-md shadow-[#6c3aff]/20"
-                    : "text-gray-600 hover:bg-[#6c3aff]/5 hover:text-[#6c3aff]"
+                    ? "bg-[#0067b8] text-white shadow-md shadow-[#0067b8]/20"
+                    : "text-gray-600 hover:bg-[#0067b8]/5 hover:text-[#0067b8]"
             )}
         >
             {/* Icon — start side (right in RTL) */}
             <div
                 className={cn(
                     "w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors",
-                    isActive ? "bg-white/20" : "bg-gray-100 group-hover:bg-[#6c3aff]/10"
+                    isActive ? "bg-white/20" : "bg-gray-100 group-hover:bg-[#0067b8]/10"
                 )}
             >
                 {done ? (
                     <CheckCircle2 className={cn("w-3.5 h-3.5", isActive ? "text-white" : "text-green-500")} />
                 ) : (
-                    <Icon className={cn("w-3.5 h-3.5", isActive ? "text-white" : "text-gray-400 group-hover:text-[#6c3aff]")} />
+                    <Icon className={cn("w-3.5 h-3.5", isActive ? "text-white" : "text-gray-400 group-hover:text-[#0067b8]")} />
                 )}
             </div>
             {/* Text */}
@@ -146,10 +146,10 @@ function SubUnitAccordion({
                     expanded ? "text-gray-900 bg-gray-50" : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
                 )}
             >
-                <div className="w-4 h-4 rounded-full bg-purple-100 flex items-center justify-center shrink-0">
+                <div className="w-4 h-4 rounded-full bg-[#e8f4ff] flex items-center justify-center shrink-0">
                     {expanded
-                        ? <ChevronDown className="w-2.5 h-2.5 text-purple-600" />
-                        : <ChevronRight className="w-2.5 h-2.5 text-purple-600 rtl:rotate-180" />}
+                        ? <ChevronDown className="w-2.5 h-2.5 text-[#0067b8]" />
+                        : <ChevronRight className="w-2.5 h-2.5 text-[#0067b8] rtl:rotate-180" />}
                 </div>
                 <span className="flex-1 text-right truncate">{subUnit.title}</span>
                 <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded-md font-bold shrink-0 tabular-nums">
@@ -158,7 +158,7 @@ function SubUnitAccordion({
             </button>
 
             {expanded && (
-                <div className="ms-5 border-s-2 border-purple-200 ps-2 py-1 space-y-0.5">
+                <div className="ms-5 border-s-2 border-[#bfdbfe] ps-2 py-1 space-y-0.5">
                     {subUnit.lessons.map((l) => (
                         <LessonRow
                             key={l.lessonId}
@@ -224,8 +224,8 @@ function UnitAccordion({
                         className={cn(
                             "w-6 h-6 rounded-lg flex items-center justify-center transition-all shrink-0",
                             expanded
-                                ? "bg-[#6c3aff] text-white"
-                                : "bg-[#ede9ff] text-[#6c3aff] group-hover:bg-[#6c3aff] group-hover:text-white"
+                                ? "bg-[#0067b8] text-white"
+                                : "bg-[#e8f4ff] text-[#0067b8] group-hover:bg-[#0067b8] group-hover:text-white"
                         )}
                     >
                         {expanded
@@ -245,7 +245,7 @@ function UnitAccordion({
                         <div
                             className={cn(
                                 "h-full rounded-full transition-all duration-500",
-                                progress === 100 ? "bg-green-500" : "bg-[#6c3aff]/40"
+                                progress === 100 ? "bg-green-500" : "bg-[#0067b8]/40"
                             )}
                             style={{ width: `${progress}%` }}
                         />
@@ -254,7 +254,7 @@ function UnitAccordion({
             </button>
 
             {expanded && (
-                <div className="bg-gray-50/50 border-s-2 border-[#6c3aff]/20 ms-5 ps-2 py-1 space-y-0.5">
+                <div className="bg-gray-50/50 border-s-2 border-[#0067b8]/20 ms-5 ps-2 py-1 space-y-0.5">
                     {unit.lessons.map((l) => (
                         <LessonRow
                             key={l.lessonId}
@@ -376,8 +376,8 @@ export function LessonSidebar({ subjectId, categoryId, currentLessonId }: Lesson
             {/* Header */}
             <div className="p-5 border-b border-gray-100 bg-white shrink-0">
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-9 h-9 rounded-xl bg-[#ede9ff] flex items-center justify-center shrink-0">
-                        <BarChart3 className="w-4 h-4 text-[#6c3aff]" />
+                    <div className="w-9 h-9 rounded-xl bg-[#e8f4ff] flex items-center justify-center shrink-0">
+                        <BarChart3 className="w-4 h-4 text-[#0067b8]" />
                     </div>
                     <div className="min-w-0">
                         <h2 className="font-bold text-sm leading-tight line-clamp-1 text-gray-900">
@@ -391,13 +391,13 @@ export function LessonSidebar({ subjectId, categoryId, currentLessonId }: Lesson
                 <div className="space-y-1.5">
                     <div className="flex items-center justify-between text-[10px] font-bold text-gray-400 uppercase tracking-wider">
                         <span>تقدمك</span>
-                        <span className="text-[#6c3aff]">{progress}%</span>
+                        <span className="text-[#0067b8]">{progress}%</span>
                     </div>
                     <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
                         <div
                             className={cn(
                                 "h-full rounded-full transition-all duration-700",
-                                progress === 100 ? "bg-green-500" : "bg-[#6c3aff]"
+                                progress === 100 ? "bg-green-500" : "bg-[#0067b8]"
                             )}
                             style={{ width: `${progress}%` }}
                         />

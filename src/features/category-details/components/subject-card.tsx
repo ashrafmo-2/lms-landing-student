@@ -6,7 +6,7 @@ import { ChevronRight, ClipboardList, GraduationCap, User } from "lucide-react";
 
 const GRADIENTS = [
     "from-blue-600 to-blue-900",
-    "from-purple-600 to-indigo-900",
+    "from-[#0067b8] to-[#101827]",
     "from-teal-500 to-emerald-800",
     "from-rose-500 to-pink-900",
     "from-orange-500 to-amber-800",
@@ -15,7 +15,7 @@ const GRADIENTS = [
 
 const CARD_ACCENT = [
     "text-blue-700",
-    "text-purple-700",
+    "text-[#0067b8]",
     "text-teal-700",
     "text-rose-700",
     "text-orange-700",

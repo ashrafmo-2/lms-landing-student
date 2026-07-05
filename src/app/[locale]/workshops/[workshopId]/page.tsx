@@ -34,7 +34,7 @@ export default function WorkshopDetailsPage() {
                         <div className="rounded-3xl bg-white p-7 shadow-sm">
                             <div className="flex flex-wrap gap-2">
                                 <StatusPill status={workshop.registrationStatus} />
-                                <span className="rounded-full bg-violet-50 px-3 py-1 text-xs font-bold text-violet-700">{workshop.deliveryMode}</span>
+                                <span className="rounded-full bg-[#e8f4ff] px-3 py-1 text-xs font-bold text-[#0067b8]">{workshop.deliveryMode}</span>
                             </div>
                             <h1 className="mt-5 text-4xl font-black text-slate-950">{workshop.title}</h1>
                             <p className="mt-4 text-lg leading-8 text-slate-600">{workshop.description}</p>
@@ -43,7 +43,7 @@ export default function WorkshopDetailsPage() {
                                 <Info icon={Clock} label={workshop.duration ?? "-"} />
                                 <Info icon={Users} label={workshop.availableSeats ? `${workshop.availableSeats} seats` : "Open seats"} />
                             </div>
-                            <Link href="/auth/signup" className="mt-8 inline-flex rounded-xl bg-[#6c3aff] px-6 py-3 text-sm font-black text-white hover:bg-[#5228e8]">
+                            <Link href="/auth/signup" className="mt-8 inline-flex rounded-xl bg-[#0067b8] px-6 py-3 text-sm font-black text-white hover:bg-[#004a86]">
                                 {isAr ? "انضم للوركشوب" : "Join workshop"}
                             </Link>
                         </div>
@@ -105,7 +105,7 @@ export default function WorkshopDetailsPage() {
 function Info({ icon: Icon, label }: { icon: React.ElementType; label: string }) {
     return (
         <div className="flex items-center gap-3 rounded-2xl bg-slate-50 p-4 text-sm font-bold text-slate-700">
-            <Icon className="h-5 w-5 text-[#6c3aff]" />
+            <Icon className="h-5 w-5 text-[#0067b8]" />
             {label}
         </div>
     );
