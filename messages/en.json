@@ -171,7 +171,9 @@
       "noAccount": "Don't have an account?",
       "signupLink": "Sign up now for free",
       "errorEmail": "Invalid email address",
-      "errorPassword": "Password must be at least 8 characters"
+      "errorPassword": "Password must be at least 8 characters",
+      "otpSent": "Account not verified. OTP has been sent.",
+      "verifiedLoginAgain": "Account verified successfully. Please log in again."
     },
     "signup": {
       "title": "Create your account now 🚀",

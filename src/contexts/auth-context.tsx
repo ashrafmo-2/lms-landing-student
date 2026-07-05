@@ -1,37 +1,51 @@
 "use client";
 
 import {
-    createContext,
-    useContext,
-    useState,
-    useEffect,
-    useCallback,
-    type ReactNode,
+  createContext,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
 } from "react";
 import {
-    login as apiLogin,
-    logout as apiLogout,
-    register as apiRegister,
-    verifyRegistrationOtp as apiVerifyOtp,
-    getProfile,
+  login as apiLogin,
+  logout as apiLogout,
+  register as apiRegister,
+  resendRegistrationOtp as apiResendOtp,
+  verifyRegistrationOtp as apiVerifyOtp,
+  getProfile,
 } from "@/entities/auth/api";
-import type { StudentProfile, RegisterPayload } from "@/entities/auth/model";
+import type {
+  LoginResponseData,
+  RegisterPayload,
+  RegisterResponseData,
+  StudentProfile,
+} from "@/entities/auth/model";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 interface AuthContextType {
-    user: StudentProfile | null;
-    token: string | null;
-    isAuthenticated: boolean;
-    isLoading: boolean;
+  user: StudentProfile | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
 
-    // Auth actions
-    login: (email: string, password: string) => Promise<void>;
-    register: (payload: RegisterPayload) => Promise<void>;
-    verifyOtp: (email: string, otp: string) => Promise<void>;
-    logout: () => Promise<void>;
+  // Auth actions
+  login: (email: string, password: string) => Promise<LoginResponseData>;
+  register: (payload: RegisterPayload) => Promise<RegisterResponseData>;
+  verifyOtp: (
+    email: string,
+    otp: string,
+    verificationToken?: string,
+  ) => Promise<void>;
+  resendOtp: (
+    email: string,
+    verificationToken: string,
+  ) => Promise<RegisterResponseData>;
+  logout: () => Promise<void>;
 
-    // Helpers
-    refreshProfile: () => Promise<void>;
+  // Helpers
+  refreshProfile: () => Promise<void>;
 }
 
 // ─── Context ─────────────────────────────────────────────────────────────────
@@ -39,124 +53,151 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // ─── Storage helpers ─────────────────────────────────────────────────────────
 const STORAGE_KEYS = {
-    TOKEN: "token",
-    USER: "user",
+  TOKEN: "token",
+  USER: "user",
 } as const;
 
 function saveSession(token: string, user: StudentProfile) {
-    localStorage.setItem(STORAGE_KEYS.TOKEN, token);
-    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
+  localStorage.setItem(STORAGE_KEYS.TOKEN, token);
+  localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
 }
 
 function clearSession() {
-    localStorage.removeItem(STORAGE_KEYS.TOKEN);
-    localStorage.removeItem(STORAGE_KEYS.USER);
+  localStorage.removeItem(STORAGE_KEYS.TOKEN);
+  localStorage.removeItem(STORAGE_KEYS.USER);
 }
 
 // ─── Provider ────────────────────────────────────────────────────────────────
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState<StudentProfile | null>(null);
-    const [token, setToken] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<StudentProfile | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-    // Rehydrate from localStorage on mount, then refresh from API
-    useEffect(() => {
-        const storedToken = localStorage.getItem(STORAGE_KEYS.TOKEN);
-        const storedUser = localStorage.getItem(STORAGE_KEYS.USER);
+  // Rehydrate from localStorage on mount, then refresh from API
+  useEffect(() => {
+    const storedToken = localStorage.getItem(STORAGE_KEYS.TOKEN);
+    const storedUser = localStorage.getItem(STORAGE_KEYS.USER);
 
-        if (storedToken && storedUser) {
-            try {
-                setToken(storedToken);
-                setUser(JSON.parse(storedUser));
-            } catch {
-                clearSession();
-                setIsLoading(false);
-                return;
-            }
+    if (storedToken && storedUser) {
+      try {
+        setToken(storedToken);
+        setUser(JSON.parse(storedUser));
+      } catch {
+        clearSession();
+        setIsLoading(false);
+        return;
+      }
 
-            // Fetch fresh profile from API in background
-            getProfile()
-                .then((res) => {
-                    setUser(res.data);
-                    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(res.data));
-                })
-                .catch(() => {
-                    // Token might be expired — clear session
-                    clearSession();
-                    setToken(null);
-                    setUser(null);
-                })
-                .finally(() => setIsLoading(false));
-        } else {
-            setIsLoading(false);
-        }
-    }, []);
+      // Fetch fresh profile from API in background
+      getProfile()
+        .then((res) => {
+          setUser(res.data);
+          localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(res.data));
+        })
+        .catch(() => {
+          // Token might be expired — clear session
+          clearSession();
+          setToken(null);
+          setUser(null);
+        })
+        .finally(() => setIsLoading(false));
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
 
-    // ── Login ──────────────────────────────────────────────────────────────────
-    const login = useCallback(async (email: string, password: string) => {
-        const res = await apiLogin({ email, password });
-        const { profile, tokenDetails } = res.data;
-        saveSession(tokenDetails.token, profile);
-        setToken(tokenDetails.token);
-        setUser(profile);
-    }, []);
+  // ── Login ──────────────────────────────────────────────────────────────────
+  const login = useCallback(async (email: string, password: string) => {
+    const res = await apiLogin({ email, password });
+    const { profile, tokenDetails } = res.data;
 
-    // ── Register (step 1 — sends OTP) ─────────────────────────────────────────
-    const register = useCallback(async (payload: RegisterPayload) => {
-        await apiRegister(payload);
-        // OTP is sent — caller should redirect to OTP verification step
-    }, []);
+    if (res.data.requires_otp) {
+      return res.data;
+    }
 
-    // ── Verify OTP (step 2 — confirms registration) ───────────────────────────
-    const verifyOtp = useCallback(async (email: string, otp: string) => {
-        await apiVerifyOtp({ email, otp });
-        // Account verified — caller should redirect to login
-    }, []);
+    if (!profile || !tokenDetails) {
+      throw new Error("Invalid login response");
+    }
 
-    // ── Logout ─────────────────────────────────────────────────────────────────
-    const logout = useCallback(async () => {
-        try {
-            await apiLogout();
-        } catch {
-            // Even if the API call fails, clear local session
-        } finally {
-            clearSession();
-            setToken(null);
-            setUser(null);
-        }
-    }, []);
+    saveSession(tokenDetails.token, profile);
+    setToken(tokenDetails.token);
+    setUser(profile);
 
-    // ── Refresh profile ────────────────────────────────────────────────────────
-    const refreshProfile = useCallback(async () => {
-        const res = await getProfile();
-        setUser(res.data);
-        localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(res.data));
-    }, []);
+    return res.data;
+  }, []);
 
-    return (
-        <AuthContext.Provider
-            value={{
-                user,
-                token,
-                isAuthenticated: !!token && !!user,
-                isLoading,
-                login,
-                register,
-                verifyOtp,
-                logout,
-                refreshProfile,
-            }}
-        >
-            {children}
-        </AuthContext.Provider>
-    );
+  // ── Register (step 1 — sends OTP) ─────────────────────────────────────────
+  const register = useCallback(async (payload: RegisterPayload) => {
+    const res = await apiRegister(payload);
+    return res.data;
+  }, []);
+
+  // ── Verify OTP (step 2 — confirms registration) ───────────────────────────
+  const verifyOtp = useCallback(
+    async (email: string, otp: string, verificationToken?: string) => {
+      await apiVerifyOtp({ email, otp, verification_token: verificationToken });
+      // Account verified — caller should redirect to login
+    },
+    [],
+  );
+
+  const resendOtp = useCallback(
+    async (email: string, verificationToken: string) => {
+      const res = await apiResendOtp({
+        email,
+        type: 0,
+        verification_token: verificationToken,
+      });
+      return res.data;
+    },
+    [],
+  );
+
+  // ── Logout ─────────────────────────────────────────────────────────────────
+  const logout = useCallback(async () => {
+    try {
+      await apiLogout();
+    } catch {
+      // Even if the API call fails, clear local session
+    } finally {
+      clearSession();
+      setToken(null);
+      setUser(null);
+    }
+  }, []);
+
+  // ── Refresh profile ────────────────────────────────────────────────────────
+  const refreshProfile = useCallback(async () => {
+    const res = await getProfile();
+    setUser(res.data);
+    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(res.data));
+  }, []);
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        isAuthenticated: !!token && !!user,
+        isLoading,
+        login,
+        register,
+        verifyOtp,
+        resendOtp,
+        logout,
+        refreshProfile,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 export function useAuth() {
-    const context = useContext(AuthContext);
-    if (context === undefined) {
-        throw new Error("useAuth must be used within an AuthProvider");
-    }
-    return context;
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 }

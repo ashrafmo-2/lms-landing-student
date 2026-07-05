@@ -1,106 +1,132 @@
-import { publicApi, privateApi } from "@/shared/api";
+import { privateApi, publicApi } from "@/shared/api";
 import type {
-    ApiResponse,
-    LoginPayload,
-    LoginResponseData,
-    RegisterPayload,
-    ResetPasswordPayload,
-    StudentProfile,
-    UpdateProfilePayload,
-    ChangePasswordPayload,
-    VerifyOtpPayload,
+  ApiResponse,
+  ChangePasswordPayload,
+  LoginPayload,
+  LoginResponseData,
+  RegisterPayload,
+  RegisterResponseData,
+  ResendOtpPayload,
+  ResetPasswordPayload,
+  StudentProfile,
+  UpdateProfilePayload,
+  VerifyOtpPayload,
 } from "../model";
 
 // ─── Register ────────────────────────────────────────────────────────────────
-export const register = async (payload: RegisterPayload): Promise<ApiResponse<[]>> => {
-    const { data } = await publicApi.post<ApiResponse<[]>>("/auth/register", payload);
-    return data;
+export const register = async (
+  payload: RegisterPayload,
+): Promise<ApiResponse<RegisterResponseData>> => {
+  const { data } = await publicApi.post<ApiResponse<RegisterResponseData>>(
+    "/auth/register",
+    payload,
+  );
+  return data;
 };
 
-export const verifyRegistrationOtp = async (payload: VerifyOtpPayload): Promise<ApiResponse<[]>> => {
-    const { data } = await publicApi.post<ApiResponse<[]>>("/auth/verify-otp", payload);
-    return data;
+export const verifyRegistrationOtp = async (
+  payload: VerifyOtpPayload,
+): Promise<ApiResponse<[]>> => {
+  const { data } = await publicApi.post<ApiResponse<[]>>(
+    "/auth/verify-otp",
+    payload,
+  );
+  return data;
 };
 
-export const login = async (payload: LoginPayload): Promise<ApiResponse<LoginResponseData>> => {
-    const { data } = await publicApi.post<ApiResponse<LoginResponseData>>("/auth/login", payload);
-    return data;
+export const resendRegistrationOtp = async (
+  payload: ResendOtpPayload,
+): Promise<ApiResponse<RegisterResponseData>> => {
+  const { data } = await publicApi.post<ApiResponse<RegisterResponseData>>(
+    "/auth/resend-otp",
+    payload,
+  );
+  return data;
+};
+
+export const login = async (
+  payload: LoginPayload,
+): Promise<ApiResponse<LoginResponseData>> => {
+  const { data } = await publicApi.post<ApiResponse<LoginResponseData>>(
+    "/auth/login",
+    payload,
+  );
+  return data;
 };
 
 // ─── Logout ──────────────────────────────────────────────────────────────────
 export const logout = async (): Promise<ApiResponse<[]>> => {
-    const { data } = await privateApi.post<ApiResponse<[]>>("/auth/logout");
-    return data;
+  const { data } = await privateApi.post<ApiResponse<[]>>("/auth/logout");
+  return data;
 };
 
 // ─── Forgot Password — Send OTP ──────────────────────────────────────────────
 export const sendForgotPasswordOtp = async (
-    email: string
+  email: string,
 ): Promise<ApiResponse<[]>> => {
-    const { data } = await publicApi.post<ApiResponse<[]>>(
-        "/auth/forgot-password/send-otp",
-        { email }
-    );
-    return data;
+  const { data } = await publicApi.post<ApiResponse<[]>>(
+    "/auth/forgot-password/send-otp",
+    { email },
+  );
+  return data;
 };
 
 // ─── Forgot Password — Verify OTP ────────────────────────────────────────────
 export const verifyForgotPasswordOtp = async (
-    payload: VerifyOtpPayload
+  payload: VerifyOtpPayload,
 ): Promise<ApiResponse<[]>> => {
-    const { data } = await publicApi.post<ApiResponse<[]>>(
-        "/auth/forgot-password/verify-otp",
-        payload
-    );
-    return data;
+  const { data } = await publicApi.post<ApiResponse<[]>>(
+    "/auth/forgot-password/verify-otp",
+    payload,
+  );
+  return data;
 };
 
 // ─── Forgot Password — Reset ─────────────────────────────────────────────────
 export const resetPassword = async (
-    payload: ResetPasswordPayload
+  payload: ResetPasswordPayload,
 ): Promise<ApiResponse<[]>> => {
-    const { data } = await publicApi.post<ApiResponse<[]>>(
-        "/auth/forgot-password/reset",
-        payload
-    );
-    return data;
+  const { data } = await publicApi.post<ApiResponse<[]>>(
+    "/auth/forgot-password/reset",
+    payload,
+  );
+  return data;
 };
 
 // ─── Get Profile ─────────────────────────────────────────────────────────────
 export const getProfile = async (): Promise<ApiResponse<StudentProfile>> => {
-    const { data } = await privateApi.get<ApiResponse<StudentProfile>>(
-        "/profile"
-    );
-    return data;
+  const { data } =
+    await privateApi.get<ApiResponse<StudentProfile>>("/profile");
+  return data;
 };
 
 // ─── Update Profile ───────────────────────────────────────────────────────────
 // Uses multipart/form-data — let axios set Content-Type with boundary automatically
 export const updateProfile = async (
-    payload: UpdateProfilePayload
+  payload: UpdateProfilePayload,
 ): Promise<ApiResponse<StudentProfile>> => {
-    const formData = new FormData();
-    formData.append("name", payload.name);
-    formData.append("email", payload.email);
-    if (payload.phone) formData.append("phone", payload.phone);
-    if (payload.avatar) formData.append("avatar", payload.avatar);
+  const formData = new FormData();
+  formData.append("name", payload.name);
+  formData.append("email", payload.email);
+  if (payload.phone) formData.append("phone", payload.phone);
+  if (payload.avatar) formData.append("avatar", payload.avatar);
 
-    const { data } = await privateApi.post<ApiResponse<StudentProfile>>(
-        "/profile",
-        formData
-        // ⚠️ Do NOT set Content-Type manually — axios sets it with the correct boundary
-    );
-    return data;
+  const { data } = await privateApi.post<ApiResponse<StudentProfile>>(
+    "/profile",
+    formData,
+    // ⚠️ Do NOT set Content-Type manually — axios sets it with the correct boundary
+  );
+  return data;
 };
 
 // ─── Change Password ──────────────────────────────────────────────────────────
 // ⚠️ Revokes all active tokens — student must log in again after success
 export const changePassword = async (
-    payload: ChangePasswordPayload
+  payload: ChangePasswordPayload,
 ): Promise<ApiResponse<[]>> => {
-    const { data } = await privateApi.put<ApiResponse<[]>>(
-        "/profile/change-password",
-        payload
-    );
-    return data;
+  const { data } = await privateApi.put<ApiResponse<[]>>(
+    "/profile/change-password",
+    payload,
+  );
+  return data;
 };
