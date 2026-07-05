@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const BASE_URL =
-    "http://127.0.0.1:8000/api/v1/student";
+    process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000/api/v1/student";
 
 // ─── Public client (no auth) ────────────────────────────────────────────────
 export const publicApi = axios.create({
