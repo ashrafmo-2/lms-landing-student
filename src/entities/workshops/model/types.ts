@@ -105,3 +105,40 @@ export type StudentWorkshop = {
     workshop: Workshop;
     tasks: WorkshopTask[];
 };
+
+export type PaymentRequestStatus = "PENDING" | "APPROVED" | "REJECTED";
+export type PaymentMethod = "Vodafone Cash" | "InstaPay" | "Bank Transfer";
+
+export type PaymentRequest = {
+    paymentRequestId: number;
+    studentId: number;
+    studentName?: string;
+    studentEmail?: string;
+    workshopId: number;
+    workshopTitle?: string;
+    amount: number;
+    paymentMethod: PaymentMethod;
+    senderPhone: string;
+    senderName?: string | null;
+    transactionRef?: string | null;
+    receiptUrl?: string;
+    status: PaymentRequestStatus;
+    rejectionReason?: string | null;
+    reviewedAt?: string | null;
+    createdAt?: string;
+    updatedAt?: string;
+};
+
+export type PaymentDetails = {
+    vodafoneCashNumber: string;
+    instapayAccount: string;
+    bankAccountDetails: string;
+};
+
+export type WorkshopPaymentStatus = {
+    workshop: Workshop;
+    amount: number;
+    paymentDetails: PaymentDetails;
+    isEnrolled: boolean;
+    paymentRequest: PaymentRequest | null;
+};

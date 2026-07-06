@@ -11,7 +11,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -105,6 +105,7 @@ export default function LoginPage() {
   const [resendLoading, setResendLoading] = useState(false);
   const { login, verifyOtp, resendOtp } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const {
     register,
@@ -130,7 +131,8 @@ export default function LoginPage() {
         return;
       }
 
-      router.push(`/${locale}/`);
+      const redirectTo = searchParams.get("redirect");
+      router.push(redirectTo?.startsWith(`/${locale}/`) ? redirectTo : `/${locale}/`);
     } catch (err) {
       setServerError(getApiErrorMessage(err));
     }

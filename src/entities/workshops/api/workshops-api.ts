@@ -1,5 +1,5 @@
 import { BASE_URL, privateApi, publicApi } from "@/shared/api";
-import type { StudentWorkshop, Workshop, WorkshopSubmission, WorkshopTask } from "../model/types";
+import type { StudentWorkshop, Workshop, WorkshopPaymentStatus, WorkshopSubmission, WorkshopTask } from "../model/types";
 
 const publicBase = BASE_URL.replace(/\/student$/, "/public");
 
@@ -115,4 +115,16 @@ export async function getStudentTask(taskId: string | number): Promise<{ task: W
 
 export async function submitStudentTask(taskId: string | number, payload: FormData | Record<string, unknown>) {
     return privateApi.post(`/workshop-tasks/${taskId}/submit`, payload);
+}
+
+export async function getWorkshopPaymentStatus(workshopSlug: string | number): Promise<WorkshopPaymentStatus> {
+    const { data } = await privateApi.get(`/payment-requests/${workshopSlug}`);
+    return data.data;
+}
+
+export async function submitWorkshopPaymentRequest(workshopSlug: string | number, payload: FormData) {
+    const { data } = await privateApi.post(`/payment-requests/${workshopSlug}`, payload, {
+        headers: { "Content-Type": "multipart/form-data" },
+    });
+    return data.data;
 }

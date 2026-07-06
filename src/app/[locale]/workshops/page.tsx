@@ -21,6 +21,7 @@ import { useLocale } from "next-intl";
 import type { ChangeEvent, ElementType, FormEvent, ReactNode } from "react";
 import { useState } from "react";
 import { sendContactMessage } from "@/entities/contact/api";
+import { WorkshopRoadmapSection } from "@/components/landing/workshop-roadmap-section";
 import { Footer } from "@/widgets/landing-footer";
 import { Navbar } from "@/widgets/landing-navbar";
 
@@ -369,6 +370,8 @@ export default function WorkshopsPage() {
           </div>
         </div>
       </section>
+
+      <WorkshopRoadmapSection />
 
       <section id="pricing" className="bg-[#f7f4ee] py-20">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8 lg:items-center">

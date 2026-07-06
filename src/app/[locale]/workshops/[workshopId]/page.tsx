@@ -1,25 +1,52 @@
 "use client";
 
 import { RoadmapView, StatusPill, TasksPreview } from "@/components/workshops/workshop-ui";
-import { getPublicWorkshop } from "@/entities/workshops/api";
+import { useAuth } from "@/contexts/auth-context";
+import { getPublicWorkshop, getWorkshopPaymentStatus } from "@/entities/workshops/api";
 import type { Workshop } from "@/entities/workshops/api";
-import { Link } from "@/shared/i18n/routing";
 import { Footer } from "@/widgets/landing-footer";
 import { Navbar } from "@/widgets/landing-navbar";
-import { CalendarDays, Clock, Users } from "lucide-react";
+import { CalendarDays, Clock, Loader2, Users } from "lucide-react";
 import { useLocale } from "next-intl";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function WorkshopDetailsPage() {
     const { workshopId } = useParams<{ workshopId: string }>();
     const locale = useLocale();
+    const router = useRouter();
+    const { isAuthenticated, isLoading } = useAuth();
     const isAr = locale === "ar";
     const [workshop, setWorkshop] = useState<Workshop | null>(null);
+    const [joining, setJoining] = useState(false);
 
     useEffect(() => {
         if (workshopId) getPublicWorkshop(workshopId).then(setWorkshop);
     }, [workshopId]);
+
+    const handleSubscribe = async () => {
+        if (!workshopId || isLoading) return;
+
+        const paymentPath = `/${locale}/payment/${workshopId}`;
+
+        if (!isAuthenticated) {
+            router.push(`/${locale}/auth/login?redirect=${encodeURIComponent(paymentPath)}`);
+            return;
+        }
+
+        try {
+            setJoining(true);
+            const status = await getWorkshopPaymentStatus(workshopId);
+            if (status.isEnrolled || status.paymentRequest?.status === "APPROVED") {
+                router.push(`/${locale}/dashboard/workshops/${workshopId}`);
+                return;
+            }
+
+            router.push(paymentPath);
+        } finally {
+            setJoining(false);
+        }
+    };
 
     if (!workshop) {
         return <main className="min-h-screen bg-slate-50 pt-28 text-center">{isAr ? "جاري التحميل..." : "Loading..."}</main>;
@@ -43,9 +70,15 @@ export default function WorkshopDetailsPage() {
                                 <Info icon={Clock} label={workshop.duration ?? "-"} />
                                 <Info icon={Users} label={workshop.availableSeats ? `${workshop.availableSeats} seats` : "Open seats"} />
                             </div>
-                            <Link href="/auth/signup" className="mt-8 inline-flex rounded-xl bg-[#0067b8] px-6 py-3 text-sm font-black text-white hover:bg-[#004a86]">
-                                {isAr ? "انضم للوركشوب" : "Join workshop"}
-                            </Link>
+                            <button
+                                type="button"
+                                onClick={handleSubscribe}
+                                disabled={joining || isLoading}
+                                className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#0067b8] px-6 py-3 text-sm font-black text-white transition hover:bg-[#004a86] disabled:cursor-not-allowed disabled:opacity-70"
+                            >
+                                {joining ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                                {isAr ? "اشترك الآن" : "Subscribe now"}
+                            </button>
                         </div>
                         <aside className="rounded-3xl bg-white p-6 shadow-sm">
                             <p className="text-sm font-bold text-slate-500">{isAr ? "المدرب" : "Instructor"}</p>
