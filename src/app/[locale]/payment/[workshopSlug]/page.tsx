@@ -27,6 +27,7 @@ function PaymentPageContent() {
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
     const [copied, setCopied] = useState("");
+    const [selectedFileName, setSelectedFileName] = useState("");
 
     useEffect(() => {
         let mounted = true;
@@ -156,11 +157,36 @@ function PaymentPageContent() {
 
                                 <div>
                                     <label className="text-sm font-bold text-slate-700" htmlFor="receiptFile">{isAr ? "إثبات الدفع" : "Receipt file"}</label>
-                                    <label className="mt-2 flex min-h-36 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 px-4 text-center text-sm font-bold text-slate-600">
-                                        <UploadCloud className="mb-2 h-8 w-8 text-[#0067b8]" />
-                                        {isAr ? "ارفع صورة أو PDF" : "Upload image or PDF"}
-                                        <span className="mt-1 text-xs text-slate-400">jpg, jpeg, png, pdf</span>
-                                        <input id="receiptFile" name="receiptFile" type="file" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf" required className="sr-only" />
+                                    <label className="mt-2 flex min-h-36 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 px-4 text-center text-sm font-bold text-slate-600 overflow-hidden">
+                                        {selectedFileName ? (
+                                            <div className="flex flex-col items-center">
+                                                <FileText className="mb-2 h-8 w-8 text-green-600" />
+                                                <span className="text-green-700 mb-1 max-w-[200px] truncate" dir="ltr">{selectedFileName}</span>
+                                                <span className="text-xs text-slate-500 font-normal hover:underline">{isAr ? "تغيير الملف" : "Change file"}</span>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <UploadCloud className="mb-2 h-8 w-8 text-[#0067b8]" />
+                                                {isAr ? "ارفع صورة أو PDF" : "Upload image or PDF"}
+                                                <span className="mt-1 text-xs text-slate-400">jpg, jpeg, png, pdf</span>
+                                            </>
+                                        )}
+                                        <input
+                                            id="receiptFile"
+                                            name="receiptFile"
+                                            type="file"
+                                            accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
+                                            required
+                                            className="sr-only"
+                                            onChange={(e) => {
+                                                const file = e.target.files?.[0];
+                                                if (file) {
+                                                    setSelectedFileName(file.name);
+                                                } else {
+                                                    setSelectedFileName("");
+                                                }
+                                            }}
+                                        />
                                     </label>
                                 </div>
 
