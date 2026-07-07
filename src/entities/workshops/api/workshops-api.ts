@@ -22,7 +22,7 @@ export const fallbackWorkshop: Workshop = {
     studentsCount: 28,
     audience: ["طلاب مبتدئين", "Junior developers", "أي طالب محتاج تجربة تطبيقية منظمة"],
     outcomes: ["Roadmap واضحة", "مشروع نهائي قابل للعرض", "Feedback على التسليمات", "Badges عند إكمال المراحل"],
-    instructors: [{ userId: 2, name: "Ahmed Samir", role: "Lead Instructor" }],
+    instructors: [{ id: 2, name: "Ahmed Samir", title: "Lead Instructor" }],
     roadmap: [
         { milestoneId: 1, title: "مرحلة التجهيز", description: "إعداد الأدوات وفهم خطة الورشة.", startsAt: "2026-07-10", endsAt: "2026-07-12", status: "active", order: 1 },
         { milestoneId: 2, title: "مرحلة الأساسيات", description: "أساسيات الواجهة والـ API.", startsAt: "2026-07-13", endsAt: "2026-07-19", status: "upcoming", order: 2 },
