@@ -3,7 +3,7 @@
 import { StudentAuthenticatedGuard } from "@/features/auth/components/student-authenticated-guard";
 import { Sidebar } from "@/widgets/sidebar";
 
-export default function DashboardLayout({
+export default function DashboardWithSidebarLayout({
   children,
 }: {
   children: React.ReactNode;

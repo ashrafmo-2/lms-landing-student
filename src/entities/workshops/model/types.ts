@@ -89,7 +89,7 @@ export type Workshop = {
     outcomes: string[];
     audience: string[];
     faq: { question: string; answer: string }[];
-    instructors?: { userId: number; name: string; role: string; avatar?: string }[];
+    instructors?: { id: number; name: string; title: string; description?: string; photo?: string; socialLinks?: { linkedin?: string; twitter?: string; github?: string; website?: string } }[];
     roadmap?: WorkshopMilestone[];
     sessions?: WorkshopSession[];
     tasks?: WorkshopTask[];

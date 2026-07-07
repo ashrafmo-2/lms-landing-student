@@ -416,7 +416,7 @@ export function Navbar() {
             </nav>
 
             <div className="hidden md:flex items-center gap-3">
-              <LanguageSwitcher />
+              {/* <LanguageSwitcher /> */}
               {isAuthenticated ? (
                 <div className="relative" ref={dropdownRef}>
                   <button
